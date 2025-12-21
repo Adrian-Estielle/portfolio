@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Field Notes / Runbooks</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 0; line-height: 1.45; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px; }
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .muted { opacity: 0.78; }
+    .card { border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 16px 16px; margin: 14px 0; }
+    code { background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 6px; }
+    h1 { margin: 0 0 6px 0; }
+    h2 { margin-top: 24px; }
+    ul { margin-top: 8px; }
+    .topnav { display:flex; gap:12px; flex-wrap:wrap; margin: 10px 0 16px; }
+    .pill { border: 1px solid rgba(0,0,0,0.12); border-radius: 999px; padding: 6px 10px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Field Notes / Runbooks</h1>
+    <div class="muted">
+      Sections marked with an asterisk (<b>*</b>) are under active development — I’m expanding these with sanitized examples, scripts, and additional proof artifacts.
+    </div>
+
+    <div class="topnav">
+      <a class="pill" href="index.html">← Back to portfolio</a>
+      <a class="pill" href="#endpoint">Endpoint notes*</a>
+      <a class="pill" href="#automation">Automation notes*</a>
+      <a class="pill" href="#migration">Migration notes*</a>
+      <a class="pill" href="#cheatsheet">Cheat sheet*</a>
+    </div>
+
+    <section id="endpoint" class="card">
+      <h2>Endpoint notes*</h2>
+      <p class="muted">Real-world patterns from Intune/Modern Workplace work: provisioning, compliance triage, and “reduce ticket load” automations.</p>
+
+      <h3>Autopilot / enrollment reliability</h3>
+      <ul>
+        <li><b>Pre-flight:</b> verify MFA readiness, stable network during OOBE, firmware baseline (TPM/Secure Boot), correct profile assignment and naming/group tags.</li>
+        <li><b>Failure mode:</b> first sign-in before MFA setup can create inconsistent states. My fix path is cleanup + re-enroll (don’t waste hours on a zombie object).</li>
+        <li><b>Failure mode:</b> network drops during OOBE. If it’s already broken, wipe/re-run with known-good connectivity (hardwired when possible).</li>
+        <li><b>OOBE troubleshooting:</b> validate network, capture logs, and use a repeatable remediation sequence (kept sanitized in public docs).</li>
+      </ul>
+
+      <h3>Compliance triage (“Not compliant”)</h3>
+      <ul>
+        <li>Start with <b>staleness</b>: last check-in, policy evaluation time, user sign-in state.</li>
+        <li>Identify the <b>exact failing control</b> (encryption, OS version, Defender, firewall, jailbreak/root, required apps, etc.).</li>
+        <li>Choose the right lever: user-fixable vs re-enroll vs wipe (fast resolution beats heroic guessing).</li>
+      </ul>
+
+      <h3>SharePoint library auto-sync to File Explorer (ticket reduction)</h3>
+      <ul>
+        <li>Use scripting to gather required SharePoint identifiers (site/library IDs) needed for OneDrive auto-mount configuration.</li>
+        <li>Use Intune targeting (group-based assignment) to ensure only the right users get the right library sync.</li>
+        <li>Include a remediation path when OneDrive gets stuck (reset client/cache, re-apply policy, verify auth/token health).</li>
+      </ul>
+
+      <h3>OEM bloatware baseline (stability)</h3>
+      <ul>
+        <li>Maintain a short “known removals” list by vendor; remove early during provisioning.</li>
+        <li>Validate Office/Excel behavior, performance, and driver stability after removal.</li>
+      </ul>
+    </section>
+
+    <section id="automation" class="card">
+      <h2>Automation notes*</h2>
+      <p class="muted">PowerShell-first automation patterns (AD/Azure/M365/Graph), plus practical support tooling.</p>
+
+      <h3>User lifecycle automation (onboarding)</h3>
+      <ul>
+        <li>Start with required inputs: name, title, office/region, manager.</li>
+        <li>Generate username/email by convention.</li>
+        <li>Apply default groups using a <b>title/region matrix</b> (stop depending on messy “copy a random user” patterns).</li>
+        <li>Evolve into a GUI for service desk workflows (create / LOA disable / LOA enable / terminate).</li>
+      </ul>
+
+      <h3>Termination / offboarding automation</h3>
+      <ul>
+        <li>Immediate lockout: disable sign-in + revoke sessions.</li>
+        <li>Mailbox: hold/retention as required, autoreply to manager, delegate mailbox access.</li>
+        <li>Strip entitlements: group membership + privileged roles; move to Terminated OU; staged deletion timer.</li>
+        <li>Use an approval checkpoint before destructive actions (MFA method cleanup, final deletion).</li>
+      </ul>
+
+      <h3>Day-2 support automations</h3>
+      <ul>
+        <li>Mapped drives not reconnecting: remove stale mappings + re-map cleanly + credential cleanup.</li>
+        <li>Self-heal scripts for repeat offenders (reduce repeat tickets).</li>
+      </ul>
+
+      <h3>CI as proof (portfolio)</h3>
+      <ul>
+        <li>Not “I know CI” — the portfolio shows successful pipeline execution + artifacts + screenshots.</li>
+      </ul>
+    </section>
+
+    <section id="migration" class="card">
+      <h2>Migration notes*</h2>
+      <p class="muted">Cutover planning that prioritizes reliability: pre-seed early, delta often, validate always.</p>
+
+      <h3>Pre-seed + delta strategy</h3>
+      <ul>
+        <li>Copy data early (Migration Manager / SharePoint tools / <code>robocopy</code> / <code>AzCopy</code> depending on source/target).</li>
+        <li>Run periodic delta syncs so cutover day is small.</li>
+        <li>Freeze change window → final delta → validate → communicate rollback plan.</li>
+      </ul>
+
+      <h3>Spreadsheet link repair (real-world pain)</h3>
+      <ul>
+        <li>Accept old + new locations as parameters, update only links that should change.</li>
+        <li>Use dev/test copies first (never experiment on live finance data).</li>
+        <li>Handle hidden sheets safely (unhide → repair → rehide).</li>
+        <li>Preserve last-modified timestamps when required for audit/history.</li>
+      </ul>
+    </section>
+
+    <section id="cheatsheet" class="card">
+      <h2>Cheat sheet*</h2>
+      <ul>
+        <li><b>RBAC vs sharing vs NTFS/SMB:</b> know which control plane you’re in before troubleshooting.</li>
+        <li><b>Permission sprawl:</b> breaking inheritance too deep creates long-term operational debt.</li>
+        <li><b>Group-based access beats direct user perms:</b> keeps offboarding sane.</li>
+        <li><b>Endpoint triage order:</b> staleness → policy failure → fix lever (don’t guess first).</li>
+      </ul>
+    </section>
+
+    <div class="muted" style="margin-top:16px;">
+      <small>* Under active development — content is being expanded with sanitized examples, scripts, and additional proof artifacts.</small>
+    </div>
+  </div>
+</body>
+</html>
