@@ -51,3 +51,8 @@ If you want to push this further:
 - Add a release runbook and quality gates (installer smoke tests, update tests, rollback/forward plan)
 
 See `docs/Release_Runbook.md`.
+
+
+## Artifacts
+- Local output: rtifacts/`n- CI output: GitHub Actions + Jenkins archived artifacts.
+
