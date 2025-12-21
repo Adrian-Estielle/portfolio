@@ -37,54 +37,40 @@
   </header>
 
 <div id="about-strip" class="card" style="margin-top:14px;">
-  <section id="notes" style="margin-top:24px;">
-  <h2>Field notes / runbooks</h2>
-  <div class="muted" style="margin-top:6px;">
-    Proof-adjacent notes I’m actively building out: troubleshooting patterns, runbooks, and automation writeups.
+  <section id="field-notes">
+  <h2>Field Notes / KB*</h2>
+  <p>Practical runbooks and scenario notes (sanitized) — focused on repeatable steps, troubleshooting, and real operational edge cases.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.85rem;margin:.9rem 0;">
+    <div style="border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.05rem;">
+      <strong><a href="notes.html#endpoint">Endpoint runbooks*</a></strong>
+      <div style="color:#555;margin-top:.35rem;">Autopilot, Intune compliance, OneDrive/SharePoint sync patterns, baselines.</div>
+    </div>
+    <div style="border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.05rem;">
+      <strong><a href="notes.html#automation">Automation runbooks*</a></strong>
+      <div style="color:#555;margin-top:.35rem;">Onboarding/offboarding, operational scripts, CI proof patterns.</div>
+    </div>
+    <div style="border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.05rem;">
+      <strong><a href="notes.html#migration">Migration runbooks*</a></strong>
+      <div style="color:#555;margin-top:.35rem;">Pre-seeding + delta sync, audit-friendly cutovers, link remediation.</div>
+    </div>
+    <div style="border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.05rem;">
+      <strong><a href="notes.html#cheatsheet">Cheat sheets*</a></strong>
+      <div style="color:#555;margin-top:.35rem;">Fast mental models: permissions, precedence, common traps.</div>
+    </div>
   </div>
-  <ul style="margin-top:10px;">
-    <li><a href="notes.html#endpoint">Endpoint notes*</a> — Autopilot/enrollment reliability, compliance triage, SharePoint/OneDrive automation.</li>
-    <li><a href="notes.html#automation">Automation notes*</a> — onboarding/offboarding tooling, PowerShell/Graph modules, day-2 self-heal scripts.</li>
-    <li><a href="notes.html#migration">Migration notes*</a> — pre-seed/delta strategy, cutover validation, spreadsheet link repair patterns.</li>
-    <li><a href="notes.html#cheatsheet">Cheat sheet*</a> — quick references: RBAC vs sharing, permission pitfalls, troubleshooting order-of-ops.</li>
-    <li><a href="beyond.html">Beyond*</a> — experiments + upcoming writeups.</li>
-  </ul>
-  <div class="muted" style="margin-top:8px;">
-    <small>* Sections marked with an asterisk are under active development — I’m actively adding sanitized examples, scripts, and proof artifacts.</small>
+
+  <div style="border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;">
+    <strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.
   </div>
 </section>
+
 <h2 style="margin:0 0 8px 0; font-size:18px;">About</h2>
   <div class="muted">
     I build automation that makes systems easier to operate and easier to trust. This portfolio is proof-first: working CI/CD, repeatable scripts, and evidence-style outputs.
   </div>
   <ul>
-    <li><b>CI/CD + build/release:</b> GitHub Actions and Jenkinsfile patterns with artifact archival</li>
-    <li><b>Endpoint + systems tooling:</b> PowerShell baselining, validation, and report generation</li>
-    <li><b>Cloud + identity operations:</b> Microsoft 365 / Azure administration with automation-first mindset</li>
-  </ul>
-  <div class="muted" style="margin-top:8px;">Contact: <a href="https://github.com/Adrian-Estielle">GitHub</a></div>
-</div>
-
-  <main>
-    <div class="grid">
-      <section class="card">
-        <h2>HelloBuild - CI/CD (GitHub Actions + Jenkins)</h2>
-        <div class="muted">A reproducible pipeline that builds/tests/packages a .NET app and publishes artifacts.</div>
-        <ul>
-          <li>Pipeline as code (workflow + Jenkinsfile)</li>
-          <li>Build -> test -> package -> artifact upload</li>
-          <li>Traceable outputs and repeatable steps</li>
-        </ul>
-        <div style="margin-top:10px;"><a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/HelloBuild">View code</a> · <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">View CI runs</a> · <a href="pages/endpoint-notes.html">Endpoint notes</a> · <a href="pages/automation-notes.html">Automation notes</a></div>
-        <div class="shot"><img src="images/jenkins_pipeline.png" alt="Jenkins pipeline screenshot placeholder"/></div>
-      </section>
-
-      <section class="card">
-        <h2>Windows Baseline Audit - PowerShell evidence + report</h2>
-        <div class="muted">A read only baseline snapshot script that outputs a shareable report.</div>
-        <ul>
-          <li>Collects baseline and security relevant configuration</li>
-          <li>Produces a report artifact (HTML/text/JSON depending on implementation)</li>
+    <li>Produces a report artifact (HTML/text/JSON depending on implementation)</li>
           <li>Designed to be extendable</li>
         </ul>
         <div style="margin-top:10px;"><a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/WindowsBaselineAudit">View code</a> · <a href="assets/baseline_report_sample.html">View sample report</a></div>
@@ -96,4 +82,5 @@
   <footer class="muted">Last updated: 2025-12-21</footer>
 </body>
 </html>
+
 
