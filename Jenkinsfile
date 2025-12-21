@@ -1,18 +1,23 @@
 pipeline {
   agent any
-  options { timestamps() }
+
+  options {
+    timestamps()
+  }
+
   stages {
-    stage('Build') {
+    stage("Build") {
       steps {
-        dir('projects/HelloBuild') {
-          powershell 'pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\build.ps1'
+        dir("projects/HelloBuild") {
+          powershell "pwsh -NoProfile -ExecutionPolicy Bypass -File ./scripts/build.ps1"
         }
       }
     }
   }
+
   post {
     always {
-      archiveArtifacts artifacts: 'projects/HelloBuild/artifacts/**', fingerprint: true, allowEmptyArchive: true
+      archiveArtifacts artifacts: "projects/HelloBuild/artifacts/**", fingerprint: true, allowEmptyArchive: true
     }
   }
 }
