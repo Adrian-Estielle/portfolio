@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Adrian Estielle - Engineering Portfolio</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; line-height: 1.5; }
+    header { padding: 32px 18px; border-bottom: 1px solid rgba(127,127,127,.25); }
+    main { max-width: 980px; margin: 0 auto; padding: 18px; }
+    h1 { margin: 0 0 8px 0; font-size: 28px; }
+    .muted { opacity: .78; }
+    .links a { margin-right: 12px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 18px; }
+    @media(min-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .card { border: 1px solid rgba(127,127,127,.25); border-radius: 10px; padding: 16px; }
+    .card h2 { margin: 0 0 8px 0; font-size: 18px; }
+    ul { margin: 8px 0 0 18px; }
+    .shot { margin-top: 10px; border: 1px solid rgba(127,127,127,.25); border-radius: 8px; overflow: hidden; }
+    .shot img { display: block; width: 100%; height: auto; }
+    footer { padding: 22px 18px; border-top: 1px solid rgba(127,127,127,.25); margin-top: 26px; }
+  </style>
+</head>
+<body>
+  <header>
+    <main>
+      <h1>Adrian Estielle - Engineering Portfolio</h1>
+      <div class="muted">Practical work samples: build/release automation, CI/CD, and systems/security tooling.</div>
+      <div class="links" style="margin-top:10px;">
+        <a href="https://github.com/Adrian-Estielle/portfolio">GitHub Repo</a>
+        <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">CI Runs</a>
+        <span class="muted">GitHub Pages: https://adrian-estielle.github.io/portfolio/</span>
+      </div>
+      <div style="margin-top:10px;"><img alt="HelloBuild CI status" src="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml/badge.svg"/></div>
+    </main>
+  </header>
+
+  <main>
+    <div class="grid">
+      <section class="card">
+        <h2>HelloBuild - CI/CD (GitHub Actions + Jenkins)</h2>
+        <div class="muted">A reproducible pipeline that builds/tests/packages a .NET app and publishes artifacts.</div>
+        <ul>
+          <li>Pipeline as code (workflow + Jenkinsfile)</li>
+          <li>Build -> test -> package -> artifact upload</li>
+          <li>Traceable outputs and repeatable steps</li>
+        </ul>
+        <div style="margin-top:10px;"><a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/HelloBuild">View code</a> · <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">View CI runs</a></div>
+        <div class="shot"><img src="images/jenkins_pipeline.png" alt="Jenkins pipeline screenshot placeholder"/></div>
+      </section>
+
+      <section class="card">
+        <h2>Windows Baseline Audit - PowerShell evidence + report</h2>
+        <div class="muted">A read only baseline snapshot script that outputs a shareable report.</div>
+        <ul>
+          <li>Collects baseline and security relevant configuration</li>
+          <li>Produces a report artifact (HTML/text/JSON depending on implementation)</li>
+          <li>Designed to be extendable</li>
+        </ul>
+        <div style="margin-top:10px;"><a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/WindowsBaselineAudit">View code</a></div>
+        <div class="shot"><img src="images/baseline_report.png" alt="Baseline report screenshot placeholder"/></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="muted">Last updated: 2025-12-21</footer>
+</body>
+</html>

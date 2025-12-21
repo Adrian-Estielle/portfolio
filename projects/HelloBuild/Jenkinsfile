@@ -1,0 +1,106 @@
+/*
+  Jenkinsfile - minimal but "real" CI for a Windows/.NET repo.
+
+  What this demonstrates:
+  - Clean stages (Restore/Build/Test/Package)
+  - Artifact archiving + fingerprinting
+  - Build metadata written to a file for traceability
+  - Cross-platform (works on Windows agents and Linux agents)
+
+  Extend later with:
+  - signing/versioning/release notes
+  - MSI/MSIX packaging
+  - gated releases and promotion
+*/
+
+pipeline {
+  agent any
+
+  options {
+    timestamps()
+    disableConcurrentBuilds()
+    buildDiscarder(logRotator(numToKeepStr: '30'))
+  }
+
+  environment {
+    DOTNET_CLI_TELEMETRY_OPTOUT = '1'
+    CONFIGURATION = 'Release'
+    ARTIFACT_DIR = 'artifacts'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Restore') {
+      steps {
+        script {
+          if (isUnix()) {
+            sh 'dotnet --version'
+            sh 'dotnet restore HelloBuild.sln'
+          } else {
+            bat 'dotnet --version'
+            bat 'dotnet restore HelloBuild.sln'
+          }
+        }
+      }
+    }
+
+    stage('Build') {
+      steps {
+        script {
+          if (isUnix()) {
+            sh 'dotnet build HelloBuild.sln -c ${CONFIGURATION} --no-restore'
+          } else {
+            bat 'dotnet build HelloBuild.sln -c %CONFIGURATION% --no-restore'
+          }
+        }
+      }
+    }
+
+    stage('Test') {
+      steps {
+        script {
+          if (isUnix()) {
+            sh 'dotnet test HelloBuild.sln -c ${CONFIGURATION} --no-build --logger "trx;LogFileName=test_results.trx"'
+          } else {
+            bat 'dotnet test HelloBuild.sln -c %CONFIGURATION% --no-build --logger "trx;LogFileName=test_results.trx"'
+          }
+        }
+      }
+      post {
+        always {
+          archiveArtifacts artifacts: '**/*.trx', allowEmptyArchive: true
+        }
+      }
+    }
+
+    stage('Package') {
+      steps {
+        script {
+          if (isUnix()) {
+            sh 'mkdir -p ${ARTIFACT_DIR}'
+            sh 'dotnet publish src/HelloBuild/HelloBuild.csproj -c ${CONFIGURATION} -o ${ARTIFACT_DIR}/HelloBuild'
+            sh 'echo "build_number=${BUILD_NUMBER}" > ${ARTIFACT_DIR}/build_metadata.txt'
+            sh 'echo "git_commit=$(git rev-parse HEAD)" >> ${ARTIFACT_DIR}/build_metadata.txt'
+          } else {
+            bat 'if exist %ARTIFACT_DIR% rmdir /s /q %ARTIFACT_DIR%'
+            bat 'mkdir %ARTIFACT_DIR%'
+            bat 'dotnet publish src\\HelloBuild\\HelloBuild.csproj -c %CONFIGURATION% -o %ARTIFACT_DIR%\\HelloBuild'
+            bat 'echo build_number=%BUILD_NUMBER%> %ARTIFACT_DIR%\\build_metadata.txt'
+            bat 'for /f %%i in (\'git rev-parse HEAD\') do echo git_commit=%%i>> %ARTIFACT_DIR%\\build_metadata.txt'
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      archiveArtifacts artifacts: 'artifacts/**', fingerprint: true
+    }
+  }
+}
