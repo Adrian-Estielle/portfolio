@@ -1,15 +1,13 @@
 pipeline {
-  agent any
+  agent { label "win-agent" }
 
-  options {
-    timestamps()
-  }
+  options { timestamps() }
 
   stages {
     stage("Build") {
       steps {
         dir("projects/HelloBuild") {
-          powershell "pwsh -NoProfile -ExecutionPolicy Bypass -File ./scripts/build.ps1"
+          powershell 'pwsh -NoProfile -ExecutionPolicy Bypass -File ./scripts/build.ps1'
         }
       }
     }
