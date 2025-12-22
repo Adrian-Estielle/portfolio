@@ -7,11 +7,15 @@
   <link rel="stylesheet" href="../site.css"/>
 </head>
 <body>
+
 <header class="site-header">
   <div class="container">
     <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html">Field Notes hub</a></div>
     <h1>CI runbook*</h1>
-    <p class="muted">How the HelloBuild proof is produced (GitHub Actions + Jenkins Windows agent). (* = under active development)</p>
+    <p class="muted">
+      How the HelloBuild proof is produced (GitHub Actions + Jenkins Windows agent). (* = under active development)
+    </p>
+
     <div class="nav small">
       <a href="endpoint.html">Endpoint</a>
       <a href="automation.html">Automation</a>
@@ -19,16 +23,68 @@
       <a href="cheatsheets.html">Cheat sheets</a>
       <a href="ci.html">CI runbook</a>
     </div>
+
+    <div class="callout">
+      <strong>Intent:</strong> make CI “proof-first.” Every claim is backed by a visible run, reproducible output, and a screenshot of success.
+    </div>
   </div>
 </header>
 
 <main class="container">
+
+  <section class="card">
+    <h2>What you can verify in this repo (proof links)</h2>
+    <ul>
+      <li><strong>CI proof page:</strong> <a href="../hellobuild_ci.html">HelloBuild — CI proof</a> (shows the Jenkins run screenshot)</li>
+      <li><strong>GitHub Actions workflow:</strong> <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">hellobuild-ci.yml</a></li>
+      <li><strong>HelloBuild code:</strong> <a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/HelloBuild">projects/HelloBuild</a></li>
+    </ul>
+
+    <div class="callout note">
+      <strong>Why this matters:</strong> hiring managers can’t trust tool lists. They can trust a working pipeline, the exact config that runs it, and repeatable outputs.
+    </div>
+  </section>
+
   <section class="card">
     <h2>Jenkins (Docker controller) + Windows inbound agent</h2>
+    <p class="muted">
+      This setup proves real Windows execution (not “works on my machine”) while keeping the controller easy to backup and rebuild.
+    </p>
+
+    <h3>1) Bring up the Jenkins controller (Docker)</h3>
+    <ol>
+      <li>
+        <strong>Create a persistent volume</strong> (so Jenkins survives container restarts).
+        <div class="muted">Why: you don’t want “docker rm” to delete your jobs, creds, and config.</div>
+      </li>
+      <li>
+        <strong>Run the Jenkins container</strong> with:
+        <ul>
+          <li>a mapped persistent volume</li>
+          <li>HTTP port published (8080)</li>
+          <li>agent port if you use it (50000), OR prefer WebSocket agents and avoid exposing 50000 publicly</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Complete the initial setup wizard</strong>:
+        <ul>
+          <li>Unlock Jenkins (initial admin password)</li>
+          <li>Install suggested plugins (then prune later)</li>
+          <li>Create an admin user</li>
+          <li>Set Jenkins URL correctly (matters for agents)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>2) Hardening / robustness priorities (the “don’t get owned / don’t lose state” checklist)</h3>
     <ul>
-      <li>Controller runs in Docker with a persistent volume.</li>
-      <li>Windows agent runs inbound via agent.jar (WebSocket preferred if configured).</li>
-      <li>Make sure the agent actually has the tools your Jenkinsfile calls (git, pwsh/powershell, dotnet, java).</li>
+      <li><strong>Backups:</strong> snapshot/backup the Jenkins home volume (jobs + config + credentials metadata). Treat this as mandatory.</li>
+      <li><strong>Least privilege:</strong> use a dedicated admin account; don’t run day-to-day as “the first admin user.”</li>
+      <li><strong>Credentials discipline:</strong> no plaintext secrets in Jenkinsfile. Use Jenkins credentials store and rotate if exposure is suspected.</li>
+      <li><strong>Agent isolation:</strong> treat agents as untrusted execution. Restrict what they can access; don’t give the agent local admin “because it’s easier.”</li>
+      <li><strong>Network scope:</strong> controller should not be Internet-wide. Put it behind a VPN or restricted network ACL where possible.</li>
+      <li><strong>Plugin hygiene:</strong> plugin sprawl is risk sprawl. Keep only what you use and update on a cadence.</li>
+      <li><strong>Job safety:</strong> disable “random script console usage” for non-admins; review who can configure jobs.</li>
     </ul>
 
     <div class="callout warn">
@@ -38,19 +94,117 @@
     <div class="callout note">
       <strong>Branch gotcha:</strong> Jenkins jobs often default to <code>master</code>. If the repo uses <code>main</code>, set it explicitly or you’ll run the wrong thing.
     </div>
+
+    <h3>3) Create the Windows inbound agent node (UI clicks)</h3>
+    <ol>
+      <li>Jenkins UI → <strong>Manage Jenkins</strong></li>
+      <li>→ <strong>Nodes</strong> (or “Manage Nodes and Clouds” depending on UI)</li>
+      <li>→ <strong>New Node</strong></li>
+      <li>Enter a node name (example: <code>win-agent</code>) → select <strong>Permanent Agent</strong> → <strong>Create</strong></li>
+      <li>
+        Configure:
+        <ul>
+          <li><strong>Remote root directory:</strong> e.g. <code>C:\Jenkins</code></li>
+          <li><strong>Labels:</strong> e.g. <code>windows</code> (so pipelines can target it)</li>
+          <li><strong>Usage:</strong> “Use this node as much as possible” (or restrict if you want dedicated jobs)</li>
+          <li><strong>Launch method:</strong> <strong>Launch agent by connecting it to the controller</strong> (inbound)</li>
+        </ul>
+      </li>
+      <li>Click <strong>Save</strong></li>
+      <li>
+        On the node page, Jenkins will show:
+        <ul>
+          <li>a <strong>secret</strong></li>
+          <li>the <strong>agent.jar</strong> download link</li>
+          <li>a ready-to-run agent command</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>4) Prep the Windows agent (what must exist before you press “Build Now”)</h3>
+    <p><strong>Goal:</strong> the agent can run every executable referenced by your Jenkinsfile.</p>
+    <ul>
+      <li><strong>Java</strong> (required for <code>agent.jar</code>)</li>
+      <li><strong>Git</strong> (for checkout)</li>
+      <li><strong>.NET SDK</strong> (for restore/build/test if it’s a .NET pipeline)</li>
+      <li><strong>PowerShell</strong> (Windows PowerShell or PowerShell 7, depending on your scripts)</li>
+    </ul>
+
+    <div class="callout note">
+      <strong>Sanity commands I run on the agent before debugging Jenkins:</strong>
+      <ul>
+        <li><code>where git</code></li>
+        <li><code>where dotnet</code></li>
+        <li><code>pwsh -v</code> (or <code>powershell -v</code>)</li>
+        <li><code>java -version</code></li>
+      </ul>
+    </div>
+
+    <h3>5) Start the agent (the actual command that matters)</h3>
+    <p>
+      On Windows, I run the inbound agent using the exact command Jenkins provides on the node page.
+      If WebSocket is available, I prefer it to reduce inbound port exposure.
+    </p>
+    <ul>
+      <li><strong>One-off test:</strong> run it in a console first to confirm it connects and picks up work.</li>
+      <li><strong>Make it persistent:</strong> once stable, run it as a Scheduled Task or a service wrapper so it survives reboots.</li>
+    </ul>
+
+    <h3>6) Create the pipeline job (UI clicks)</h3>
+    <ol>
+      <li>Jenkins UI → <strong>New Item</strong></li>
+      <li>Enter job name (example: <code>HelloBuild</code>)</li>
+      <li>Select <strong>Pipeline</strong> → <strong>OK</strong></li>
+      <li>
+        Under <strong>Pipeline</strong> section:
+        <ul>
+          <li><strong>Definition:</strong> “Pipeline script from SCM”</li>
+          <li><strong>SCM:</strong> Git</li>
+          <li><strong>Repository URL:</strong> your repo URL</li>
+          <li><strong>Branch Specifier:</strong> <code>*/main</code></li>
+          <li><strong>Script Path:</strong> <code>Jenkinsfile</code> (or the actual path if different)</li>
+        </ul>
+      </li>
+      <li>Click <strong>Save</strong></li>
+    </ol>
+
+    <h3>7) Run + validate</h3>
+    <ol>
+      <li>Open the job → click <strong>Build Now</strong></li>
+      <li>Open the run → watch <strong>Console Output</strong></li>
+      <li>Confirm stages match your intended flow (checkout → restore/build/test → package → artifact)</li>
+      <li>Capture proof (screenshot of successful run, artifact link, and job config)</li>
+    </ol>
+
+    <div class="callout warn">
+      <strong>Failure pattern I see most:</strong> Jenkinsfile is fine; the agent is missing a tool, PATH entry, permission, or the job is building the wrong branch.
+      I fix the environment first, then rerun.
+    </div>
   </section>
 
   <section class="card">
     <h2>GitHub Actions (HelloBuild)</h2>
-    <ul>
-      <li>restore → build → test → package → upload artifact</li>
-      <li>Proof-first: visible runs + reproducible artifact</li>
-    </ul>
+    <p class="muted">This is the “clean room” pipeline: a public, deterministic run anyone can inspect.</p>
+
+    <h3>What I check (UI clicks)</h3>
+    <ol>
+      <li>Repo → <strong>Actions</strong> tab</li>
+      <li>Select the workflow (HelloBuild CI)</li>
+      <li>Open the most recent run</li>
+      <li>Scan steps in order: restore → build → test → package → upload artifact</li>
+      <li>Download the artifact to verify the output is real and repeatable</li>
+    </ol>
+
+    <div class="callout note">
+      <strong>Proof-first rule:</strong> I treat the run log + artifact as the source of truth, not “it should have worked.”
+    </div>
   </section>
 
   <footer>
     <div>Back to <a href="../notes.html">Field Notes hub</a>.</div>
   </footer>
+
 </main>
+
 </body>
 </html>
