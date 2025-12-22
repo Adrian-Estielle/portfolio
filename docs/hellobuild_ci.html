@@ -2,32 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>HelloBuild - CI Proof</title>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.45;margin:0;color:#111;}
-    main{max-width:980px;margin:0 auto;padding:2rem 1.1rem 3rem;}
-    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
-    .muted{color:#555}
-    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin-top:1rem;}
-    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; line-height: 1.5; }
+    main { max-width: 980px; margin: 0 auto; padding: 18px; }
+    h1 { margin: 0 0 8px 0; font-size: 34px; }
+    .muted { opacity: .78; }
+    .card { border: 1px solid rgba(127,127,127,.25); border-radius: 12px; padding: 14px; margin-top: 14px; }
+    a { color: #0969da; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .shot { margin-top: 12px; border: 1px solid rgba(127,127,127,.25); border-radius: 12px; overflow: hidden; }
+    .shot img { display:block; width:100%; height:auto; }
   </style>
 </head>
 <body>
   <main>
-    <a href="index.html">← portfolio home</a>
-    <h1 style="margin:.6rem 0 .2rem;">HelloBuild — CI Proof</h1>
-    <div class="muted">Evidence-style screenshot showing Jenkins pipeline execution on a Windows agent. Runbooks are in <a href="notes.html#kb-ci-jenkins-win-agent">Field Notes → CI (Jenkins)</a>.</div>
+    <div><a href="./">← portfolio home</a></div>
 
-    <div class="card">
-      
+    <h1>HelloBuild — CI Proof</h1>
+    <div class="muted">
+      Evidence screenshot showing Jenkins pipeline execution on a Windows agent.
+      Runbooks are in <a href="notes.html#hellobuild">Field Notes → CI (Jenkins)</a>.
+    </div>
+
+    <div class="shot">
+      <img src="images/jenkins_pipeline.png" alt="Jenkins pipeline run (Windows agent)"/>
     </div>
 
     <div class="card">
-      <strong>References</strong>
-      <ul>
-        <li>CI runs: <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml</a></li>
-        <li>Repo: <a href="https://github.com/Adrian-Estielle/portfolio">https://github.com/Adrian-Estielle/portfolio</a></li>
+      <h2 style="margin:0 0 6px 0;">References</h2>
+      <ul style="margin:0 0 0 18px;">
+        <li>CI runs: <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">GitHub Actions workflow</a></li>
+        <li>Repo: <a href="https://github.com/Adrian-Estielle/portfolio">Adrian-Estielle/portfolio</a></li>
       </ul>
     </div>
   </main>
