@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Migration runbooks - Field Notes</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html">Field Notes hub</a></div>
+    <h1>Migration runbooks*</h1>
+    <p class="muted">Cutovers, pre-seeding + delta sync, hyperlink remediation, performance validation, lifecycle/archiving patterns. (* = under active development)</p>
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cheatsheets.html">Cheat sheets</a>
+      <a href="ci.html">CI runbook</a>
+    </div>
+    <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Wave strategy: start low-dependency → validate → then move the “hard parts”</h2>
+    <p><strong>Why:</strong> migrating your most dependency-heavy department first is how you create avoidable outages. Pilot with low-dependency groups first so you can catch platform/perf issues early.</p>
+
+    <ul>
+      <li>Start with teams that are least dependent on the workload (lowest blast radius).</li>
+      <li>Use pilots to identify performance gaps, permissions edge cases, client behavior, and workflow breaks.</li>
+      <li>Only after tuning/validation do you migrate the heavy churn / performance-sensitive teams (ex: Accounting).</li>
+    </ul>
+
+    <div class="callout warn">
+      <strong>Field lesson:</strong> if you migrate the hardest department first and the platform underperforms, you risk doing the “most difficult segment” twice (or worse).
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Pre-seed + delta sync execution plan (minimize cutover window)</h2>
+    <ol>
+      <li><strong>Inventory + classify:</strong> identify high-change datasets, business critical paths, and high-risk file types.</li>
+      <li><strong>Pre-seed:</strong> copy bulk early (SPMT / Migration Manager / Robocopy / AzCopy depending on target).</li>
+      <li><strong>Delta runs:</strong> re-run sync periodically to capture changes leading up to cutover.</li>
+      <li><strong>Cutover:</strong> freeze writes, final delta, flip access paths, validate workflows.</li>
+      <li><strong>Audit:</strong> counts, spot-check critical files, verify permissions and access using real user contexts.</li>
+    </ol>
+
+    <div class="callout warn">
+      <strong>Performance validation is not optional:</strong> region distance + high read/write volume can destroy perceived performance even when “assessments” say it should be fine.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Archive / cold storage / live media lifecycle (the delineation I implemented)</h2>
+    <p><strong>Problem:</strong> without tiers, “everything stays live forever” and migrations become expensive and chaotic.</p>
+
+    <h3>Practical tiering model</h3>
+    <ul>
+      <li><strong>Live media:</strong> SharePoint (collaboration + active usage).</li>
+      <li><strong>Cold archive (after ~3 years no use):</strong> Azure Files with restricted access (IT-only) + retrieval by ticket. This also supports a longer-term plan to phase out AD-based access patterns.</li>
+      <li><strong>Deep archive (after ~2 more years no use):</strong> Blob storage for lowest cost + “rare retrieval” posture.</li>
+    </ul>
+
+    <div class="callout note">
+      <strong>Operational benefit:</strong> this reduces active data footprint, reduces permission sprawl, and makes future migrations tractable.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Excel hyperlink remediation (bulk) — do the “hyperlink purge” before migration</h2>
+    <p><strong>Why:</strong> in real environments, a single workbook can contain millions of hyperlinks. If you wait until after migration, your link-fix tools get bogged down by noise.</p>
+
+    <h3>What we did (and why it worked)</h3>
+    <ul>
+      <li><strong>Remove ALL hyperlinks</strong> before the migration (hyperlink purge), because the volume was drowning remediation tooling.</li>
+      <li>Then the post-migration work focuses on the <em>small set of links that truly matter</em>.</li>
+    </ul>
+
+    <h3>Execution requirements</h3>
+    <ul>
+      <li>Run on copies for dev/testing first — do not “learn on production.”</li>
+      <li>Unhide sheets to ensure links are reachable; re-hide afterward.</li>
+      <li>Preserve timestamps when required for audit/expectations.</li>
+      <li>Log everything: changed/failed/skipped + why.</li>
+      <li>Validate on a representative subset first, then scale.</li>
+    </ul>
+
+    <div class="callout warn">
+      <strong>Key point:</strong> this is a <em>pre-migration cleanup workstream</em>, not a last-minute cutover task.
+    </div>
+  </section>
+
+  <footer>
+    <div>Back to <a href="../notes.html">Field Notes hub</a>.</div>
+  </footer>
+</main>
+</body>
+</html>

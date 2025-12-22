@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Cheat sheets - Field Notes</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html">Field Notes hub</a></div>
+    <h1>Cheat sheets*</h1>
+    <p class="muted">Fast mental models: permissions, precedence, common traps. (* = under active development)</p>
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cheatsheets.html">Cheat sheets</a>
+      <a href="ci.html">CI runbook</a>
+    </div>
+    <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Permissions mental model: RBAC vs sharing vs NTFS (where people get burned)</h2>
+
+    <h3>SMB file shares: Share permissions + NTFS are both enforced</h3>
+    <ul>
+      <li><strong>Effective access over the network</strong> = <strong>Share permissions</strong> ∩ <strong>NTFS permissions</strong> (most restrictive wins).</li>
+      <li>Share permissions don’t “override” NTFS; they can only further restrict.</li>
+      <li>Deny entries (either layer) are where the hardest-to-debug behavior happens.</li>
+    </ul>
+
+    <div class="callout note">
+      <strong>Practical best practice:</strong> keep Share permissions broad and manage least-privilege with NTFS. This reduces “two-layer permission math” for operators.
+    </div>
+
+    <h3>SharePoint/OneDrive: different model</h3>
+    <ul>
+      <li><strong>RBAC</strong> = what admins can do in the platform.</li>
+      <li><strong>Library/site permissions</strong> = the primary access model (inheritance matters).</li>
+      <li><strong>Sharing links</strong> create additional grants (access is often additive, and can create sprawl if unmanaged).</li>
+    </ul>
+
+    <div class="callout warn">
+      <strong>Common failure pattern:</strong> deep inheritance breaks + ad-hoc exceptions + uncontrolled sharing = eventual “why can they access this?” mystery.
+    </div>
+  </section>
+
+  <footer>
+    <div>Back to <a href="../notes.html">Field Notes hub</a>.</div>
+  </footer>
+</main>
+</body>
+</html>

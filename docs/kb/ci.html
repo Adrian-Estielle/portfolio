@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>CI runbook - Field Notes</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html">Field Notes hub</a></div>
+    <h1>CI runbook*</h1>
+    <p class="muted">How the HelloBuild proof is produced (GitHub Actions + Jenkins Windows agent). (* = under active development)</p>
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cheatsheets.html">Cheat sheets</a>
+      <a href="ci.html">CI runbook</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Jenkins (Docker controller) + Windows inbound agent</h2>
+    <ul>
+      <li>Controller runs in Docker with a persistent volume.</li>
+      <li>Windows agent runs inbound via agent.jar (WebSocket preferred if configured).</li>
+      <li>Make sure the agent actually has the tools your Jenkinsfile calls (git, pwsh/powershell, dotnet, java).</li>
+    </ul>
+
+    <div class="callout warn">
+      <strong>Reality check:</strong> most “pipeline failures” on a new agent are missing executables, not Jenkins logic.
+    </div>
+
+    <div class="callout note">
+      <strong>Branch gotcha:</strong> Jenkins jobs often default to <code>master</code>. If the repo uses <code>main</code>, set it explicitly or you’ll run the wrong thing.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>GitHub Actions (HelloBuild)</h2>
+    <ul>
+      <li>restore → build → test → package → upload artifact</li>
+      <li>Proof-first: visible runs + reproducible artifact</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div>Back to <a href="../notes.html">Field Notes hub</a>.</div>
+  </footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Project scripts archive</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html">Field Notes hub</a></div>
+    <h1>Project scripts archive*</h1>
+    <p class="muted">Sanitized scripts from prior work (operational tooling, automation snippets, helpers). Keep this practical and evidence-first.</p>
+    <div class="callout"><strong>* Under active development:</strong> this archive grows over time as scripts are sanitized.</div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Files</h2>
+    <p class="muted">No files yet. Drop sanitized items into <code>docs/evidence/scripts/</code> and rerun this generator.</p>
+  </section>
+
+  <section class="card">
+    <h2>Sanitization rules (quick)</h2>
+    <ul>
+      <li>Remove tenant IDs, customer names, internal hostnames, secrets, tokens, share paths, and email addresses.</li>
+      <li>Replace with placeholders and include a README header explaining inputs/outputs.</li>
+      <li>Prefer small, focused scripts with logs over giant “god scripts.”</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

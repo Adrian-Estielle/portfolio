@@ -1,51 +1,44 @@
 # Portfolio Knowledge Transfer (KT)
 
-This repo is a proof-first engineering portfolio. The goal is not to claim broad expertise — it’s to show **repeatable execution** via artifacts, runbooks, and working automation.
+This repo is a proof-first engineering portfolio. The goal is simple: **show repeatable execution** (working pipelines, scripts, and artifacts) plus **real-world operational notes** (runbooks and edge cases).
 
 ## Strategy
 1) **Projects = evidence**
-   - A project should have:
+   - Each project should have:
      - code
      - a reproducible process (pipeline / script)
      - an observable output (artifact, report, screenshot, CI run)
 
 2) **Field Notes / KB = credibility**
-   - The KB contains sanitized runbooks and “edge case” notes that only show up when you’ve done this in real environments.
-   - Format each KB entry as:
-     - *Why / goal*
-     - *Steps*
-     - *Validation*
-     - *Failure modes / recovery*
-     - *Sanitized references (optional)*
+   - The KB is split into separate pages (not one giant anchor doc):
+     - docs/kb/endpoint.html
+     - docs/kb/automation.html
+     - docs/kb/migration.html
+     - docs/kb/cheatsheets.html
+     - docs/kb/ci.html
+   - Format each runbook entry:
+     - Why / goal
+     - Steps
+     - Validation
+     - Failure modes + recovery
+     - Sanitized references where useful
 
-3) **Tone**
-   - First-person, practical, and operational.
-   - Avoid “AI assistant” phrasing (no “I can help you…”). Write like an engineer documenting real work.
+3) **Evidence archive**
+   - Sanitized historical material lives here:
+     - docs/evidence/scripts.html (files under docs/evidence/scripts/)
+     - docs/evidence/documentation.html (files under docs/evidence/docs/)
+   - Keep artifacts practical and redacted.
 
-4) **Sanitization rules**
-   - No tenant IDs, secrets, internal hostnames, customer names, or proprietary screenshots.
-   - Use examples or placeholders where needed.
-   - Prefer “patterns” over “company specifics.”
+4) **Tone**
+   - First-person, operational, practical.
+   - Avoid assistant/AI phrasing. Write like an engineer documenting real work.
 
-## Site structure (docs/)
-- index.html = portfolio home (projects + KB hub)
-- 
-otes.html = Field Notes / KB hub (runbooks + diagrams)
-- 
-otes_outline.md = quick-edit outline for planning additions
-- eports/ = sample artifacts that are safe to publish
-- ssets/ = screenshots used on the site
-
-## What to add next (high ROI)
-- Role Evidence Map: map the 9 target titles → (project + KB entries) → proof links.
-- Resume PDF link (public-safe copy) + short skills matrix (do NOT publish raw “fact bank”).
-- A few additional KB entries:
-  - Autopilot “half-enrolled” recovery
-  - Intune compliance triage with exact validation checks
-  - OneDrive/SharePoint auto-mount at scale (ID mapping strategy)
-  - Migration performance validation checklist
+## Sanitization rules (non-negotiable)
+- No tenant IDs, secrets, internal hostnames, customer names, or proprietary screenshots.
+- Prefer patterns + placeholders over company specifics.
+- Logs are great — redact identifiers.
 
 ## Editing workflow
-- Add/update KB content in docs/notes.html
-- Keep docs/notes_outline.md aligned so future edits stay consistent
-- Commit small, frequent, traceable changes
+- Update KB pages in docs/kb/
+- Add sanitized scripts/docs under docs/evidence/
+- Commit small, traceable changes

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Endpoint runbooks - Field Notes</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html">Field Notes hub</a></div>
+    <h1>Endpoint runbooks*</h1>
+    <p class="muted">Autopilot, Intune compliance triage, OneDrive/SharePoint sync patterns, baselines. (* = under active development)</p>
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cheatsheets.html">Cheat sheets</a>
+      <a href="ci.html">CI runbook</a>
+    </div>
+    <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Windows Autopilot: reliable enrollment checklist + recovery paths</h2>
+    <p><strong>Goal:</strong> predictable Day‑1: device enrolls cleanly, policies apply, apps land, and there’s a fast recovery path when OOBE goes sideways.</p>
+
+    <h3>Checklist</h3>
+    <ol>
+      <li><strong>Assignment sanity:</strong> confirm the device/user is targeted for the right Autopilot profile + required apps/policies (and that nothing conflicting is also targeted).</li>
+      <li><strong>Network stability during OOBE:</strong> treat connectivity as a first‑class dependency. Prefer Ethernet; avoid weak Wi‑Fi / walking around during first setup.</li>
+      <li><strong>MFA readiness:</strong> make sure the new hire can complete MFA on first sign‑in. “Sign-in before MFA is ready” is how you get broken half‑states.</li>
+      <li><strong>Validation:</strong> confirm in Intune that enrollment completed and required profiles/apps are actually applied (not just “assigned”).</li>
+    </ol>
+
+    <div class="callout warn">
+      <strong>Half-state recovery pattern:</strong> when enrollment lands in a broken state, the fastest path is often removing stale device records (where appropriate), wiping, and re-enrolling from a clean OOBE.
+    </div>
+
+    <div class="callout note">
+      <strong>OOBE troubleshooting:</strong> Shift+F10 can open a command prompt for basic checks (network, logs, etc.). Useful when you need to confirm the device is really online before it tries enrollment steps.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Intune “Not compliant” triage (Windows / iOS / Android)</h2>
+    <p><strong>Goal:</strong> make compliance predictable: check-in → failing rule → remediation → re-evaluate.</p>
+
+    <h3>Step 1 — Confirm check-in / MDM health (avoid stale inventory)</h3>
+    <ul>
+      <li>In Intune: open the device → check <strong>Last check-in</strong>. If it’s stale, fix check-in first.</li>
+      <li>From Intune portal: trigger <strong>Sync</strong> on the device (forces evaluation).</li>
+      <li>On the device:
+        <ul>
+          <li><strong>Windows:</strong> Settings → Accounts → Access work or school → (your org) → Info → <strong>Sync</strong></li>
+          <li><strong>Company Portal:</strong> Settings → <strong>Sync</strong></li>
+        </ul>
+      </li>
+      <li>Then re-check the compliance details after the device actually re-evaluates.</li>
+    </ul>
+
+    <div class="callout note">
+      <strong>Common trap:</strong> “Not compliant” is frequently “policy evaluated against stale inventory.” Get the device checking in again before you chase settings.
+    </div>
+
+    <h3>Step 2 — Remediate the failing control</h3>
+    <p>Most compliance failures are straightforward once check-in is healthy:</p>
+    <ul>
+      <li><strong>Windows:</strong> BitLocker/TPM/Secure Boot, Firewall, Defender/AV health, OS version minimum, local admin drift.</li>
+      <li><strong>iOS/Android:</strong> OS minimum, passcode requirements, integrity/health signals.</li>
+    </ul>
+
+    <h3>Step 3 — If Conditional Access blocks remediation</h3>
+    <p>If CA blocks the user from signing in to remediate, you need an emergency access path:</p>
+    <ul>
+      <li><strong>Break-glass account</strong> = a tightly controlled emergency admin account that is excluded from the “oops we locked everyone out” CA policies.</li>
+      <li><strong>Workflow:</strong> use break-glass to regain access → fix the CA/policy issue → document incident → rotate creds → confirm break-glass was not abused.</li>
+    </ul>
+
+    <div class="callout warn">
+      <strong>Reality:</strong> most “CA emergencies” are mis-targeting (wrong group scope) or enforcing a requirement (MFA/compliant device) before the user/device can satisfy it.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive)</h2>
+    <p><strong>Why:</strong> when “sync this library” becomes a recurring support cost (Accounting is the classic), you reduce tickets by auto-mounting libraries for users who should have them.</p>
+
+    <h3>Operational pattern</h3>
+    <ul>
+      <li>Use an Entra group as the “source of truth” (membership = intended access + auto-mount intent).</li>
+      <li>Keep a mapping table: <strong>Library → group → library ID string</strong> so it stays auditable and reversible.</li>
+    </ul>
+
+    <h3>Steps (the reliable way)</h3>
+    <ol>
+      <li>Browse to the SharePoint library → click <strong>Sync</strong> → in the dialog, click <strong>Copy library ID</strong>.</li>
+      <li>Convert the copied string (URL-encoded / Unicode) into a normal string using PowerShell:</li>
+    </ol>
+    <pre><code>[uri]::UnescapeDataString("PASTE_THE_COPIED_LIBRARY_ID_STRING_HERE")</code></pre>
+
+    <ol start="3">
+      <li>In Intune: create a configuration profile for OneDrive (Administrative Templates / ADMX-backed) and set <strong>Configure team site libraries to sync automatically</strong> with:
+        <ul>
+          <li><strong>Value name:</strong> friendly library name</li>
+          <li><strong>Value:</strong> the full decoded library ID string</li>
+        </ul>
+      </li>
+      <li>Assign to the correct user group (the group that represents “should have this library”).</li>
+      <li>Validate: add a test user to the group → sign in → confirm it appears in File Explorer.</li>
+    </ol>
+
+    <div class="callout warn">
+      <strong>Known “catch” that feels like a bug:</strong> auto-mount happens the next time users sign in to OneDrive <em>within an eight‑hour window</em>. It is not instant, and the delay is explicitly part of the design.
+    </div>
+
+    <div class="callout note">
+      <strong>Scale/perf constraint:</strong> don’t auto-mount huge libraries at scale. If a library is massive, you will create network + UX pain.
+    </div>
+
+    <h3>Scaling (how you make it sane)</h3>
+    <ul>
+      <li>Automate ID discovery via Graph/SharePoint metadata where possible so you aren’t manually copy/pasting IDs for dozens of libraries.</li>
+      <li>Separate: <strong>permission</strong> (who can access) from <strong>auto-mount</strong> (who should auto-sync) so you can roll out gradually.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>OEM cleanup baseline (HP / Lenovo patterns)</h2>
+    <ul>
+      <li>Inventory by model/manufacturer → allow-list vs remove-list.</li>
+      <li>Automate removals via packaging/Intune (avoid “hand cleanup”).</li>
+      <li>Regression checks: drivers, VPN, Office, Excel-heavy workflows after cleanup.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div>Back to <a href="../notes.html">Field Notes hub</a>.</div>
+  </footer>
+</main>
+</body>
+</html>

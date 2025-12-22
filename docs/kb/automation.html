@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Automation runbooks - Field Notes</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html">Field Notes hub</a></div>
+    <h1>Automation runbooks*</h1>
+    <p class="muted">Onboarding/offboarding, operational scripts, service desk automation. (* = under active development)</p>
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cheatsheets.html">Cheat sheets</a>
+      <a href="ci.html">CI runbook</a>
+    </div>
+    <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Onboarding automation: minimal inputs → user + access baseline</h2>
+    <ul>
+      <li>Inputs: first/last, title, office, manager.</li>
+      <li>Generate UPN/email from convention; collision checks.</li>
+      <li>Assign security groups via a role/region matrix (replaces “copy another user”).</li>
+      <li><strong>Licensing rule example (real-world):</strong> base license (ex: E5) auto-assigns when Office Location + Email fields are populated; other group/license logic keys off those attributes.</li>
+      <li>Outputs: summary + logs for audit and replay.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Offboarding / termination automation: revoke access fast + preserve required data</h2>
+    <ul>
+      <li>Disable sign-in + revoke sessions.</li>
+      <li>Mailbox handling (authorized): auto-reply that directs senders to the <strong>terminated user’s manager</strong>; delegate access where approved; capture mailbox state.</li>
+      <li>Strip groups/roles; move to terminated OU/container.</li>
+      <li>Deferred deletion with approvals for irreversible steps (ex: MFA factor clears via Graph API).</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Mapped drive “self-heal” automation</h2>
+    <ul>
+      <li>Detect known-bad mappings; remove mapping; clear stale credentials; re-map; log.</li>
+      <li>If it keeps coming back: audit the underlying permissions (ACL drift) and fix root cause instead of re-mapping forever.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Teams chatbot triage: dock/home-office display issues (driver reset)</h2>
+    <p><strong>Intent:</strong> eliminate “simple-but-common” tickets while still keeping documentation.</p>
+    <ul>
+      <li>Bot gathers quick diagnostics (GPU/driver versions, dock model, monitor chain, recent changes).</li>
+      <li>Uses the same types of detection signals Windows “Troubleshoot” surfaces (Device Manager status/error codes, basic driver health checks) to categorize likely issues.</li>
+      <li>Automates remove/reinstall for known-problem drivers with a safe rollback path.</li>
+      <li><strong>Still creates a Zendesk ticket</strong> (for audit/history) — and if the scripted fix works, it auto-documents the resolution and closes the ticket.</li>
+      <li>Escalates only if the scripted fix fails or diagnostics indicate hardware fault.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div>Back to <a href="../notes.html">Field Notes hub</a>.</div>
+  </footer>
+</main>
+</body>
+</html>

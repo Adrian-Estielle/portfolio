@@ -3,31 +3,24 @@
 **Legend**
 - * = under active development / expanding
 
-## Endpoint runbooks*
-- Autopilot enrollment checklist + recovery (network stability, MFA readiness, recovery from half-state)
-- Intune “Not compliant” triage:
-  - check-in / stale inventory first
-  - remediate BitLocker/Secure Boot/Firewall/Defender/OS min/local admin drift
-  - Conditional Access emergency access path (break-glass)
-- Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive):
-  - copy library ID
-  - Unicode → normal string conversion
-  - assign to Entra group
-  - validation flow
-- OEM cleanup baseline (HP/Lenovo patterns)
+## Pages
+- Endpoint: docs/kb/endpoint.html
+- Automation: docs/kb/automation.html
+- Migration: docs/kb/migration.html
+- Cheat sheets: docs/kb/cheatsheets.html
+- CI runbook: docs/kb/ci.html
 
-## Automation runbooks*
-- Onboarding: minimal inputs → create user + groups (role/region matrix), base license rule (Office + Email)
-- Offboarding/termination: disable + revoke, auto-reply directs to manager, delegation where authorized, OU move, timed deletion, approvals for MFA clears
-- Mapped drive self-heal
-- Teams chatbot triage (display/dock driver reset)
-- CI runbooks: GitHub Actions + Jenkins Windows agent
-
-## Migration runbooks*
-- Pre-seed + delta sync (minimize cutover), permission validation with real user contexts
-- Excel hyperlink remediation tool (safe, auditable, parameterized old→new, unhide/rehide, preserve timestamps)
-- Performance monitoring note (region + churn can break assumptions)
-
-## Cheat sheets*
-- Permissions precedence: RBAC vs sharing vs NTFS inheritance (common traps)
-- Diagrams (Razzberry flow, DFS vs SharePoint sync, onboarding lead time)
+## Requested corrections applied
+- Teams bot triage:
+  - still creates Zendesk ticket for documentation
+  - auto-documents + resolves if fix works
+  - uses Windows Troubleshoot-style detection signals
+- Migration:
+  - wave strategy starts with low-dependency groups first
+  - lifecycle tiering: SharePoint (live) → Azure Files (cold, IT-only, ticket) → Blob (deep archive)
+  - Excel hyperlink purge is done BEFORE migration, removing ALL hyperlinks to avoid tool bog-down
+- Permissions:
+  - SMB effective access = Share permissions ∩ NTFS (most restrictive wins)
+  - SharePoint “sharing links” are additive grants and can create sprawl
+- Diagrams:
+  - moved to docs/_draft/diagrams.html and not linked

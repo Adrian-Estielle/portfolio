@@ -3,333 +3,67 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Field Notes / KB - Adrian Estielle</title>
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.45;margin:0;color:#111;background:#fff;}
-    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
-    header{padding:2.2rem 0 1.1rem;}
-    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
-    .muted{color:#555}
-    .nav{margin-top:.7rem}
-    .nav a{margin-right:.75rem}
-    section{margin-top:2rem}
-    h1{margin:.1rem 0 .2rem;font-size:2rem}
-    h2{margin:1.5rem 0 .55rem;font-size:1.45rem}
-    h3{margin:1.2rem 0 .45rem;font-size:1.15rem}
-    .article{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.95rem 0;background:#fff}
-    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.85rem 0}
-    .callout.warn{border-left-color:#b91c1c;background:#fef2f2}
-    .callout.note{border-left-color:#0f766e;background:#ecfdf5}
-    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
-    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.95em}
-    footer{padding:2rem 0 3rem}
-  </style>
+  <title>Field Notes / KB - Hub</title>
+  <link rel="stylesheet" href="site.css"/>
 </head>
 <body>
-<header>
-  <a href="index.html">← portfolio home</a>
-  <h1>Field Notes / KB</h1>
-  <div class="muted">Practical runbooks and scenario notes (sanitized). Focus: repeatable steps, troubleshooting, and operational edge cases.</div>
-
-  <div class="nav">
-    <a href="#endpoint">Endpoint</a>
-    <a href="#automation">Automation</a>
-    <a href="#migration">Migration</a>
-    <a href="#cheatsheet">Cheat sheets</a>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="index.html">← portfolio home</a></div>
+    <h1>Field Notes / KB*</h1>
+    <p class="muted">Sanitized runbooks and scenario notes — focused on repeatable steps, troubleshooting, and real operational edge cases.</p>
+    <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
   </div>
-
-  <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
 </header>
 
-<main>
-  <!-- ===================== -->
-  <!-- ENDPOINT RUNBOOKS      -->
-  <!-- ===================== -->
-  <section id="endpoint">
-    <h2>Endpoint runbooks*</h2>
-    <p class="muted">Autopilot, Intune compliance, OneDrive/SharePoint sync patterns, baselines.</p>
+<main class="container">
+  <!-- Back-compat anchors (so old links like notes.html#endpoint still land somewhere) -->
+  <div id="endpoint"></div>
+  <div id="automation"></div>
+  <div id="migration"></div>
+  <div id="cheatsheet"></div>
 
-    <article id="kb-autopilot-enrollment" class="article">
-      <h3>Windows Autopilot: reliable enrollment checklist + recovery paths</h3>
-      <p><strong>Goal:</strong> predictable Day-1 experience (apps/policies present) with a recovery path when OOBE goes sideways.</p>
+  <section class="kbhub">
+    <h2 style="margin:.2rem 0 .35rem;">Runbook categories</h2>
 
-      <h4>Checklist</h4>
-      <ol>
-        <li><strong>Pre-reqs Keep You Honest</strong>: confirm target groups, Autopilot profile assignment, required apps/policies, and licensing.</li>
-        <li><strong>Network Stability</strong>: for OOBE, stable connectivity matters (Ethernet preferred; avoid weak Wi‑Fi during first setup).</li>
-        <li><strong>MFA readiness</strong>: ensure the new hire can complete MFA before first sign-in to avoid dead-ends that leave the device half-enrolled.</li>
-        <li><strong>Verification</strong>: confirm device shows as enrolled, policies applied, and required apps installed.</li>
-      </ol>
-
-      <div class="callout note">
-        <strong>Field note:</strong> if a device lands in a broken “half-state,” the fastest path is often removing stale device records (where appropriate) and re-enrolling from a clean OOBE.
+    <div class="kbgrid">
+      <div class="kbcard">
+        <strong><a href="kb/endpoint.html">Endpoint runbooks*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Autopilot, Intune compliance triage, OneDrive/SharePoint sync patterns.</div>
       </div>
-
-      <div class="callout warn">
-        <strong>OOBE recovery tip:</strong> Shift+F10 can open a command prompt during setup for basic troubleshooting (connectivity, logs, etc.).
+      <div class="kbcard">
+        <strong><a href="kb/automation.html">Automation runbooks*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Onboarding/offboarding, operational tooling, service desk automation.</div>
       </div>
-    </article>
-
-    <article id="kb-intune-not-compliant" class="article">
-      <h3>Intune “Not compliant” triage (Windows / iOS / Android)</h3>
-      <p><strong>Goal:</strong> stop treating compliance like a mystery. Make it a predictable checklist.</p>
-
-      <h4>Step 1 — Verify check-in / MDM health (avoid stale inventory)</h4>
-      <ul>
-        <li>Confirm the device <strong>Last check-in</strong> is recent.</li>
-        <li>If stale: trigger a sync from Intune + from the endpoint (Windows: Access work or school → Info → Sync; Company Portal: Settings → Sync).</li>
-        <li>Re-check compliance results after the device actually re-evaluates.</li>
-      </ul>
-
-      <div class="callout note">
-        <strong>Common trap:</strong> “Not compliant” is often “policy evaluated against stale inventory.” Fix check-in health first, then remediate the specific setting.
+      <div class="kbcard">
+        <strong><a href="kb/migration.html">Migration runbooks*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Pre-seed + delta sync, hyperlink purge patterns, performance validation.</div>
       </div>
-
-      <h4>Step 2 — Identify the failing setting and remediate</h4>
-      <p>Most common remediations are straightforward:</p>
-      <ul>
-        <li><strong>Windows</strong>: BitLocker/TPM/Secure Boot, firewall, Defender, OS version/patch minimum, local admin drift.</li>
-        <li><strong>iOS/Android</strong>: OS minimum, passcode/integrity requirements, device health signals.</li>
-      </ul>
-
-      <h4>Step 3 — If Conditional Access blocks remediation</h4>
-      <ul>
-        <li>Use an <strong>emergency access (“break-glass”) account</strong> to regain admin access, fix the CA policy, then rotate and document.</li>
-      </ul>
-    </article>
-
-    <article id="kb-onedrive-autosync-shared-libs" class="article">
-      <h3>Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive)</h3>
-      <p><strong>Use case:</strong> when “sync this library” becomes a recurring support cost (ex: Accounting), auto-mount it for users who should have it.</p>
-
-      <h4>What this uses</h4>
-      <ul>
-        <li>Intune Administrative Template: <strong>Configure team site libraries to sync automatically</strong></li>
-        <li>A “library ID” string (tenant/site/web/list + webUrl) copied from the library’s Sync dialog</li>
-      </ul>
-
-      <h4>Steps</h4>
-      <ol>
-        <li><strong>Get the library ID</strong>: open the SharePoint document library → click <strong>Sync</strong> → copy the <strong>library ID</strong>.</li>
-        <li><strong>Convert Unicode → normal string</strong> (common “catch”):</li>
-      </ol>
-      <pre><code># Paste the copied library ID string between the quotes:
-[uri]::UnescapeDataString("tenantId%3d...%26siteId%3d...%26webId%3d...%26listId%3d...%26webUrl%3d...")</code></pre>
-
-      <ol start="3">
-        <li><strong>Create an Intune profile</strong>: Devices → Configuration profiles → Administrative Templates → OneDrive → set “Configure team site libraries to sync automatically” and paste the converted value.</li>
-        <li><strong>Assign it to the correct users</strong>: target the Entra group that represents “who should have this library.”</li>
-        <li><strong>Validate</strong>: add a user to the group → sign in → confirm the library appears in File Explorer under the user’s OneDrive/tenant.</li>
-      </ol>
-
-      <div class="callout warn">
-        <strong>Reality check:</strong> auto-mount isn’t instant. Documentation notes it can take hours and has practical limits (item counts and device counts). Plan around that delay instead of treating it like a failure.
+      <div class="kbcard">
+        <strong><a href="kb/cheatsheets.html">Cheat sheets*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Permissions mental models, precedence, common traps.</div>
       </div>
-
-      <h4>Scaling pattern (what I’ve done in real environments)</h4>
-      <ul>
-        <li>Use group-based access as the “source of truth” (membership = permission + auto-mount intent).</li>
-        <li>Script retrieval of the IDs (site/web/list) so you can manage many libraries consistently.</li>
-        <li>Keep a mapping table (Library → Group → ID string) so changes stay auditable and reversible.</li>
-      </ul>
-
-      <h4>References</h4>
-      <ul>
-        <li>Microsoft policy details + ID format: see SharePoint/OneDrive policy docs.</li>
-        <li>Practical implementation notes (including Unicode conversion): LetsConfigMgr write-up.</li>
-      </ul>
-    </article>
-
-    <article id="kb-oem-bloatware" class="article">
-      <h3>OEM “bloatware” cleanup baseline (HP / Lenovo patterns)</h3>
-      <p><strong>Goal:</strong> stabilize endpoints by removing non-essential OEM utilities that cause performance/driver/support issues.</p>
-      <ul>
-        <li>Inventory by model/manufacturer → allow-list vs remove-list.</li>
-        <li>Automate removals via Intune packaging (don’t do it manually).</li>
-        <li>Regression checks: drivers, VPN, Office, and “Excel-heavy” workflows after cleanup.</li>
-      </ul>
-    </article>
-  </section>
-
-  <!-- ===================== -->
-  <!-- AUTOMATION RUNBOOKS    -->
-  <!-- ===================== -->
-  <section id="automation">
-    <h2>Automation runbooks*</h2>
-    <p class="muted">Onboarding/offboarding, operational scripts, CI proof patterns.</p>
-
-    <article id="kb-onboarding-automation" class="article">
-      <h3>Onboarding automation: minimal inputs → user + access baseline</h3>
-      <ul>
-        <li>Inputs: first/last, title, office, manager.</li>
-        <li>Generate UPN/email from convention; collision checks.</li>
-        <li>Assign groups via role/region matrix (replaces “copy another user”).</li>
-        <li><strong>License rule example:</strong> assign base license (ex: E5) automatically when Office Location + Email are populated; additional group/license logic can key off those attributes.</li>
-        <li>Output: summary + logs for audit/replay.</li>
-      </ul>
-    </article>
-
-    <article id="kb-termination-automation" class="article">
-      <h3>Offboarding / termination automation: revoke access fast + preserve required data</h3>
-      <ul>
-        <li>Disable sign-in + revoke sessions.</li>
-        <li>Mailbox handling (authorized): set auto-reply that <strong>directs senders to the terminated user’s manager</strong>; delegate access where approved; capture mailbox state.</li>
-        <li>Strip groups/roles; move to terminated OU/container.</li>
-        <li>Deferred deletion with approvals for irreversible steps (ex: MFA factor clear via Graph API).</li>
-      </ul>
-    </article>
-
-    <article id="kb-mapped-drive-selfheal" class="article">
-      <h3>Mapped drive “self-heal” automation</h3>
-      <ul>
-        <li>Detect known-bad mappings; remove; clear stale creds; re-map; log.</li>
-        <li>Pair with permission audits when the root cause is ACL drift, not the mapping itself.</li>
-      </ul>
-    </article>
-
-    <article id="kb-teams-bot-triage" class="article">
-      <h3>Teams chatbot triage: “dock/home-office display broke” (driver reset)</h3>
-      <p><strong>Use case:</strong> common post-dock / post-home-office issues that should not become tickets.</p>
-      <ul>
-        <li>Gather quick diagnostics (GPU/driver versions, known device IDs, recent changes).</li>
-        <li>Automate remove/reinstall for known-problem drivers (with a safe rollback path).</li>
-        <li>Escalate only if the scripted fix doesn’t resolve.</li>
-      </ul>
-    </article>
-
-    <article id="kb-ci-github-actions" class="article">
-      <h3>CI runbook: GitHub Actions (HelloBuild)</h3>
-      <ul>
-        <li>restore → build → test → package → upload artifact</li>
-        <li>Proof-first: visible run + reproducible artifact</li>
-      </ul>
-    </article>
-
-    <article id="kb-ci-jenkins-win-agent" class="article">
-      <h3>CI runbook: Jenkins (Docker controller) + Windows inbound agent</h3>
-      <p><strong>What this proves:</strong> real Windows execution + agent-based CI + repeatable build.</p>
-
-      <h4>Reality check</h4>
-      <div class="callout warn">
-        If your Jenkinsfile calls <code>pwsh</code> / <code>powershell</code> / <code>dotnet</code> / <code>git</code>, those executables must exist on the Windows agent. “Build failed” is often “tool not installed on the executor.”
+      <div class="kbcard">
+        <strong><a href="kb/ci.html">CI runbook*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">How the HelloBuild CI proof is produced (GitHub Actions + Jenkins).</div>
       </div>
+    </div>
 
-      <h4>Branch gotcha</h4>
-      <div class="callout note">
-        Many Jenkins jobs default to <code>master</code>. If your repo uses <code>main</code>, set the branch explicitly or you’ll run the wrong code while thinking it worked.
+    <h2 style="margin:1.1rem 0 .35rem;">Evidence archive</h2>
+    <div class="kbgrid">
+      <div class="kbcard">
+        <strong><a href="evidence/scripts.html">Project scripts archive*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Sanitized scripts from prior projects.</div>
       </div>
-    </article>
-  </section>
-
-  <!-- ===================== -->
-  <!-- MIGRATION RUNBOOKS     -->
-  <!-- ===================== -->
-  <section id="migration">
-    <h2>Migration runbooks*</h2>
-    <p class="muted">Pre-seeding + delta sync, audit-friendly cutovers, link remediation, and performance validation.</p>
-
-    <article id="kb-migration-preseed" class="article">
-      <h3>Pre-seed + delta sync strategy (minimize cutover window)</h3>
-      <ol>
-        <li><strong>Inventory + partition</strong>: active vs archive; identify high-change datasets and high-risk file types (Excel link forests).</li>
-        <li><strong>Pre-seed</strong>: copy bulk early (Migration Manager / SPMT / Robocopy depending on target).</li>
-        <li><strong>Delta runs</strong>: re-run sync periodically to capture changes leading up to cutover.</li>
-        <li><strong>Cutover</strong>: freeze writes, final delta, flip access paths, validate workflows.</li>
-        <li><strong>Audit</strong>: counts, spot-check critical files, confirm permissions.</li>
-      </ol>
-
-      <div class="callout warn">
-        <strong>Performance warning:</strong> always pilot with the heaviest read/write teams and monitor real workflows. Region distance + churn can tank perceived performance even when assessments look fine.
+      <div class="kbcard">
+        <strong><a href="evidence/documentation.html">Project documentation archive*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Sanitized runbooks/docs/decision logs.</div>
       </div>
-    </article>
-
-    <article id="kb-excel-hyperlink-remediation" class="article">
-      <h3>Excel hyperlink remediation after migration (bulk)</h3>
-      <ul>
-        <li>Run on <strong>copies</strong> for dev/testing; don’t experiment on live data.</li>
-        <li>Parameterize <strong>old path → new path</strong>; target only what needs changing.</li>
-        <li>Unhide sheets to reach links; re-hide afterward.</li>
-        <li>Preserve timestamps when required for audit/expectations.</li>
-        <li>Log everything: changed/failed/skipped + why.</li>
-        <li>Validate on a representative subset first, then scale.</li>
-      </ul>
-    </article>
-  </section>
-
-  <!-- ===================== -->
-  <!-- CHEAT SHEETS + DIAGRAMS -->
-  <!-- ===================== -->
-  <section id="cheatsheet">
-    <h2>Cheat sheets*</h2>
-    <p class="muted">Fast mental models: permissions, precedence, common traps, diagrams.</p>
-
-    <article id="kb-permissions-precedence" class="article">
-      <h3>Permissions mental model: RBAC vs sharing vs NTFS (where people get burned)</h3>
-      <ul>
-        <li><strong>RBAC</strong> controls what admins can do in the platform.</li>
-        <li><strong>Sharing</strong> controls what a user can access for a specific resource (and can create sprawl if unmanaged).</li>
-        <li><strong>NTFS / ACL inheritance</strong> is where deep nesting and exceptions create the hardest-to-debug behavior.</li>
-      </ul>
-      <div class="callout warn">
-        Common failure pattern: deep nesting + ad-hoc exceptions + “deny” entries = eventual access mystery. The fix is usually simplification, not another exception.
-      </div>
-    </article>
-
-    <article id="kb-diagrams" class="article">
-      <h3>Diagrams (makeshift, but useful)</h3>
-
-      <h4>Razzberry — high-level flow (placeholder)</h4>
-      <pre><code>[User Device]
-   |
-   | HTTPS
-   v
-[Vercel: Web Frontend]
-   |
-   | API calls (JWT bearer)
-   v
-[Railway: API Service]
-   |            \
-   |             \--> [Upstash Redis]  (sessions/cache/queues)
-   |
-   +--> [Supabase Postgres] (primary data)
-   |
-   +--> [Auth/JWT issuance]
-   |
-   +--> emits events
-          |
-          v
-   [Worker(s)]
-      - AI Wingman jobs
-      - message/call/post processing
-      - notifications/webhooks</code></pre>
-
-      <h4>DFS/SMB caching vs SharePoint/OneDrive sync — mental model</h4>
-      <pre><code>DFS / SMB (Branch office emphasis)
---------------------------------
-[Client] -> [Local LAN File Server Cache] -> [DFS Namespace] -> [Central File Servers]
-   | offline ok | faster reads | (but higher conflict risk if caching/replication is messy)
-
-SharePoint + OneDrive (Cloud sync emphasis)
-------------------------------------------
-[Client OneDrive Sync] <-> [M365 Cloud Storage (SharePoint/OD)]
-   | local sync cache                 | authoritative versioning/sharing model</code></pre>
-
-      <h4>Onboarding lead-time flow (Workday insight)</h4>
-      <pre><code>[HR captures data in Workday]
-        |
-        | (automation trigger at threshold)
-        v
-[IT receives early signal]
-        |
-        | user/group/license automation + device prep
-        v
-[Day 1: user signs in] -> [apps + policies already in place]</code></pre>
-    </article>
+    </div>
   </section>
 
   <footer>
-    <div>Back to <a href="index.html">portfolio home</a>.</div>
-    <div class="muted" style="margin-top:.35rem;">These notes are intentionally practical: repeatable steps, checks, and failure recovery patterns.</div>
+    <div class="muted">Tip: keep notes practical: steps, validation, failure modes, recovery.</div>
   </footer>
 </main>
 </body>

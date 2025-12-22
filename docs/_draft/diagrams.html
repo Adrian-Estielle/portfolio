@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>DRAFT Diagrams (hidden)</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a></div>
+    <h1>DRAFT diagrams (hidden)</h1>
+    <p class="muted">This page is intentionally not linked yet. It’s a scratchpad for future diagrams.</p>
+    <div class="callout warn"><strong>Not published as a “front page” artifact.</strong> Keep iterating until it’s worth showing.</div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Razzberry (placeholder flow)</h2>
+    <pre><code>[User Device]
+   |
+   | HTTPS
+   v
+[Vercel: Web Frontend]
+   |
+   | API calls (JWT bearer)
+   v
+[Railway: API Service]
+   |            \
+   |             \--> [Upstash Redis]  (sessions/cache/queues)
+   |
+   +--> [Supabase Postgres] (primary data)
+   |
+   +--> emits events
+          |
+          v
+   [Worker(s)]
+      - AI Wingman jobs
+      - message/call/post processing
+      - notifications/webhooks</code></pre>
+  </section>
+</main>
+</body>
+</html>
