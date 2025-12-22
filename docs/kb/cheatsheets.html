@@ -53,6 +53,35 @@
   <footer>
     <div>Back to <a href="../notes.html">Field Notes hub</a>.</div>
   </footer>
+<!-- PERMS_ADDON_V1 -->
+<article class="article" id="kb-smb-share-ntfs">
+  <h3>SMB file shares: Share vs NTFS (what I learned the hard way)</h3>
+
+  <p><strong>Key rule:</strong> when accessing a file share over the network (<code>\\server\share</code>),
+  <strong>Share permissions AND NTFS permissions both apply</strong>. Effective access is the <strong>intersection</strong>
+  (the most restrictive combination wins).</p>
+
+  <ul>
+    <li><strong>Share permissions do not override NTFS.</strong> They can only further restrict what NTFS allows.</li>
+    <li><strong>NTFS does not override Share.</strong> If the share is restrictive, NTFS “extra rights” don’t matter over SMB.</li>
+    <li><strong>Deny in either layer wins</strong> (and is the source of many “mystery access” issues).</li>
+  </ul>
+
+  <div class="callout note">
+    <strong>Important nuance:</strong> Share permissions only apply to <em>network access</em>. If you’re on the server locally,
+    Share permissions aren’t part of the equation — it’s NTFS only. That distinction matters when troubleshooting.
+  </div>
+
+  <div class="callout note">
+    <strong>Operational simplification (common best practice):</strong>
+    keep Share permissions broad (to reduce two-layer permission math) and enforce least privilege with NTFS + group-based access.
+  </div>
+
+  <div class="callout warn">
+    <strong>Debug approach:</strong> don’t guess. Validate with real user context and token membership (nested groups),
+    and be careful with deep inheritance breaks and ad-hoc exceptions.
+  </div>
+</article>
 </main>
 </body>
 </html>
