@@ -7,68 +7,53 @@
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;color:#111;background:#fff;}
     header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
-    header{padding:2.2rem 0 1.1rem;}
+    header{padding:2rem 0 1rem;}
     a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
     .muted{color:#555}
-    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:1rem 0;background:#fff}
-    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.85rem 0}
-    h1{margin:.1rem 0 .2rem;font-size:2rem}
-    h2{margin:.2rem 0 .55rem;font-size:1.35rem}
+    h1{margin:.15rem 0 .25rem;font-size:2rem}
+    h2{margin:1.35rem 0 .55rem;font-size:1.35rem}
+    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
+    footer{padding:2rem 0 3rem}
   </style>
 </head>
 <body>
 <header>
   <a href="index.html">← portfolio home</a>
-  <h1>Field Notes / KB*</h1>
-  <div class="muted">Runbooks and scenario notes (sanitized). Organized as separate pages for clarity.</div>
-  <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
+  <h1>Field Notes / KB</h1>
+  <div class="muted">Runbooks and scenario notes (sanitized). Structure: separate pages per runbook, grouped here by category.</div>
+  <div class="callout"><strong>* Under active development:</strong> content is being expanded with sanitized artifacts, log excerpts, and script snippets.</div>
 </header>
+
 <main>
-<section class="card">
-  <h2>Endpoint runbooks*</h2>
-  <ul>
-<li><a href="kb/endpoint_autopilot_offline_unmanaged_recovery.html">Autopilot recovery: offline/unmanaged outcome</a></li>
-<li><a href="kb/endpoint_autopilot.html">Windows Autopilot enrollment + recovery checklist</a></li>
-<li><a href="kb/endpoint_intune_compliance.html">Intune</a></li>
-<li><a href="kb/endpoint_onedrive_autosync.html">Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive)</a></li>
-  </ul>
-</section><section class="card">
-  <h2>Automation runbooks*</h2>
-  <ul>
-<li><a href="kb/automation_offboarding.html">Offboarding / termination automation</a></li>
-<li><a href="kb/automation_onboarding.html">Onboarding automation (role/region matrix + licensing rules)</a></li>
-<li><a href="kb/automation_teams_chatbot_triage.html">Teams chatbot triage (driver reset + auto ticket documentation)</a></li>
-  </ul>
-</section><section class="card">
-  <h2>Migration runbooks*</h2>
-  <ul>
-<li><a href="kb/migration_excel_hyperlink_prep.html">Excel hyperlink remediation (pre-migration, bulk)</a></li>
-<li><a href="kb/migration_google_to_m365.html">Google Workspace → Microsoft 365 migration (high-level)</a></li>
-<li><a href="kb/migration_permissions_mapping.html">Export on-prem permissions → recreate cleanly in Microsoft 365</a></li>
-<li><a href="kb/migration_robocopy.html">Robocopy pre-seed + delta sync (and log review)</a></li>
-<li><a href="kb/migration_sources_dropbox_box_citrix.html">Dropbox / Box / Citrix-style sources — migration notes</a></li>
-<li><a href="kb/migration_spmt_migration_manager.html">SPMT + Migration Manager (agents, templates, logs)</a></li>
-<li><a href="kb/migration_tenant_to_tenant.html">Microsoft 365 tenant-to-tenant migration (high-level runbook)</a></li>
-<li><a href="kb/migration_wave_strategy.html">Wave strategy + performance validation (avoid migration rework)</a></li>
-  </ul>
-</section><section class="card">
-  <h2>Cheat sheets*</h2>
-  <ul>
-<li><a href="kb/cheatsheet_permissions_precedence.html">Permissions precedence cheat sheet</a></li>
-  </ul>
-</section><section class="card">
-  <h2>Other</h2>
-  <ul>
-<li><a href="kb/automation.html">Automation runbooks - Field Notes</a></li>
-<li><a href="kb/cheatsheets.html">Cheat sheets - Field Notes</a></li>
-<li><a href="kb/ci.html">CI runbook - Field Notes</a></li>
-<li><a href="kb/endpoint.html">Endpoint runbooks - Field Notes</a></li>
-<li><a href="kb/migration.html">Migration runbooks - Field Notes</a></li>
-  </ul>
-</section>
-<footer style="padding:2rem 0 3rem;">
-  <div class="muted">Tip: KB pages live in <code>docs/kb/</code>. Name files with prefixes like <code>endpoint_*</code>, <code>migration_*</code>, etc. to auto-sort.</div>
-</footer>
+  <section class="card">
+    <h2>Endpoint runbooks*</h2>
+    <ul><li><a href="kb/endpoint_autopilot_offline_unmanaged_recovery.html">Autopilot recovery: offline/unmanaged outcome</a></li><li><a href="kb/endpoint_autopilot.html">Windows Autopilot enrollment + recovery checklist</a></li><li><a href="kb/endpoint_intune_compliance.html">Intune</a></li><li><a href="kb/endpoint_onedrive_autosync.html">Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive)</a></li></ul>
+  </section>
+
+  <section class="card">
+    <h2>Automation runbooks*</h2>
+    <ul><li><a href="kb/automation_ad_replication_preflight.html">Active Directory replication preflight (for provisioning projects)</a> <span class="muted">— Practical checks before HR-driven identity provisioning: repadmin/dcdiag + what failures look like.</span></li><li><a href="kb/automation_offboarding.html">Offboarding / termination automation</a></li><li><a href="kb/automation_onboarding.html">Onboarding automation (role/region matrix + licensing rules)</a></li><li><a href="kb/automation_teams_chatbot_triage.html">Teams chatbot triage (driver reset + auto ticket documentation)</a></li><li><a href="kb/automation_workday_to_active_directory_provisioning.html">Workday → Active Directory inbound provisioning (runbook)</a> <span class="muted">— Hybrid runbook: Workday ISU/domains → Entra provisioning app → install on-prem agent → OU scoping → on-demand tests → portal + agent logs.</span></li><li><a href="kb/automation_workday_to_entra_id_provisioning.html">Workday → Microsoft Entra ID inbound provisioning (runbook)</a> <span class="muted">— Click-by-click runbook: Workday ISU + domains → Entra Enterprise App → mappings/scope → on-demand tests → logs.</span></li><li><a href="kb/automation_workday_writeback.html">Workday writeback (runbook notes)</a> <span class="muted">— Optional phase 2: write select identity attributes back into Workday. High value when controlled, high risk when sloppy.</span></li></ul>
+  </section>
+
+  <section class="card">
+    <h2>Migration runbooks*</h2>
+    <ul><li><a href="kb/migration_excel_hyperlink_prep.html">Excel hyperlink remediation (pre-migration, bulk)</a></li><li><a href="kb/migration_google_to_m365.html">Google Workspace → Microsoft 365 migration (high-level)</a></li><li><a href="kb/migration_permissions_mapping.html">Export on-prem permissions → recreate cleanly in Microsoft 365</a></li><li><a href="kb/migration_robocopy.html">Robocopy pre-seed + delta sync (and log review)</a></li><li><a href="kb/migration_sources_dropbox_box_citrix.html">Dropbox / Box / Citrix-style sources — migration notes</a></li><li><a href="kb/migration_spmt_migration_manager.html">SPMT + Migration Manager (agents, templates, logs)</a></li><li><a href="kb/migration_tenant_to_tenant.html">Microsoft 365 tenant-to-tenant migration (high-level runbook)</a></li><li><a href="kb/migration_wave_strategy.html">Wave strategy + performance validation (avoid migration rework)</a></li></ul>
+  </section>
+
+  <section class="card">
+    <h2>Cheat sheets*</h2>
+    <ul><li><a href="kb/cheatsheet_permissions_precedence.html">Permissions precedence cheat sheet</a></li><li><a href="kb/cheatsheet_workday_xpath.html">Workday XPath cheat sheet (for Entra provisioning mappings)</a> <span class="muted">— Why XPath shows up in Workday provisioning, what breaks when API versions change, and how to fix safely.</span></li></ul>
+  </section>
+
+  <section class="card">
+    <h2>Other</h2>
+    <ul><li><a href="kb/automation.html">Automation runbooks*</a></li><li><a href="kb/cheatsheets.html">Cheat sheets*</a></li><li><a href="kb/ci.html">CI runbook*</a></li><li><a href="kb/endpoint.html">Endpoint runbooks*</a></li><li><a href="kb/migration.html">Migration runbooks*</a></li></ul>
+  </section>
+
+  <footer class="muted">
+    <div>Tip: new pages drop into <code>docs/kb/</code>. Prefix filenames with <code>endpoint_</code>, <code>automation_</code>, <code>migration_</code>, or <code>cheatsheet_</code> to auto-group.</div>
+  </footer>
 </main>
 </body>
 </html>

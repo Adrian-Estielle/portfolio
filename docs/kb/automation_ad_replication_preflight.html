@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Active Directory replication preflight (for provisioning projects)</title>
+  <meta name="description" content="Practical checks before HR-driven identity provisioning: repadmin/dcdiag + what failures look like."/>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.55;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2rem 0 1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .nav{margin-top:.7rem}
+    .nav a{margin-right:.75rem}
+    h1{margin:.15rem 0 .25rem;font-size:2rem}
+    h2{margin:1.35rem 0 .55rem;font-size:1.35rem}
+    h3{margin:1.05rem 0 .45rem;font-size:1.1rem}
+    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
+    .callout.warn{border-left-color:#b91c1c;background:#fef2f2}
+    .callout.note{border-left-color:#0f766e;background:#ecfdf5}
+    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.95em}
+    ul,ol{padding-left:1.25rem}
+    .k{display:inline-block;padding:.15rem .5rem;border:1px solid #e8e8e8;border-radius:999px;color:#444;margin-right:.35rem;font-size:.9rem}
+    footer{padding:2rem 0 3rem}
+    .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}
+    .small{font-size:.95em}
+  </style>
+</head>
+<body>
+<header>
+  <a href="../index.html">← portfolio home</a>
+  <div class="nav">
+    <a href="../notes.html">Field Notes / KB hub</a>
+  </div>
+  <h1>Active Directory replication preflight (for provisioning projects)</h1>
+  <div class="muted">Practical checks before HR-driven identity provisioning: repadmin/dcdiag + what failures look like.</div>
+  <div class="callout"><strong>* Under active development:</strong> this runbook is being expanded with sanitized artifacts, log excerpts, and script snippets.</div>
+</header>
+<main>
+<section class="card">
+  <h2>Why this matters (provisioning + replication = “ghost” symptoms)</h2>
+  <p>If you provision users into AD but DC replication is unhealthy, you get symptoms that look like connector instability:</p>
+  <ul>
+    <li>User exists on one DC but not another</li>
+    <li>Group membership differs by DC</li>
+    <li>Password/auth differs depending on which DC answers</li>
+  </ul>
+  <div class="callout warn">
+    Operational rule: if replication health is red, provisioning rollout pauses. Fix AD first.
+  </div>
+</section>
+
+<section class="card">
+  <h2>Fast checks (run as admin)</h2>
+  <h3>1) Replication summary</h3>
+  <pre><code>repadmin /replsummary</code></pre>
+
+  <h3>2) Show per-DC inbound replication status</h3>
+  <pre><code>repadmin /showrepl *</code></pre>
+
+  <h3>3) Domain controller diagnostics (forest-wide)</h3>
+  <pre><code>dcdiag /e /c /v</code></pre>
+
+  <div class="callout note">
+    I run these before and after large identity changes. If results drift, I fix replication before chasing provisioning logs.
+  </div>
+</section>
+
+<section class="card">
+  <h2>Common root causes</h2>
+  <ul>
+    <li>DNS misconfiguration (especially after DC rebuilds/replacements)</li>
+    <li>Time skew / NTP issues</li>
+    <li>Site link schedules not matching real network topology</li>
+    <li>Firewall rules between sites/DCs blocking replication traffic</li>
+  </ul>
+</section>
+<footer class="muted">
+  <div>Back to <a href="../notes.html">Field Notes / KB</a>.</div>
+</footer>
+</main>
+</body>
+</html>

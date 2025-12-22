@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Workday writeback (runbook notes)</title>
+  <meta name="description" content="Optional phase 2: write select identity attributes back into Workday. High value when controlled, high risk when sloppy."/>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.55;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2rem 0 1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .nav{margin-top:.7rem}
+    .nav a{margin-right:.75rem}
+    h1{margin:.15rem 0 .25rem;font-size:2rem}
+    h2{margin:1.35rem 0 .55rem;font-size:1.35rem}
+    h3{margin:1.05rem 0 .45rem;font-size:1.1rem}
+    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
+    .callout.warn{border-left-color:#b91c1c;background:#fef2f2}
+    .callout.note{border-left-color:#0f766e;background:#ecfdf5}
+    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.95em}
+    ul,ol{padding-left:1.25rem}
+    .k{display:inline-block;padding:.15rem .5rem;border:1px solid #e8e8e8;border-radius:999px;color:#444;margin-right:.35rem;font-size:.9rem}
+    footer{padding:2rem 0 3rem}
+    .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}
+    .small{font-size:.95em}
+  </style>
+</head>
+<body>
+<header>
+  <a href="../index.html">← portfolio home</a>
+  <div class="nav">
+    <a href="../notes.html">Field Notes / KB hub</a>
+  </div>
+  <h1>Workday writeback (runbook notes)</h1>
+  <div class="muted">Optional phase 2: write select identity attributes back into Workday. High value when controlled, high risk when sloppy.</div>
+  <div class="callout"><strong>* Under active development:</strong> this runbook is being expanded with sanitized artifacts, log excerpts, and script snippets.</div>
+</header>
+<main>
+<section class="card">
+  <h2>What writeback is</h2>
+  <p>
+    Writeback pushes selected identity attributes <strong>back into Workday</strong>. It’s operationally valuable, but it’s a higher-risk change than inbound provisioning
+    because you’re writing into HR data paths.
+  </p>
+  <div class="callout warn">
+    Stabilize inbound provisioning first. Writeback is phase 2, with tight scope + change control + rollback plan.
+  </div>
+</section>
+
+<section class="card">
+  <h2>When I use it</h2>
+  <ul>
+    <li>Workday needs to store identity attributes that are standardized downstream (email/UPN).</li>
+    <li>You need closed-loop processes (HR ↔ Identity), with auditability and ownership.</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Safe rollout pattern</h2>
+  <ol>
+    <li>Implement inbound provisioning (Workday → Entra/AD) and prove it’s stable.</li>
+    <li>Define exactly which attributes are written back, and who owns them.</li>
+    <li>Pilot writeback on a tiny population.</li>
+    <li>Validate in Workday and in Entra provisioning logs.</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h2>References</h2>
+  <ul class="small">
+    <li><a href="https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-writeback-tutorial">Microsoft Learn: Workday writeback tutorial</a></li>
+  </ul>
+</section>
+<footer class="muted">
+  <div>Back to <a href="../notes.html">Field Notes / KB</a>.</div>
+</footer>
+</main>
+</body>
+</html>
