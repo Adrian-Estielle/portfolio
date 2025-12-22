@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive)</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2rem 0 1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .nav{margin-top:.6rem}
+    .nav a{margin-right:.8rem}
+    section{margin:1.25rem 0}
+    h1{margin:.15rem 0 .15rem;font-size:1.8rem}
+    h2{margin:1.1rem 0 .45rem;font-size:1.25rem}
+    h3{margin:1rem 0 .35rem;font-size:1.1rem}
+    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
+    .warn{border-left-color:#b91c1c;background:#fef2f2}
+    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    footer{padding:2rem 0 3rem}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a href="../index.html">← home</a>
+    <a href="../notes.html">Field Notes / KB</a>
+  </div>
+  <h1>Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive)</h1>
+  <div class="muted">Group-targeted library auto-mount to reduce repeat tickets and eliminate manual sync steps.</div>
+  <div class="callout"><strong>Sanitized note:</strong> repeatable runbook format. No tenant IDs, secrets, internal hostnames, customer identifiers.</div>
+</header>
+<main>
+  <section class="card">
+  <h2>Use case</h2>
+  <p>When “sync this SharePoint library” becomes recurring support cost (especially for a heavy-use department), you can auto-mount it via Intune + OneDrive policy.</p>
+</section>
+
+<section class="card">
+  <h2>The part guides gloss over</h2>
+  <ul>
+    <li>The library string you copy is often URL-encoded.</li>
+    <li>Convert it before deploying in policy.</li>
+  </ul>
+  <pre><code>[uri]::UnescapeDataString("tenantId%3d...%26siteId%3d...%26webId%3d...%26listId%3d...%26webUrl%3d...")</code></pre>
+</section>
+
+<section class="card">
+  <h2>Scaling pattern</h2>
+  <ul>
+    <li>Use group membership as the source of truth: membership = permission + auto-mount intent.</li>
+    <li>Keep a mapping table: Library → Group → ID string → owner.</li>
+    <li>Script retrieval of site/list identifiers when managing many libraries.</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Validation</h2>
+  <ol>
+    <li>Add a test user to the group.</li>
+    <li>Sign in and confirm OneDrive is running.</li>
+    <li>Confirm the library mounts in File Explorer and points to the correct site/library.</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h2>Reference</h2>
+  <ul>
+    <li><a href="https://letsconfigmgr.com/mem-automatic-syncing-of-onedrive-shared-libs-via-intune/">LetsConfigMgr: auto-sync shared libs via Intune</a></li>
+  </ul>
+</section>
+</main>
+<footer>
+  <main>
+    <div class="muted">Back to <a href="../notes.html">Field Notes / KB</a>.</div>
+  </main>
+</footer>
+</body>
+</html>

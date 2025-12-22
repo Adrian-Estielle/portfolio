@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Offboarding / termination automation</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2rem 0 1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .nav{margin-top:.6rem}
+    .nav a{margin-right:.8rem}
+    section{margin:1.25rem 0}
+    h1{margin:.15rem 0 .15rem;font-size:1.8rem}
+    h2{margin:1.1rem 0 .45rem;font-size:1.25rem}
+    h3{margin:1rem 0 .35rem;font-size:1.1rem}
+    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
+    .warn{border-left-color:#b91c1c;background:#fef2f2}
+    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    footer{padding:2rem 0 3rem}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a href="../index.html">← home</a>
+    <a href="../notes.html">Field Notes / KB</a>
+  </div>
+  <h1>Offboarding / termination automation</h1>
+  <div class="muted">Fast revoke + approved preservation (manager redirect, delegation) + deferred deletion with approval gates.</div>
+  <div class="callout"><strong>Sanitized note:</strong> repeatable runbook format. No tenant IDs, secrets, internal hostnames, customer identifiers.</div>
+</header>
+<main>
+  <section class="card">
+  <h2>Goal</h2>
+  <p>Fast access revocation with approved preservation steps (mailbox retention/delegation) and controlled irreversible actions.</p>
+</section>
+
+<section class="card">
+  <h2>Termination flow (sanitized)</h2>
+  <ol>
+    <li>Disable sign-in + revoke sessions.</li>
+    <li>Mailbox handling (authorized): auto-reply directs senders to the terminated user’s manager; delegation/access only where approved; capture mailbox state.</li>
+    <li>Strip groups/roles; move user to terminated OU/container.</li>
+    <li>Timer-based cleanup: after N days, delete user (with approvals for destructive steps).</li>
+    <li>Optional: Graph API cleanup for MFA factors (approval gated).</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h2>Why approvals matter</h2>
+  <div class="callout warn">
+    Clearing MFA factors / deleting accounts is irreversible. Gate it behind explicit approval and log the action.
+  </div>
+</section>
+</main>
+<footer>
+  <main>
+    <div class="muted">Back to <a href="../notes.html">Field Notes / KB</a>.</div>
+  </main>
+</footer>
+</body>
+</html>

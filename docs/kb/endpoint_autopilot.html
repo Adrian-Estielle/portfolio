@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Windows Autopilot enrollment + recovery checklist</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2rem 0 1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .nav{margin-top:.6rem}
+    .nav a{margin-right:.8rem}
+    section{margin:1.25rem 0}
+    h1{margin:.15rem 0 .15rem;font-size:1.8rem}
+    h2{margin:1.1rem 0 .45rem;font-size:1.25rem}
+    h3{margin:1rem 0 .35rem;font-size:1.1rem}
+    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
+    .warn{border-left-color:#b91c1c;background:#fef2f2}
+    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    footer{padding:2rem 0 3rem}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a href="../index.html">← home</a>
+    <a href="../notes.html">Field Notes / KB</a>
+  </div>
+  <h1>Windows Autopilot enrollment + recovery checklist</h1>
+  <div class="muted">Operational checklist + recovery patterns for Autopilot enrollment failures and half-enrolled states.</div>
+  <div class="callout"><strong>Sanitized note:</strong> repeatable runbook format. No tenant IDs, secrets, internal hostnames, customer identifiers.</div>
+</header>
+<main>
+  <section class="card">
+  <h2>Why this exists</h2>
+  <p>Autopilot succeeds when enrollment is predictable and recoverable. This runbook focuses on pre-req validation, stability during OOBE, and fast recovery from half-enrolled states.</p>
+</section>
+
+<section class="card">
+  <h2>Enrollment checklist</h2>
+  <ol>
+    <li><strong>Assignment sanity:</strong> confirm device is targeted to the correct Autopilot profile + required apps/policies.</li>
+    <li><strong>Network stability:</strong> OOBE is sensitive to flaky Wi‑Fi. Prefer Ethernet during initial setup when possible.</li>
+    <li><strong>MFA readiness:</strong> ensure the user can complete MFA on first sign-in (avoid “stuck in limbo” scenarios).</li>
+    <li><strong>Validate:</strong> confirm enrollment completes, required apps install, and policies show as applied.</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h2>Recovery (half-enrolled / weird state)</h2>
+  <ul>
+    <li>Remove stale device objects where appropriate (Intune/Entra) so you don’t keep re-applying policy to a broken record.</li>
+    <li>Wipe and re-enroll cleanly when the state is unrecoverable.</li>
+  </ul>
+  <div class="callout warn">
+    If someone tried to sign in before MFA was ready, you can end up with a partial state that isn’t reliably monitored. Recovery is usually “clean up records → re-enroll clean.”
+  </div>
+</section>
+
+<section class="card">
+  <h2>OOBE troubleshooting</h2>
+  <ul>
+    <li><strong>Shift+F10</strong> can open a command prompt during OOBE (useful for quick checks like connectivity and logs).</li>
+    <li>Don’t walk around on weak Wi‑Fi during enrollment; lost connectivity can break the flow.</li>
+  </ul>
+</section>
+</main>
+<footer>
+  <main>
+    <div class="muted">Back to <a href="../notes.html">Field Notes / KB</a>.</div>
+  </main>
+</footer>
+</body>
+</html>

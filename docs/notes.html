@@ -3,68 +3,83 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Field Notes / KB - Hub</title>
-  <link rel="stylesheet" href="site.css"/>
+  <title>Field Notes / KB - Adrian Estielle</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2.2rem 0 1.1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1rem 0 1.25rem}
+    .card{border:1px solid #e8e8e8;border-radius:16px;padding:1rem 1.1rem;background:#fff}
+    ul{margin:.5rem 0 .2rem}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:1rem 0}
+    footer{padding:2rem 0 3rem}
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="container">
-    <div class="crumbs"><a href="index.html">← portfolio home</a></div>
-    <h1>Field Notes / KB*</h1>
-    <p class="muted">Sanitized runbooks and scenario notes — focused on repeatable steps, troubleshooting, and real operational edge cases.</p>
-    <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
-  </div>
+<header>
+  <a href="index.html">← portfolio home</a>
+  <h1 style="margin:.2rem 0 .25rem;">Field Notes / KB*</h1>
+  <div class="muted">Runbooks + scenario notes (sanitized). Format: <strong>why → steps → validation → failure modes</strong>.</div>
+
+  <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
 </header>
 
-<main class="container">
-  <!-- Back-compat anchors (so old links like notes.html#endpoint still land somewhere) -->
-  <div id="endpoint"></div>
-  <div id="automation"></div>
-  <div id="migration"></div>
-  <div id="cheatsheet"></div>
-
-  <section class="kbhub">
-    <h2 style="margin:.2rem 0 .35rem;">Runbook categories</h2>
-
-    <div class="kbgrid">
-      <div class="kbcard">
-        <strong><a href="kb/endpoint.html">Endpoint runbooks*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Autopilot, Intune compliance triage, OneDrive/SharePoint sync patterns.</div>
-      </div>
-      <div class="kbcard">
-        <strong><a href="kb/automation.html">Automation runbooks*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Onboarding/offboarding, operational tooling, service desk automation.</div>
-      </div>
-      <div class="kbcard">
-        <strong><a href="kb/migration.html">Migration runbooks*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Pre-seed + delta sync, hyperlink purge patterns, performance validation.</div>
-      </div>
-      <div class="kbcard">
-        <strong><a href="kb/cheatsheets.html">Cheat sheets*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Permissions mental models, precedence, common traps.</div>
-      </div>
-      <div class="kbcard">
-        <strong><a href="kb/ci.html">CI runbook*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">How the HelloBuild CI proof is produced (GitHub Actions + Jenkins).</div>
-      </div>
+<main>
+  <div class="grid">
+    <div class="card">
+      <h2 style="margin:.2rem 0 .4rem;">Endpoint runbooks*</h2>
+      <div class="muted">Autopilot, Intune compliance, OneDrive/SharePoint sync patterns.</div>
+      <ul>
+        <li><a href="kb/endpoint_autopilot.html">Autopilot enrollment + recovery checklist</a></li>
+        <li><a href="kb/endpoint_intune_compliance.html">Intune “Not compliant” triage (check-in → fix → verify)</a></li>
+        <li><a href="kb/endpoint_onedrive_autosync.html">Auto-sync SharePoint libraries to File Explorer (Intune)</a></li>
+      </ul>
     </div>
 
-    <h2 style="margin:1.1rem 0 .35rem;">Evidence archive</h2>
-    <div class="kbgrid">
-      <div class="kbcard">
-        <strong><a href="evidence/scripts.html">Project scripts archive*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Sanitized scripts from prior projects.</div>
-      </div>
-      <div class="kbcard">
-        <strong><a href="evidence/documentation.html">Project documentation archive*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Sanitized runbooks/docs/decision logs.</div>
-      </div>
+    <div class="card">
+      <h2 style="margin:.2rem 0 .4rem;">Automation runbooks*</h2>
+      <div class="muted">Onboarding/offboarding automation, operational scripts, ticket-reduction patterns.</div>
+      <ul>
+        <li><a href="kb/automation_onboarding.html">Onboarding automation (matrix + licensing rules)</a></li>
+        <li><a href="kb/automation_offboarding.html">Offboarding/termination automation</a></li>
+        <li><a href="kb/automation_teams_chatbot_triage.html">Teams chatbot triage (driver reset + auto ticket doc)</a></li>
+      </ul>
     </div>
-  </section>
 
-  <footer>
-    <div class="muted">Tip: keep notes practical: steps, validation, failure modes, recovery.</div>
-  </footer>
+    <div class="card">
+      <h2 style="margin:.2rem 0 .4rem;">Migration runbooks*</h2>
+      <div class="muted">Waves, tools, logs, permissions mapping, performance validation.</div>
+      <ul>
+        <li><a href="kb/migration_wave_strategy.html">Wave strategy + performance validation</a></li>
+        <li><a href="kb/migration_robocopy.html">Robocopy pre-seed/delta + log review</a></li>
+        <li><a href="kb/migration_spmt_migration_manager.html">SPMT + Migration Manager (agents, templates, logs)</a></li>
+        <li><a href="kb/migration_sources_dropbox_box_citrix.html">Dropbox / Box / Citrix-style sources notes</a></li>
+        <li><a href="kb/migration_permissions_mapping.html">Export on-prem permissions → recreate in M365</a></li>
+        <li><a href="kb/migration_excel_hyperlink_prep.html">Excel hyperlink remediation (pre-migration)</a></li>
+        <li><a href="kb/migration_google_to_m365.html">Google → Microsoft 365 migration (high-level)</a></li>
+        <li><a href="kb/migration_tenant_to_tenant.html">Tenant-to-tenant migration (high-level)</a></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:.2rem 0 .4rem;">Cheat sheets*</h2>
+      <div class="muted">Permissions precedence and common traps.</div>
+      <ul>
+        <li><a href="kb/cheatsheet_permissions_precedence.html">RBAC vs sharing vs NTFS/share precedence</a></li>
+      </ul>
+      <div class="muted" style="margin-top:.6rem;">(Draft diagrams are hidden for now.)</div>
+    </div>
+  </div>
+
+  <div class="muted">Supporting evidence lives in <a href="archives.html">Archives</a> (sanitized scripts/logs/templates).</div>
 </main>
+
+<footer>
+  <main>
+    <div class="muted">These notes are intentionally practical: repeatable steps, checks, logs, and recovery patterns.</div>
+  </main>
+</footer>
 </body>
 </html>
