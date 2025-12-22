@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Autopilot recovery: offline/unmanaged outcome</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2.2rem 0 1.1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .nav{margin-top:.65rem}
+    .nav a{margin-right:.75rem}
+    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:1rem 0;background:#fff}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.85rem 0}
+    .warn{border-left-color:#b91c1c;background:#fef2f2}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
+    h1{margin:.1rem 0 .2rem;font-size:2rem}
+    h2{margin:1.2rem 0 .45rem;font-size:1.35rem}
+    h3{margin:1rem 0 .35rem;font-size:1.1rem}
+    ol li{margin:.25rem 0}
+  </style>
+</head>
+<body>
+<header>
+  <a href="../index.html">← portfolio home</a>
+  <div class="nav"><a href="../notes.html">Field Notes / KB</a></div>
+  <h1>Autopilot recovery: offline/unmanaged outcome</h1>
+  <div class="muted">Button-by-button remediation for the real-world case where Autopilot fails and the device lands as an unmanaged/offline Windows install.</div>
+</header>
+<main>
+<section class="card">
+  <h2>What this runbook is for</h2>
+  <p>
+    A Windows device should have gone through Autopilot + Intune enrollment, but instead ended up as an
+    <strong>offline / local-account / unmanaged</strong> PC (or a broken “half-enrolled” state).
+  </p>
+  <div class="callout warn">
+    Default posture: don’t “delete and re-add” as your first move. Use the least destructive path first.
+    Only do full server-side sanitation when the device identity is clearly stale/conflicting.
+  </div>
+</section>
+
+<section class="card">
+  <h2>Fast triage (3 minutes)</h2>
+  <ol>
+    <li><strong>On the device:</strong> open a shell and run <code>dsregcmd /status</code>. Note whether it is AzureAD Joined / Workplace Joined and whether MDM enrollment info appears.</li>
+    <li><strong>In Intune:</strong> search the device by <strong>Serial</strong> in <em>Devices → All devices</em>.</li>
+    <li><strong>In Autopilot list:</strong> search the same serial in <em>Devices → Windows → Windows enrollment → Devices</em>.</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h2>Recovery ladder (least destructive → most destructive)</h2>
+
+  <h3>1) If it’s mostly fine but looks stale</h3>
+  <ul>
+    <li>Force a check-in (Intune device record sync + endpoint sync) and re-check compliance after the device actually evaluates.</li>
+  </ul>
+
+  <h3>2) If it’s “joined but not enrolled” (AzureAdJoined=YES, MDM missing)</h3>
+  <ul>
+    <li>Confirm MDM auto-enrollment scope includes the user.</li>
+    <li>Re-trigger enrollment from <em>Settings → Accounts → Access work or school</em> (disconnect/reconnect only if clearly broken).</li>
+  </ul>
+
+  <h3>3) If it fell into “offline/personal/unmanaged” and wipe doesn’t reliably fix it</h3>
+  <div class="callout warn">
+    This is the scenario where server-side device records can become inconsistent and a normal wipe/retry may not restore a clean Autopilot experience.
+  </div>
+</section>
+
+<section class="card">
+  <h2>Server-side sanitation (the “3-record cleanup”)</h2>
+
+  <h3>A) Delete the Intune managed device record (by serial)</h3>
+  <ol>
+    <li>Go to <strong>endpoint.microsoft.com</strong></li>
+    <li>Left nav → <strong>Devices</strong> → <strong>All devices</strong></li>
+    <li>Search → paste <strong>Serial number</strong></li>
+    <li>Open the device → click <strong>Delete</strong> (trash / … menu varies)</li>
+  </ol>
+
+  <h3>B) Delete the Autopilot registration record (by serial)</h3>
+  <ol>
+    <li>Still in <strong>endpoint.microsoft.com</strong></li>
+    <li>Left nav → <strong>Devices</strong> → <strong>Windows</strong> → <strong>Windows enrollment</strong> → <strong>Devices</strong></li>
+    <li>Search → paste <strong>Serial number</strong></li>
+    <li>Select the device → click <strong>Delete</strong></li>
+  </ol>
+
+  <h3>C) Entra device ownership cleanup (conditional)</h3>
+  <ul>
+    <li>If the device keeps showing under a previous user, open the device object in Entra and remove stale <strong>Owners</strong>.</li>
+    <li>Do not default to deleting the entire Entra device object unless you have a reason (ex: you must force recreation).</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Endpoint redeploy</h2>
+  <ol>
+    <li>Perform a full wipe/reset on the device.</li>
+    <li>Use stable internet during OOBE (Ethernet preferred) — don’t walk around on weak Wi‑Fi during “device/account getting ready”.</li>
+    <li>Verify the device shows up as managed in Intune and receives baseline policies/apps.</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h2>Related scenarios worth documenting</h2>
+  <ul>
+    <li><strong>Conditional Access circular dependency:</strong> enrollment apps must be excluded appropriately or the device can’t become compliant because it can’t enroll.</li>
+    <li><strong>Autopilot profile not applied (OS regression):</strong> check OS build/updates when the device behaves like consumer OOBE despite being registered.</li>
+    <li><strong>Stale primary user / “ghost device under old user”:</strong> fix by updating Intune primary user + removing stale Entra Owners.</li>
+  </ul>
+</section>
+<footer style="padding:2rem 0 3rem;">
+  <div class="muted">Sanitized runbook. No tenant IDs, secrets, internal hostnames, or customer identifiers.</div>
+</footer>
+</main>
+</body>
+</html>
