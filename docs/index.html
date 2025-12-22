@@ -2,85 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Adrian Estielle - Engineering Portfolio</title>
   <style>
-    :root { color-scheme: light dark; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; line-height: 1.5; }
-    header { padding: 32px 18px; border-bottom: 1px solid rgba(127,127,127,.25); }
-    main { max-width: 980px; margin: 0 auto; padding: 18px; }
-    h1 { margin: 0 0 8px 0; font-size: 28px; }
-    .muted { opacity: .78; }
-    .links a { margin-right: 12px; }
-    .grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 18px; }
-    @media(min-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
-    .card { border: 1px solid rgba(127,127,127,.25); border-radius: 10px; padding: 16px; }
-    .card h2 { margin: 0 0 8px 0; font-size: 18px; }
-    ul { margin: 8px 0 0 18px; }
-    .shot { margin-top: 10px; border: 1px solid rgba(127,127,127,.25); border-radius: 8px; overflow: hidden; }
-    .shot img { display: block; width: 100%; height: auto; }
-    footer { padding: 22px 18px; border-top: 1px solid rgba(127,127,127,.25); margin-top: 26px; }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.45;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2.2rem 0 1.1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .toplinks{margin-top:.6rem}
+    .toplinks a{margin-right:.9rem}
+    .badges{margin-top:.65rem}
+    .badges img{height:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin:1.1rem 0 1.6rem}
+    .card{border:1px solid #e8e8e8;border-radius:16px;padding:1.1rem 1.15rem;background:#fff}
+    .card h2{margin:.2rem 0 .45rem;font-size:1.25rem}
+    .card img{width:100%;border:1px solid #eee;border-radius:12px;margin-top:.75rem}
+    .kbhub{border:1px solid #e8e8e8;border-radius:16px;padding:1.1rem 1.15rem;margin:1.4rem 0}
+    .kbgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.85rem;margin:.9rem 0}
+    .kbcard{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.05rem}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937}
+    footer{padding:2rem 0 3rem}
   </style>
 </head>
 <body>
-  <header>
-    <main>
-      <h1>Adrian Estielle - Engineering Portfolio</h1>
-      <div class="muted">Practical work samples: build/release automation, CI/CD, and systems/security tooling.</div>
-      <div class="links" style="margin-top:10px;">
-        <a href="https://github.com/Adrian-Estielle/portfolio">GitHub Repo</a>
-        <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">CI Runs</a> · <a href="pages/endpoint-notes.html">Endpoint notes</a> · <a href="pages/automation-notes.html">Automation notes</a>
-        <span class="muted">GitHub Pages: https://adrian-estielle.github.io/portfolio/</span>
+<header>
+  <h1 style="margin:.1rem 0 .25rem;">Adrian Estielle - Engineering Portfolio</h1>
+  <div class="muted">Practical work samples: build/release automation, CI/CD, and systems/security tooling.</div>
+
+  <div class="toplinks">
+    <a href="https://github.com/Adrian-Estielle/portfolio">GitHub Repo</a>
+    <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">CI Runs</a>
+    <span class="muted">GitHub Pages: https://adrian-estielle.github.io/portfolio/</span>
+  </div>
+
+  <div class="badges"><img src="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml/badge.svg" alt="HelloBuild CI status" /></div>
+</header>
+
+<main>
+  <div class="grid">
+    <div class="card">
+      <h2>HelloBuild - CI/CD (GitHub Actions + Jenkins)</h2>
+      <div class="muted">A reproducible pipeline that builds/tests/packages a .NET app and publishes artifacts.</div>
+      <ul>
+        <li>Pipeline as code (workflow + Jenkinsfile)</li>
+        <li>Build → test → package → artifact upload</li>
+        <li>Proof-first: observable CI runs + repeatable outputs</li>
+      </ul>
+      <div>
+        <a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/HelloBuild">View code</a> ·
+        <a href="hellobuild_ci.html">View CI proof</a> ·
+        <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">View CI runs</a>
       </div>
-      <div style="margin-top:10px;"><img alt="HelloBuild CI status" src="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml/badge.svg"/></div>
-    </main>
-  </header>
+      
+    </div>
 
-<div id="about-strip" class="card" style="margin-top:14px;">
-  <section id="field-notes">
-  <h2>Field Notes / KB*</h2>
-  <p>Practical runbooks and scenario notes (sanitized) — focused on repeatable steps, troubleshooting, and real operational edge cases.</p>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.85rem;margin:.9rem 0;">
-    <div style="border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.05rem;">
-      <strong><a href="notes.html#endpoint">Endpoint runbooks*</a></strong>
-      <div style="color:#555;margin-top:.35rem;">Autopilot, Intune compliance, OneDrive/SharePoint sync patterns, baselines.</div>
-    </div>
-    <div style="border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.05rem;">
-      <strong><a href="notes.html#automation">Automation runbooks*</a></strong>
-      <div style="color:#555;margin-top:.35rem;">Onboarding/offboarding, operational scripts, CI proof patterns.</div>
-    </div>
-    <div style="border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.05rem;">
-      <strong><a href="notes.html#migration">Migration runbooks*</a></strong>
-      <div style="color:#555;margin-top:.35rem;">Pre-seeding + delta sync, audit-friendly cutovers, link remediation.</div>
-    </div>
-    <div style="border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.05rem;">
-      <strong><a href="notes.html#cheatsheet">Cheat sheets*</a></strong>
-      <div style="color:#555;margin-top:.35rem;">Fast mental models: permissions, precedence, common traps.</div>
+    <div class="card">
+      <h2>Windows Baseline Audit - PowerShell evidence + report</h2>
+      <div class="muted">A read-only baseline snapshot script that outputs a shareable report artifact.</div>
+      <ul>
+        <li>Collects baseline and security-relevant configuration</li>
+        <li>Produces a report artifact (HTML/text/JSON depending on implementation)</li>
+        <li>Designed to be extendable</li>
+      </ul>
+      <div>
+        <a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/WindowsBaselineAudit">View code</a> ·
+        <a href="reports/baseline_report.html">View sample report</a>
+      </div>
+      <img src="assets/Baseline_Report.png" alt="Windows Baseline Audit report screenshot" />
     </div>
   </div>
 
-  <div style="border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;">
-    <strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.
-  </div>
-</section>
+  <section class="kbhub" id="field-notes">
+    <h2 style="margin:.2rem 0 .35rem;">Field Notes / KB*</h2>
+    <div class="muted">Practical runbooks and scenario notes (sanitized) — focused on repeatable steps, troubleshooting, and operational edge cases.</div>
 
-<h2 style="margin:0 0 8px 0; font-size:18px;">About</h2>
-  <div class="muted">
-    I build automation that makes systems easier to operate and easier to trust. This portfolio is proof-first: working CI/CD, repeatable scripts, and evidence-style outputs.
-  </div>
-  <ul>
-    <li>Produces a report artifact (HTML/text/JSON depending on implementation)</li>
-          <li>Designed to be extendable</li>
-        </ul>
-        <div style="margin-top:10px;"><a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/WindowsBaselineAudit">View code</a> · <a href="assets/baseline_report_sample.html">View sample report</a></div>
-        <div class="shot"><img src="images/baseline_report.png" alt="Baseline report screenshot placeholder"/></div>
-      </section>
+    <div class="kbgrid">
+      <div class="kbcard">
+        <strong><a href="notes.html#endpoint">Endpoint runbooks*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Autopilot, Intune compliance, OneDrive/SharePoint sync patterns, baselines.</div>
+      </div>
+      <div class="kbcard">
+        <strong><a href="notes.html#automation">Automation runbooks*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Onboarding/offboarding, operational scripts, CI proof patterns.</div>
+      </div>
+      <div class="kbcard">
+        <strong><a href="notes.html#migration">Migration runbooks*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Pre-seeding + delta sync, audit-friendly cutovers, link remediation.</div>
+      </div>
+      <div class="kbcard">
+        <strong><a href="notes.html#cheatsheet">Cheat sheets*</a></strong>
+        <div class="muted" style="margin-top:.35rem;">Fast mental models: permissions, precedence, common traps.</div>
+      </div>
     </div>
-  </main>
 
-  <footer class="muted">Last updated: 2025-12-21</footer>
+    <div class="callout">
+      <strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.
+    </div>
+  </section>
+
+  <section id="about" style="margin-top:1.8rem;">
+    <h2>About</h2>
+    <p>I build automation that makes systems easier to operate and easier to trust. This portfolio is proof-first: working CI/CD, repeatable scripts, and evidence-style outputs.</p>
+  </section>
+
+  <footer>
+    <div class="muted">Tip: the runbooks in <a href="notes.html">Field Notes / KB</a> are where the “real-world edge cases” live.</div>
+  </footer>
+</main>
 </body>
 </html>
-
-

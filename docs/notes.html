@@ -1,384 +1,336 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Field Notes / KB — Adrian Estielle</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Field Notes / KB - Adrian Estielle</title>
   <style>
-    :root { --maxw: 1040px; }
-    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:#111; background:#fff; }
-    header { border-bottom: 1px solid #eee; background: #fff; }
-    header .wrap { max-width: var(--maxw); margin: 0 auto; padding: 1.25rem 1rem; }
-    header h1 { margin:0; font-size: 1.6rem; }
-    header p { margin:.35rem 0 0; color:#555; }
-    main { max-width: var(--maxw); margin: 0 auto; padding: 1.5rem 1rem 3rem; }
-    a { color:#0b57d0; text-decoration:none; }
-    a:hover { text-decoration: underline; }
-
-    .nav { display:flex; flex-wrap:wrap; gap:.5rem; margin: .9rem 0 1.3rem; }
-    .pill { display:inline-block; padding:.35rem .65rem; border:1px solid #ddd; border-radius:999px; font-size:.95rem; background:#fff; }
-    .pill:hover { background:#f7f7f7; text-decoration:none; }
-
-    .callout { margin: .9rem 0; padding: .85rem .95rem; border-left: 4px solid #999; background: #fafafa; border-radius: 10px; }
-    .callout.note { border-left-color: #2563eb; background: #eff6ff; }
-    .callout.warn { border-left-color: #b35c00; background: #fff7ed; }
-    .callout.security { border-left-color: #b91c1c; background: #fef2f2; }
-    .callout.right { margin-left: auto; max-width: 92%; }
-
-    section { margin-top: 2.1rem; }
-    section h2 { margin: 0 0 .6rem; font-size: 1.35rem; }
-    .muted { color:#555; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: .85rem; margin: .85rem 0 0; }
-    .card { border:1px solid #e8e8e8; border-radius: 14px; padding: 1rem 1.05rem; background:#fff; }
-    .card h3 { margin:.1rem 0 .35rem; font-size: 1.05rem; }
-    .card p { margin:.25rem 0; color:#555; }
-    .meta { font-size: .95rem; color:#666; margin-top: .35rem; }
-
-    .article { border:1px solid #e8e8e8; border-radius: 14px; padding: 1rem 1.1rem; margin: 1rem 0; background:#fff; }
-    .article h3 { margin: 0 0 .25rem; font-size: 1.15rem; }
-    .article .why { margin: .25rem 0 .85rem; color:#555; }
-    .article h4 { margin: 1rem 0 .35rem; font-size: 1.02rem; }
-    ol { margin: .4rem 0 0 1.25rem; }
-    ul { margin: .35rem 0 0 1.25rem; }
-    li { margin: .25rem 0; }
-
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: .95em; background:#f6f6f6; padding: .1rem .25rem; border-radius: 6px; }
-    pre { background:#0b0b0b; color:#f2f2f2; padding: .85rem 1rem; border-radius: 12px; overflow:auto; font-size:.92rem; }
-    footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid #eee; color:#666; font-size:.95rem; }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.45;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2.2rem 0 1.1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .nav{margin-top:.7rem}
+    .nav a{margin-right:.75rem}
+    section{margin-top:2rem}
+    h1{margin:.1rem 0 .2rem;font-size:2rem}
+    h2{margin:1.5rem 0 .55rem;font-size:1.45rem}
+    h3{margin:1.2rem 0 .45rem;font-size:1.15rem}
+    .article{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.95rem 0;background:#fff}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.85rem 0}
+    .callout.warn{border-left-color:#b91c1c;background:#fef2f2}
+    .callout.note{border-left-color:#0f766e;background:#ecfdf5}
+    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.95em}
+    footer{padding:2rem 0 3rem}
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>Field Notes / Knowledge Base</h1>
-      <p>Practical runbooks + scenario notes from real work (sanitized). Built for repeatability: steps, checks, and “gotchas”.</p>
-    </div>
-  </header>
+<header>
+  <a href="index.html">← portfolio home</a>
+  <h1>Field Notes / KB</h1>
+  <div class="muted">Practical runbooks and scenario notes (sanitized). Focus: repeatable steps, troubleshooting, and operational edge cases.</div>
 
-  <main>
-    <div class="callout note">
-      <strong>* Under active development:</strong> sections marked with an asterisk are being actively expanded and refined. I’m adding more scenarios, scripts, and artifacts as I sanitize and publish them.
-    </div>
+  <div class="nav">
+    <a href="#endpoint">Endpoint</a>
+    <a href="#automation">Automation</a>
+    <a href="#migration">Migration</a>
+    <a href="#cheatsheet">Cheat sheets</a>
+  </div>
 
-    <div class="nav">
-      <a class="pill" href="index.html">← Portfolio home</a>
-      <a class="pill" href="#endpoint">Endpoint runbooks*</a>
-      <a class="pill" href="#automation">Automation runbooks*</a>
-      <a class="pill" href="#migration">Migration runbooks*</a>
-      <a class="pill" href="#cheatsheet">Cheat sheets*</a>
-    </div>
+  <div class="callout"><strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.</div>
+</header>
 
-    <!-- ===================== -->
-    <!-- ENDPOINT RUNBOOKS      -->
-    <!-- ===================== -->
-    <section id="endpoint">
-      <h2>Endpoint runbooks*</h2>
-      <p class="muted">Intune / Autopilot / M365 endpoint patterns, troubleshooting, and operational “muscle memory”.</p>
+<main>
+  <!-- ===================== -->
+  <!-- ENDPOINT RUNBOOKS      -->
+  <!-- ===================== -->
+  <section id="endpoint">
+    <h2>Endpoint runbooks*</h2>
+    <p class="muted">Autopilot, Intune compliance, OneDrive/SharePoint sync patterns, baselines.</p>
 
-      <article id="kb-autopilot-enrollment" class="article">
-        <h3>Windows Autopilot: reliable enrollment checklist + recovery paths</h3>
-        <p class="why"><strong>Why:</strong> Autopilot failures tend to look random. This turns them into predictable checks and recovery moves.</p>
+    <article id="kb-autopilot-enrollment" class="article">
+      <h3>Windows Autopilot: reliable enrollment checklist + recovery paths</h3>
+      <p><strong>Goal:</strong> predictable Day-1 experience (apps/policies present) with a recovery path when OOBE goes sideways.</p>
 
-        <h4>Goal</h4>
-        <ul>
-          <li>Device enrolls into Intune, receives policies/apps, and lands compliant — without weird “half-joined” or “offline” states.</li>
-        </ul>
+      <h4>Checklist</h4>
+      <ol>
+        <li><strong>Pre-reqs Keep You Honest</strong>: confirm target groups, Autopilot profile assignment, required apps/policies, and licensing.</li>
+        <li><strong>Network Stability</strong>: for OOBE, stable connectivity matters (Ethernet preferred; avoid weak Wi‑Fi during first setup).</li>
+        <li><strong>MFA readiness</strong>: ensure the new hire can complete MFA before first sign-in to avoid dead-ends that leave the device half-enrolled.</li>
+        <li><strong>Verification</strong>: confirm device shows as enrolled, policies applied, and required apps installed.</li>
+      </ol>
 
-        <h4>Steps</h4>
-        <ol>
-          <li><strong>Pre-req validation</strong>: confirm the user is licensed (Intune/M365), allowed to enroll, and target groups are correct (Autopilot profile assignment, required apps, compliance policy, configuration profiles).</li>
-          <li><strong>Autopilot readiness</strong>: confirm the hardware hash is imported and assigned; confirm the correct profile is targeted (user-driven vs pre-provisioning / “white glove”).</li>
-          <li><strong>Network stability</strong>: use a stable connection for OOBE. Prefer hardwired Ethernet for initial enrollment if possible; avoid walking around on weak Wi‑Fi during OOBE.</li>
-          <li><strong>MFA readiness</strong>: ensure the user has MFA methods registered <em>before</em> first Autopilot sign-in (or ensure the Conditional Access path won’t dead-end the device).</li>
-          <li><strong>OOBE execution</strong>: complete user sign-in, let the device finish ESP (Enrollment Status Page) + app installs. Do not interrupt until required apps are done.</li>
-          <li><strong>Post-enrollment verification</strong>: confirm device appears in Intune as <em>Corporate</em>, has a recent check-in, and is receiving the expected configuration + endpoint security baselines.</li>
-        </ol>
+      <div class="callout note">
+        <strong>Field note:</strong> if a device lands in a broken “half-state,” the fastest path is often removing stale device records (where appropriate) and re-enrolling from a clean OOBE.
+      </div>
 
-        <div class="callout warn right">
-          <strong>Oddity:</strong> If a user attempts to sign-in before MFA is set up (or internet drops mid‑OOBE), I’ve seen devices land in a broken state where the record exists but enrollment never completes cleanly.<br/>
-          <strong>Recovery pattern:</strong> remove stale records (Intune device + Entra device where appropriate), then re-enroll from a clean OOBE (wipe/reinstall as needed).
-        </div>
+      <div class="callout warn">
+        <strong>OOBE recovery tip:</strong> Shift+F10 can open a command prompt during setup for basic troubleshooting (connectivity, logs, etc.).
+      </div>
+    </article>
 
-        <div class="callout note">
-          <strong>OOBE quick tool:</strong> <code>Shift</code> + <code>F10</code> opens a command prompt during OOBE on many builds. Useful for quick connectivity checks (DNS, captive portal, etc.) without guessing.
-        </div>
+    <article id="kb-intune-not-compliant" class="article">
+      <h3>Intune “Not compliant” triage (Windows / iOS / Android)</h3>
+      <p><strong>Goal:</strong> stop treating compliance like a mystery. Make it a predictable checklist.</p>
 
-        <h4>Validation checklist</h4>
-        <ul>
-          <li>Intune: last check-in is current; management name is correct; compliance state aligns with policy.</li>
-          <li>Windows: BitLocker state, Defender status, firewall state, and update posture match baseline.</li>
-          <li>Apps: required apps installed; Company Portal functional; OneDrive policy applied if in scope.</li>
-        </ul>
-      </article>
+      <h4>Step 1 — Verify check-in / MDM health (avoid stale inventory)</h4>
+      <ul>
+        <li>Confirm the device <strong>Last check-in</strong> is recent.</li>
+        <li>If stale: trigger a sync from Intune + from the endpoint (Windows: Access work or school → Info → Sync; Company Portal: Settings → Sync).</li>
+        <li>Re-check compliance results after the device actually re-evaluates.</li>
+      </ul>
 
-      <article id="kb-intune-compliance-triage" class="article">
-        <h3>Intune: “Not compliant” device triage (Windows / iOS / Android)</h3>
-        <p class="why"><strong>Why:</strong> compliance failures become noisy fast. The trick is: identify the exact failing setting, then choose the shortest remediation path.</p>
+      <div class="callout note">
+        <strong>Common trap:</strong> “Not compliant” is often “policy evaluated against stale inventory.” Fix check-in health first, then remediate the specific setting.
+      </div>
 
-        <h4>Steps</h4>
-        <ol>
-          <li><strong>Identify the failing rule</strong>: open device → compliance status → find the specific policy and the failing setting(s).</li>
-          <li><strong>Confirm the device is actually checking in</strong>: stale check-ins = stale compliance. If the device hasn’t checked in recently, solve that first.</li>
-          <li><strong>Check for conflict/priority</strong>: multiple compliance policies, assignment overlaps, or different platforms can create confusing results.</li>
-          <li><strong>Remediate by category</strong>:
-            <ul>
-              <li><strong>Windows</strong>: BitLocker/TPM/Secure Boot, firewall, Defender status, OS build/patch level, local admin drift.</li>
-              <li><strong>iOS</strong>: OS minimum, passcode requirements, jailbreak detection, MDM profile validity.</li>
-              <li><strong>Android</strong>: work profile health, Play Protect, OS level, encryption, device integrity signal.</li>
-            </ul>
-          </li>
-          <li><strong>Re-evaluate</strong>: force a sync/check-in, then confirm compliance flips without needing a rebuild.</li>
-        </ol>
+      <h4>Step 2 — Identify the failing setting and remediate</h4>
+      <p>Most common remediations are straightforward:</p>
+      <ul>
+        <li><strong>Windows</strong>: BitLocker/TPM/Secure Boot, firewall, Defender, OS version/patch minimum, local admin drift.</li>
+        <li><strong>iOS/Android</strong>: OS minimum, passcode/integrity requirements, device health signals.</li>
+      </ul>
 
-        <div class="callout warn">
-          <strong>Common trap:</strong> “Not compliant” is often just “policy evaluated against stale inventory.” Fix check-in / MDM health first.
-        </div>
+      <h4>Step 3 — If Conditional Access blocks remediation</h4>
+      <ul>
+        <li>Use an <strong>emergency access (“break-glass”) account</strong> to regain admin access, fix the CA policy, then rotate and document.</li>
+      </ul>
+    </article>
 
-        <h4>When it’s not a quick fix</h4>
-        <ul>
-          <li>Collect logs (Intune diagnostics where applicable), confirm enrollment type, validate that the right baselines are assigned.</li>
-          <li>If Conditional Access blocks the device: confirm grace periods and emergency access paths (break-glass accounts, support workflow).</li>
-        </ul>
-      </article>
+    <article id="kb-onedrive-autosync-shared-libs" class="article">
+      <h3>Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive)</h3>
+      <p><strong>Use case:</strong> when “sync this library” becomes a recurring support cost (ex: Accounting), auto-mount it for users who should have it.</p>
 
-      <article id="kb-spo-library-autosync" class="article">
-        <h3>SharePoint library auto-sync: “it just shows up in File Explorer” (Intune + OneDrive)</h3>
-        <p class="why"><strong>Why:</strong> reduces tickets and onboarding friction — especially for departments living inside SharePoint libraries.</p>
+      <h4>What this uses</h4>
+      <ul>
+        <li>Intune Administrative Template: <strong>Configure team site libraries to sync automatically</strong></li>
+        <li>A “library ID” string (tenant/site/web/list + webUrl) copied from the library’s Sync dialog</li>
+      </ul>
 
-        <h4>Goal</h4>
-        <ul>
-          <li>Users added to the appropriate access group automatically get the correct SharePoint library synced in OneDrive, pinned in File Explorer.</li>
-        </ul>
+      <h4>Steps</h4>
+      <ol>
+        <li><strong>Get the library ID</strong>: open the SharePoint document library → click <strong>Sync</strong> → copy the <strong>library ID</strong>.</li>
+        <li><strong>Convert Unicode → normal string</strong> (common “catch”):</li>
+      </ol>
+      <pre><code># Paste the copied library ID string between the quotes:
+[uri]::UnescapeDataString("tenantId%3d...%26siteId%3d...%26webId%3d...%26listId%3d...%26webUrl%3d...")</code></pre>
 
-        <h4>Implementation pattern</h4>
-        <ol>
-          <li><strong>Define the access unit</strong>: one Entra ID security group per site/library (or per department), aligned to SharePoint permissions.</li>
-          <li><strong>Resolve identifiers</strong>: obtain the SharePoint site + library identifiers needed for OneDrive auto-mount policy. (This is where scripting saves time and avoids manual portal clicking.)</li>
-          <li><strong>Intune policy</strong>: configure OneDrive settings (silent sign-in + auto-mount of team site libraries) and assign to the Entra group.</li>
-          <li><strong>Validation</strong>: add a test user to the group → sign in → verify the library auto-syncs into File Explorer without user-driven “Sync” clicks.</li>
-        </ol>
+      <ol start="3">
+        <li><strong>Create an Intune profile</strong>: Devices → Configuration profiles → Administrative Templates → OneDrive → set “Configure team site libraries to sync automatically” and paste the converted value.</li>
+        <li><strong>Assign it to the correct users</strong>: target the Entra group that represents “who should have this library.”</li>
+        <li><strong>Validate</strong>: add a user to the group → sign in → confirm the library appears in File Explorer under the user’s OneDrive/tenant.</li>
+      </ol>
 
-        <div class="callout note right">
-          <strong>Why scripting matters here:</strong> at scale, “find site IDs / library IDs / confirm group membership” becomes the bottleneck. A small script to pull IDs + confirm access turns this into a repeatable onboarding primitive.
-        </div>
+      <div class="callout warn">
+        <strong>Reality check:</strong> auto-mount isn’t instant. Documentation notes it can take hours and has practical limits (item counts and device counts). Plan around that delay instead of treating it like a failure.
+      </div>
 
-        <div class="callout warn">
-          <strong>Gotchas:</strong>
-          <ul>
-            <li>User must have permission to the site/library. Auto-mount doesn’t magically grant access.</li>
-            <li>OneDrive client health/version matters. Keep it managed (update rings / proactive remediation).</li>
-            <li>Be intentional about naming to prevent duplicate “Accounting (1)” style mounts.</li>
-          </ul>
-        </div>
-      </article>
+      <h4>Scaling pattern (what I’ve done in real environments)</h4>
+      <ul>
+        <li>Use group-based access as the “source of truth” (membership = permission + auto-mount intent).</li>
+        <li>Script retrieval of the IDs (site/web/list) so you can manage many libraries consistently.</li>
+        <li>Keep a mapping table (Library → Group → ID string) so changes stay auditable and reversible.</li>
+      </ul>
 
-      <article id="kb-oem-cleanup" class="article">
-        <h3>OEM bloatware cleanup baseline (HP / Lenovo examples)</h3>
-        <p class="why"><strong>Why:</strong> vendor utilities can degrade performance, introduce noisy popups, break drivers, or confuse security posture.</p>
+      <h4>References</h4>
+      <ul>
+        <li>Microsoft policy details + ID format: see SharePoint/OneDrive policy docs.</li>
+        <li>Practical implementation notes (including Unicode conversion): LetsConfigMgr write-up.</li>
+      </ul>
+    </article>
 
-        <h4>Steps</h4>
-        <ol>
-          <li><strong>Inventory</strong>: capture what ships on the image by manufacturer/model (HP, Lenovo, Dell patterns differ).</li>
-          <li><strong>Decide “allow list” vs “remove list”</strong>: keep only what’s needed (critical drivers/firmware tooling), remove the rest.</li>
-          <li><strong>Automate removal</strong>: package removals as Intune remediation / Win32 app uninstall steps, not manual one-offs.</li>
-          <li><strong>Regression check</strong>: validate Wi‑Fi, Bluetooth, camera, dock drivers, and Office/Excel behavior after cleanup (this is where “safe to remove” is proven).</li>
-        </ol>
+    <article id="kb-oem-bloatware" class="article">
+      <h3>OEM “bloatware” cleanup baseline (HP / Lenovo patterns)</h3>
+      <p><strong>Goal:</strong> stabilize endpoints by removing non-essential OEM utilities that cause performance/driver/support issues.</p>
+      <ul>
+        <li>Inventory by model/manufacturer → allow-list vs remove-list.</li>
+        <li>Automate removals via Intune packaging (don’t do it manually).</li>
+        <li>Regression checks: drivers, VPN, Office, and “Excel-heavy” workflows after cleanup.</li>
+      </ul>
+    </article>
+  </section>
 
-        <div class="callout warn right">
-          <strong>Example pain point:</strong> HP Wolf Security and similar “security wrappers” can cause support churn. The right move is to baseline-clean them early and standardize on the security stack you actually manage.
-        </div>
-      </article>
-    </section>
+  <!-- ===================== -->
+  <!-- AUTOMATION RUNBOOKS    -->
+  <!-- ===================== -->
+  <section id="automation">
+    <h2>Automation runbooks*</h2>
+    <p class="muted">Onboarding/offboarding, operational scripts, CI proof patterns.</p>
 
-    <!-- ===================== -->
-    <!-- AUTOMATION RUNBOOKS    -->
-    <!-- ===================== -->
-    <section id="automation">
-      <h2>Automation runbooks*</h2>
-      <p class="muted">Operational automation: identity, onboarding/offboarding, fleet hygiene, and CI proof patterns.</p>
+    <article id="kb-onboarding-automation" class="article">
+      <h3>Onboarding automation: minimal inputs → user + access baseline</h3>
+      <ul>
+        <li>Inputs: first/last, title, office, manager.</li>
+        <li>Generate UPN/email from convention; collision checks.</li>
+        <li>Assign groups via role/region matrix (replaces “copy another user”).</li>
+        <li><strong>License rule example:</strong> assign base license (ex: E5) automatically when Office Location + Email are populated; additional group/license logic can key off those attributes.</li>
+        <li>Output: summary + logs for audit/replay.</li>
+      </ul>
+    </article>
 
-      <article id="kb-onboarding-automation" class="article">
-        <h3>Onboarding automation: from 5 inputs → complete user + access baseline</h3>
-        <p class="why"><strong>Why:</strong> reduce “tribal knowledge” and eliminate inconsistent access setup across regions/titles.</p>
+    <article id="kb-termination-automation" class="article">
+      <h3>Offboarding / termination automation: revoke access fast + preserve required data</h3>
+      <ul>
+        <li>Disable sign-in + revoke sessions.</li>
+        <li>Mailbox handling (authorized): set auto-reply that <strong>directs senders to the terminated user’s manager</strong>; delegate access where approved; capture mailbox state.</li>
+        <li>Strip groups/roles; move to terminated OU/container.</li>
+        <li>Deferred deletion with approvals for irreversible steps (ex: MFA factor clear via Graph API).</li>
+      </ul>
+    </article>
 
-        <h4>Inputs used (minimal)</h4>
-        <ul>
-          <li>First name, last name</li>
-          <li>Title, region/office</li>
-          <li>Manager</li>
-        </ul>
+    <article id="kb-mapped-drive-selfheal" class="article">
+      <h3>Mapped drive “self-heal” automation</h3>
+      <ul>
+        <li>Detect known-bad mappings; remove; clear stale creds; re-map; log.</li>
+        <li>Pair with permission audits when the root cause is ACL drift, not the mapping itself.</li>
+      </ul>
+    </article>
 
-        <h4>Steps (high level)</h4>
-        <ol>
-          <li><strong>Generate identity</strong>: build UPN/email from naming convention; pre-check for collisions; generate display name.</li>
-          <li><strong>Create account</strong>: set core attributes, manager, office/location, department, and domain settings.</li>
-          <li><strong>Apply baseline access</strong>: assign security groups via a role/region matrix (eventually replacing “copy an existing user” patterns).</li>
-          <li><strong>License + mailbox</strong>: assign M365 license, mailbox settings, and any default Teams/SharePoint access as needed.</li>
-          <li><strong>Output</strong>: export a summary (what was created, which groups were applied, what still needs approval).</li>
-        </ol>
+    <article id="kb-teams-bot-triage" class="article">
+      <h3>Teams chatbot triage: “dock/home-office display broke” (driver reset)</h3>
+      <p><strong>Use case:</strong> common post-dock / post-home-office issues that should not become tickets.</p>
+      <ul>
+        <li>Gather quick diagnostics (GPU/driver versions, known device IDs, recent changes).</li>
+        <li>Automate remove/reinstall for known-problem drivers (with a safe rollback path).</li>
+        <li>Escalate only if the scripted fix doesn’t resolve.</li>
+      </ul>
+    </article>
 
-        <div class="callout note">
-          <strong>Evolution that mattered:</strong> moving from “copy another user’s groups” → “explicit matrix of role/region baseline groups” makes onboarding auditable and repeatable.
-        </div>
-      </article>
+    <article id="kb-ci-github-actions" class="article">
+      <h3>CI runbook: GitHub Actions (HelloBuild)</h3>
+      <ul>
+        <li>restore → build → test → package → upload artifact</li>
+        <li>Proof-first: visible run + reproducible artifact</li>
+      </ul>
+    </article>
 
-      <article id="kb-termination-automation" class="article">
-        <h3>Offboarding / termination automation: revoke access fast + preserve what must be preserved</h3>
-        <p class="why"><strong>Why:</strong> security and compliance require immediate access revocation, while business needs require mailbox/data handling.</p>
+    <article id="kb-ci-jenkins-win-agent" class="article">
+      <h3>CI runbook: Jenkins (Docker controller) + Windows inbound agent</h3>
+      <p><strong>What this proves:</strong> real Windows execution + agent-based CI + repeatable build.</p>
 
-        <h4>Steps</h4>
-        <ol>
-          <li><strong>Immediate lockout</strong>: disable sign-in, revoke sessions/tokens, force sign-out.</li>
-          <li><strong>Preservation actions</strong>: litigation hold / retention aligned to policy; archive/export where required.</li>
-          <li><strong>Mailbox handling</strong>: auto-reply to manager, delegate access where authorized, capture mailbox state.</li>
-          <li><strong>Access cleanup</strong>: strip security groups/roles, remove from privileged memberships, move to Terminated OU/container.</li>
-          <li><strong>Deferred deletion</strong>: timer-based cleanup after retention period; require admin approval for irreversible steps.</li>
-        </ol>
+      <h4>Reality check</h4>
+      <div class="callout warn">
+        If your Jenkinsfile calls <code>pwsh</code> / <code>powershell</code> / <code>dotnet</code> / <code>git</code>, those executables must exist on the Windows agent. “Build failed” is often “tool not installed on the executor.”
+      </div>
 
-        <div class="callout security right">
-          <strong>Control that matters:</strong> any workflow that clears MFA methods / auth factors should be approval-gated and logged (API actions included).
-        </div>
-      </article>
+      <h4>Branch gotcha</h4>
+      <div class="callout note">
+        Many Jenkins jobs default to <code>master</code>. If your repo uses <code>main</code>, set the branch explicitly or you’ll run the wrong code while thinking it worked.
+      </div>
+    </article>
+  </section>
 
-      <article id="kb-drive-selfheal" class="article">
-        <h3>Mapped drives not reconnecting: “self-heal” script pattern</h3>
-        <p class="why"><strong>Why:</strong> recurring tickets often come from stale creds, disconnected sessions, or cached mappings that won’t refresh cleanly.</p>
+  <!-- ===================== -->
+  <!-- MIGRATION RUNBOOKS     -->
+  <!-- ===================== -->
+  <section id="migration">
+    <h2>Migration runbooks*</h2>
+    <p class="muted">Pre-seeding + delta sync, audit-friendly cutovers, link remediation, and performance validation.</p>
 
-        <h4>Steps</h4>
-        <ol>
-          <li>Detect current mappings and identify the known-bad ones (by drive letter and target path).</li>
-          <li>Remove the mapping cleanly, clear stale credentials if needed, and refresh policy.</li>
-          <li>Re-map using the correct path/credentials source and verify access.</li>
-          <li>Log results (success/failure, error codes) so recurring root causes are visible.</li>
-        </ol>
+    <article id="kb-migration-preseed" class="article">
+      <h3>Pre-seed + delta sync strategy (minimize cutover window)</h3>
+      <ol>
+        <li><strong>Inventory + partition</strong>: active vs archive; identify high-change datasets and high-risk file types (Excel link forests).</li>
+        <li><strong>Pre-seed</strong>: copy bulk early (Migration Manager / SPMT / Robocopy depending on target).</li>
+        <li><strong>Delta runs</strong>: re-run sync periodically to capture changes leading up to cutover.</li>
+        <li><strong>Cutover</strong>: freeze writes, final delta, flip access paths, validate workflows.</li>
+        <li><strong>Audit</strong>: counts, spot-check critical files, confirm permissions.</li>
+      </ol>
 
-        <div class="callout warn">
-          <strong>Gotcha:</strong> if the underlying permission model is broken (nested share perms / NTFS drift), re-mapping fixes symptoms but not causes — pair this with a permission audit.
-        </div>
-      </article>
+      <div class="callout warn">
+        <strong>Performance warning:</strong> always pilot with the heaviest read/write teams and monitor real workflows. Region distance + churn can tank perceived performance even when assessments look fine.
+      </div>
+    </article>
 
-      <article id="kb-ci-github-actions" class="article">
-        <h3>CI runbook: GitHub Actions — HelloBuild (restore → build → test → package → artifact)</h3>
-        <p class="why"><strong>Why:</strong> provides repeatable proof of build quality and produces artifacts you can point at.</p>
+    <article id="kb-excel-hyperlink-remediation" class="article">
+      <h3>Excel hyperlink remediation after migration (bulk)</h3>
+      <ul>
+        <li>Run on <strong>copies</strong> for dev/testing; don’t experiment on live data.</li>
+        <li>Parameterize <strong>old path → new path</strong>; target only what needs changing.</li>
+        <li>Unhide sheets to reach links; re-hide afterward.</li>
+        <li>Preserve timestamps when required for audit/expectations.</li>
+        <li>Log everything: changed/failed/skipped + why.</li>
+        <li>Validate on a representative subset first, then scale.</li>
+      </ul>
+    </article>
+  </section>
 
-        <h4>Pipeline shape</h4>
-        <ol>
-          <li>Trigger on push/PR</li>
-          <li>Checkout</li>
-          <li>.NET restore / build / test</li>
-          <li>Package output</li>
-          <li>Upload artifact + attach to run</li>
-        </ol>
+  <!-- ===================== -->
+  <!-- CHEAT SHEETS + DIAGRAMS -->
+  <!-- ===================== -->
+  <section id="cheatsheet">
+    <h2>Cheat sheets*</h2>
+    <p class="muted">Fast mental models: permissions, precedence, common traps, diagrams.</p>
 
-        <div class="callout note right">
-          <strong>Portfolio value:</strong> recruiters and hiring managers can open the run and see exactly what happened, when, and what artifact was produced.
-        </div>
-      </article>
+    <article id="kb-permissions-precedence" class="article">
+      <h3>Permissions mental model: RBAC vs sharing vs NTFS (where people get burned)</h3>
+      <ul>
+        <li><strong>RBAC</strong> controls what admins can do in the platform.</li>
+        <li><strong>Sharing</strong> controls what a user can access for a specific resource (and can create sprawl if unmanaged).</li>
+        <li><strong>NTFS / ACL inheritance</strong> is where deep nesting and exceptions create the hardest-to-debug behavior.</li>
+      </ul>
+      <div class="callout warn">
+        Common failure pattern: deep nesting + ad-hoc exceptions + “deny” entries = eventual access mystery. The fix is usually simplification, not another exception.
+      </div>
+    </article>
 
-      <article id="kb-ci-jenkins-win-agent" class="article">
-        <h3>CI runbook: Jenkins controller (Docker) + Windows inbound agent (WebSocket)</h3>
-        <p class="why"><strong>Why:</strong> demonstrates real CI/CD operations (controller/agent model) and proves Windows execution.</p>
+    <article id="kb-diagrams" class="article">
+      <h3>Diagrams (makeshift, but useful)</h3>
 
-        <h4>Controller (Docker)</h4>
-        <pre>docker run --name jenkins-controller `
-  -p 8080:8080 `
-  -p 50000:50000 `
-  -v jenkins_home:/var/jenkins_home `
-  jenkins/jenkins:lts</pre>
+      <h4>Razzberry — high-level flow (placeholder)</h4>
+      <pre><code>[User Device]
+   |
+   | HTTPS
+   v
+[Vercel: Web Frontend]
+   |
+   | API calls (JWT bearer)
+   v
+[Railway: API Service]
+   |            \
+   |             \--> [Upstash Redis]  (sessions/cache/queues)
+   |
+   +--> [Supabase Postgres] (primary data)
+   |
+   +--> [Auth/JWT issuance]
+   |
+   +--> emits events
+          |
+          v
+   [Worker(s)]
+      - AI Wingman jobs
+      - message/call/post processing
+      - notifications/webhooks</code></pre>
 
-        <h4>Windows agent command (copy from Jenkins node page)</h4>
-        <pre>curl.exe -sO http://localhost:8080/jnlpJars/agent.jar
-java -jar agent.jar -url http://localhost:8080/ -secret &lt;SECRET&gt; -name "win-agent" -webSocket -workDir "C:\Jenkins"</pre>
+      <h4>DFS/SMB caching vs SharePoint/OneDrive sync — mental model</h4>
+      <pre><code>DFS / SMB (Branch office emphasis)
+--------------------------------
+[Client] -> [Local LAN File Server Cache] -> [DFS Namespace] -> [Central File Servers]
+   | offline ok | faster reads | (but higher conflict risk if caching/replication is messy)
 
-        <div class="callout warn right">
-          <strong>Reality check:</strong> if your Jenkinsfile calls <code>powershell</code> or <code>dotnet</code>, those executables must exist on the agent. “Build failed” is often just “tool not installed on the executor.”
-        </div>
+SharePoint + OneDrive (Cloud sync emphasis)
+------------------------------------------
+[Client OneDrive Sync] <-> [M365 Cloud Storage (SharePoint/OD)]
+   | local sync cache                 | authoritative versioning/sharing model</code></pre>
 
-        <h4>Run placement: make sure builds actually hit the Windows node</h4>
-        <ul>
-          <li>Either label the pipeline stage: <code>node('win-agent')</code></li>
-          <li>Or set built-in node executors to 0 (forcing work to agents), depending on the demo goal.</li>
-        </ul>
+      <h4>Onboarding lead-time flow (Workday insight)</h4>
+      <pre><code>[HR captures data in Workday]
+        |
+        | (automation trigger at threshold)
+        v
+[IT receives early signal]
+        |
+        | user/group/license automation + device prep
+        v
+[Day 1: user signs in] -> [apps + policies already in place]</code></pre>
+    </article>
+  </section>
 
-        <div class="callout note">
-          <strong>Branch gotcha:</strong> many Jenkins jobs default to <code>master</code>. If your repo uses <code>main</code>, set the branch explicitly or your job will “work” while never running the right code.
-        </div>
-      </article>
-    </section>
-
-    <!-- ===================== -->
-    <!-- MIGRATION RUNBOOKS     -->
-    <!-- ===================== -->
-    <section id="migration">
-      <h2>Migration runbooks*</h2>
-      <p class="muted">Patterns that reduce cutover pain: pre-seeding, delta sync, link remediation, and audit-friendly execution.</p>
-
-      <article id="kb-migration-preseed" class="article">
-        <h3>Pre-seed + delta sync strategy (minimize cutover window)</h3>
-        <p class="why"><strong>Why:</strong> the best migrations are boring on cutover day — because the heavy copy happened earlier.</p>
-
-        <h4>Steps</h4>
-        <ol>
-          <li><strong>Inventory + partition</strong>: separate active vs archive, identify high-change datasets and high-risk file types (Excel link forests).</li>
-          <li><strong>Pre-seed</strong>: copy the bulk early (Migration Manager / SPMT / Robocopy / AzCopy depending on target).</li>
-          <li><strong>Delta runs</strong>: re-run sync periodically to capture changes leading up to cutover.</li>
-          <li><strong>Cutover</strong>: freeze writes, run final delta, flip access paths, validate workflows.</li>
-          <li><strong>Audit</strong>: validate counts, spot-check critical files, confirm permissions match expected.</li>
-        </ol>
-
-        <div class="callout warn right">
-          <strong>Migration truth:</strong> most “surprises” are permissions, not bytes. Always test access with real user contexts before declaring success.
-        </div>
-      </article>
-
-      <article id="kb-excel-hyperlink-remediation" class="article">
-        <h3>Excel hyperlink remediation after file-share migration (bulk)</h3>
-        <p class="why"><strong>Why:</strong> Excel link updates don’t scale manually. A controlled tool + validation plan does.</p>
-
-        <h4>Core requirements this tool/design must satisfy</h4>
-        <ul>
-          <li>Operate on <strong>copies</strong> of data for dev/testing; never “learn” on production.</li>
-          <li>Unhide sheets to ensure links are reachable; re-hide after.</li>
-          <li>Avoid corrupting workbooks; avoid breaking formulas or non-target link types.</li>
-          <li>Parameterize <strong>old path → new path</strong> mappings (target only what needs changing).</li>
-          <li>Preserve file timestamps when required for audit / “last modified” expectations.</li>
-          <li>Produce logs: what changed, what failed, what was skipped (and why).</li>
-        </ul>
-
-        <div class="callout note right">
-          <strong>Execution tip:</strong> run on a small, representative subset first (worst offenders + common patterns), validate business workflows, then scale.
-        </div>
-      </article>
-    </section>
-
-    <!-- ===================== -->
-    <!-- CHEAT SHEETS           -->
-    <!-- ===================== -->
-    <section id="cheatsheet">
-      <h2>Cheat sheets*</h2>
-      <p class="muted">Quick mental models and “don’t step on rakes” guidance.</p>
-
-      <article id="kb-permissions-precedence" class="article">
-        <h3>Permissions mental model: RBAC vs sharing vs NTFS (where people get burned)</h3>
-        <p class="why"><strong>Why:</strong> permission problems look like “random access issues” until you model precedence and inheritance correctly.</p>
-
-        <h4>Practical notes</h4>
-        <ul>
-          <li><strong>RBAC</strong> controls what admins can do in the platform.</li>
-          <li><strong>Sharing</strong> controls what a user can access for a specific resource (and can create sprawl if unmanaged).</li>
-          <li><strong>NTFS / ACL inheritance</strong> is where “nested group + inherited deny” scenarios create the hardest-to-debug behavior.</li>
-        </ul>
-
-        <div class="callout warn right">
-          <strong>Common failure pattern:</strong> deep nesting + ad-hoc exceptions + “deny” entries = eventual access mystery. The fix is usually simplification, not another exception.
-        </div>
-      </article>
-    </section>
-
-    <footer>
-      <div>Back to <a href="index.html">portfolio home</a>.</div>
-      <div class="muted" style="margin-top:.35rem;">This KB is intentionally practical: repeatable steps, checks, and failure recovery patterns.</div>
-    </footer>
-  </main>
+  <footer>
+    <div>Back to <a href="index.html">portfolio home</a>.</div>
+    <div class="muted" style="margin-top:.35rem;">These notes are intentionally practical: repeatable steps, checks, and failure recovery patterns.</div>
+  </footer>
+</main>
 </body>
 </html>
