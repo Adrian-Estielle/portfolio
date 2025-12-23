@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • cicd • 013__C0ABE3EBF8__jenkins_bootstrap.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>013__C0ABE3EBF8__jenkins_bootstrap.ps1</h1>
+    <div class="meta">Category: <b>cicd</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (013)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+  Run Jenkins locally (Docker) so you can demo &quot;real Jenkins&quot; to yourself and others.
+
+  Requirements:
+    - Docker Desktop installed and running
+
+  Usage:
+    pwsh -File .\scripts\jenkins_bootstrap.ps1
+
+  Notes:
+    - This uses the official Jenkins LTS image
+    - It persists data in a named volume (jenkins_home)
+#&gt;
+
+$ErrorActionPreference = &quot;Stop&quot;
+
+$jenkinsVolume = &quot;jenkins_home&quot;
+$containerName = &quot;jenkins-lts&quot;
+$httpPort = 8080
+$agentPort = 50000
+
+# Create volume if missing
+$existing = docker volume ls --format &quot;{{.Name}}&quot; | Select-String -SimpleMatch $jenkinsVolume
+if (-not $existing) {
+  docker volume create $jenkinsVolume | Out-Null
+}
+
+# If container exists, start it; else run it
+$containerExists = docker ps -a --format &quot;{{.Names}}&quot; | Select-String -SimpleMatch $containerName
+if ($containerExists) {
+  docker start $containerName | Out-Null
+} else {
+  docker run -d `
+    --name $containerName `
+    -p &quot;$httpPort`:8080&quot; `
+    -p &quot;$agentPort`:50000&quot; `
+    -v &quot;$jenkinsVolume`:/var/jenkins_home&quot; `
+    jenkins/jenkins:lts | Out-Null
+}
+
+Write-Host &quot;&quot;
+Write-Host &quot;Jenkins starting at: http://&lt;REDACTED_HOST&gt;&quot;
+Write-Host &quot;To get the initial admin password (first run):&quot;
+Write-Host &quot;  docker exec $containerName cat /var/jenkins_home/secrets/initialAdminPassword&quot;
+Write-Host &quot;&quot;
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

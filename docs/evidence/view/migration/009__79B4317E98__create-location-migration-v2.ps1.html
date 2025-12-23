@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • migration • 009__79B4317E98__create-location-migration-v2.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>009__79B4317E98__create-location-migration-v2.ps1</h1>
+    <div class="meta">Category: <b>migration</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../migration/009__79B4317E98__create-location-migration-v2.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (009)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+#
+# Script: create-location-migration.ps1
+# Purpose : Create and apply a Prisma migration for the new `location` table.
+#   When run in a local development environment this script will generate a
+#   migration folder under `backend/prisma/migrations` named with the
+#   supplied `-Name` parameter and apply it against the database defined
+#   by `$Env:DATABASE_URL`.  The script is idempotent: if a migration folder
+#   for the given name already exists it will exit without doing anything.
+#
+# Usage   :
+#   # Ensure $Env:DATABASE_URL is set to a *write‑able* Postgres connection.
+#   # Then run from the repo root (`C:\src\razzberry-backend`):
+#   pwsh ./scripts/create-location-migration.ps1 -Name add_location
+#
+#   You can omit `-Name` to use the default `add_location`.
+#
+param(
+    [string]$Name = &quot;add_location&quot;
+)
+
+# Resolve paths relative to this script&#39;s location.  We assume this script
+# resides in the `scripts` folder at the root of the repository.
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$RepoRoot = Resolve-Path (Join-Path $ScriptDir &#39;..&#39;)
+$SchemaPath = Join-Path $RepoRoot &#39;backend/prisma/schema.prisma&#39;
+$MigrationsDir = Join-Path $RepoRoot &#39;backend/prisma/migrations&#39;
+
+# Check for the required DATABASE_URL environment variable.  Prisma uses
+# this variable to know where to apply migrations.  Without it, the
+# migration cannot be created or applied.
+if (-not $Env:DATABASE_URL) {
+    Write-Warning &quot;The environment variable DATABASE_URL is not set. Cannot run Prisma migrations.&quot;
+    Write-Warning &quot;Set DATABASE_URL to your PostgreSQL connection string (e.g. the Railway external URL) and re‑run.&quot;
+    exit 1
+}
+
+# Ensure the schema file exists.  Exit early if not found so that the
+# script does not attempt to run Prisma in a misconfigured state.
+if (-not (Test-Path $SchemaPath)) {
+    Write-Error &quot;Prisma schema not found at $SchemaPath. Are you running from the repository root?&quot;
+    exit 1
+}
+
+# Check if a migration with this name has already been generated.  Prisma
+# names migrations with a timestamp prefix followed by the provided name
+# (e.g. `20250624120000_add_location`).  We scan for any folder that
+# ends with _$Name and, if found, skip migration creation.
+$ExistingMigration = Get-ChildItem -Path $MigrationsDir -Directory |
+    Where-Object { $_.Name -like &quot;*_${Name}&quot; }
+
+if ($ExistingMigration) {
+    Write-Host &quot;Migration &#39;$Name&#39; already exists at &#39;$($ExistingMigration.FullName)&#39;. No action taken.&quot;
+    exit 0
+}
+
+# Build the Prisma migrate command.  We explicitly reference the schema path
+# because the monorepo may contain multiple schemas.
+$MigrateCmd = &quot;pnpm prisma migrate dev --name $Name --schema $SchemaPath&quot;
+Write-Host &quot;Running: $MigrateCmd&quot;
+
+try {
+    # Invoke the command in a subshell (bash) so that `pnpm` resolution
+    # and any environment scripts work as expected.  Use `--color never`
+    # to suppress ANSI codes when not running interactively.
+    $process = Start-Process -FilePath &quot;bash&quot; -ArgumentList &quot;-lc&quot;, $MigrateCmd -NoNewWindow -Wait -PassThru
+    if ($process.ExitCode -ne 0) {
+        throw &quot;Prisma migrate command failed with exit code $($process.ExitCode).&quot;
+    }
+    Write-Host &quot;Migration &#39;$Name&#39; created and applied successfully.&quot;
+} catch {
+    Write-Error $_
+    exit 1
+}
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

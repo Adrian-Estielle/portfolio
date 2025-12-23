@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • cicd • 020__27378A0EE7__ci.yml</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>020__27378A0EE7__ci.yml</h1>
+    <div class="meta">Category: <b>cicd</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../cicd/020__27378A0EE7__ci.yml" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (020)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+name: CI
+
+on:
+  push:
+    branches: [ &quot;main&quot; ]
+  pull_request:
+
+jobs:
+  build_test_package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: &#39;8.0.x&#39;
+
+      - name: Restore
+        run: dotnet restore HelloBuild.sln
+
+      - name: Build
+        run: dotnet build HelloBuild.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test HelloBuild.sln -c Release --no-build --logger &quot;trx;LogFileName=test_results.trx&quot;
+
+      - name: Publish artifact
+        run: |
+          mkdir -p artifacts/HelloBuild
+          dotnet publish src/HelloBuild/HelloBuild.csproj -c Release -o artifacts/HelloBuild
+          echo &quot;git_commit=$(git rev-parse HEAD)&quot; &gt; artifacts/build_metadata.txt
+          echo &quot;run_id=${GITHUB_RUN_ID}&quot; &gt;&gt; artifacts/build_metadata.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: HelloBuild_artifacts
+          path: artifacts/**
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

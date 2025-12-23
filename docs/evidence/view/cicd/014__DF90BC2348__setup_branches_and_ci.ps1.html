@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • cicd • 014__DF90BC2348__setup_branches_and_ci.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>014__DF90BC2348__setup_branches_and_ci.ps1</h1>
+    <div class="meta">Category: <b>cicd</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../cicd/014__DF90BC2348__setup_branches_and_ci.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (014)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+ .SYNOPSIS
+   Initializes branch structure and CI pipeline for the repository.
+ .DESCRIPTION
+   - Creates &quot;frontend-dev&quot; and &quot;backend-dev&quot; branches off current main.
+   - Creates a &quot;snapshot-&lt;date&gt;&quot; branch tagging the current main state.
+   - Adds a GitHub Actions workflow for CI checks (build &amp; syntax validation).
+   - Optionally enables branch protection on main (requires GitHub CLI).
+ .NOTES
+   Run this script from the repository root directory in a PowerShell terminal.
+   Ensure you have commit/push rights and GH CLI is authenticated for branch protection step.
+#&gt;
+
+# Stop on any error
+$ErrorActionPreference = &#39;Stop&#39;
+
+Write-Host &quot;🏷  Creating snapshot branch of current main...&quot; -ForegroundColor Cyan
+$timestamp = Get-Date -Format &#39;yyyyMMdd-HHmmss&#39;
+$snapshotBranch = &quot;snapshot-$timestamp&quot;
+git branch $snapshotBranch
+git push origin $snapshotBranch
+Write-Host &quot;✅ Snapshot branch &#39;$snapshotBranch&#39; created and pushed.&quot;
+
+Write-Host &quot;🌿 Creating separate dev branches for frontend and backend...&quot; -ForegroundColor Cyan
+# Create frontend-dev branch
+git branch frontend-dev
+git push origin frontend-dev
+# Create backend-dev branch
+git branch backend-dev
+git push origin backend-dev
+Write-Host &quot;✅ Created &#39;frontend-dev&#39; and &#39;backend-dev&#39; branches from main (both pushed to origin).&quot;
+
+Write-Host &quot;🔧 Adding CI workflow file for build checks...&quot; -ForegroundColor Cyan
+# Ensure .github/workflows exists
+New-Item -ItemType Directory -Force -Path &quot;.github\workflows&quot; | Out-Null
+$workflowYml = @&quot;
+name: CI Checks
+on:
+  push:
+    branches: [ main, frontend-dev, backend-dev ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🗄️ Checkout code
+        uses: actions/checkout@v3
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false  # We&#39;ll run pnpm install explicitly
+      - name: 📥 Install dependencies
+        run: pnpm install
+      - name: 🔨 Build frontend (compile &amp; bundle)
+        run: pnpm --filter razzberry-frontend run build
+      - name: 🏗️ Validate Prisma schema
+        run: pnpm exec prisma validate --schema=backend/prisma/schema.prisma
+      - name: ⚡ Quick syntax check (backend)
+        run: node -c backend/index.js
+&quot;@
+$ciFile = &quot;.github/workflows/ci-checks.yml&quot;
+$workflowYml | Set-Content -Path $ciFile -Encoding UTF8
+git add $ciFile
+git commit -m &quot;Add CI workflow for build and basic validations&quot;
+git push origin main
+Write-Host &quot;✅ CI workflow file added and pushed to main. (The pipeline will run on future pushes/PRs.)&quot;
+
+# Optional: Protect main branch (requires GitHub CLI with proper permissions)
+if (Get-Command gh -ErrorAction SilentlyContinue) {
+    Write-Host &quot;🔒 Configuring branch protection on &#39;main&#39; (no direct pushes, require PR)...&quot; -ForegroundColor Cyan
+    gh api -X PUT repos/$((git config --get remote.origin.url) -replace &#39;https://github.com/|&lt;REDACTED_EMAIL&gt;:|.git&#39;,&#39;&#39;)/branches/main/protection `
+      -F enforce_admins=true `
+      -F allow_force_pushes=false `
+      -F allow_deletions=false `
+      -F required_pull_request_reviews.dismiss_stale_reviews=true `
+      -F required_pull_request_reviews.required_approving_review_count=0 `
+      -F required_pull_request_reviews.require_code_owner_reviews=false `
+      -F required_status_checks.strict=true `
+      -F required_status_checks.contexts=&#39;[]&#39;  &gt; $null
+    Write-Host &quot;✅ &#39;main&#39; branch protection rules applied (pull requests required for merges).&quot; -ForegroundColor Green
+} else {
+    Write-Host &quot;⚠️ GitHub CLI not found. Please enable &#39;main&#39; branch protection manually in repository settings.&quot; -ForegroundColor Yellow
+}
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

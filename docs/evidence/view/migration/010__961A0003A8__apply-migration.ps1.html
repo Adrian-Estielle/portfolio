@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • migration • 010__961A0003A8__apply-migration.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>010__961A0003A8__apply-migration.ps1</h1>
+    <div class="meta">Category: <b>migration</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../migration/010__961A0003A8__apply-migration.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (010)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+apply-migration.ps1
+-------------------
+
+Runs `prisma migrate deploy` against the production database using
+your Prisma schema.  This script assumes you’re in the project root and
+that `pnpm` is installed.  It checks for a `DATABASE_URL` in the
+environment and exits with a warning if it’s missing.
+
+USAGE:
+
+  pwsh ./scripts/apply-migration.ps1
+
+To set the `DATABASE_URL` for your session, run `set-database-url.ps1` first.
+#&gt;
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = &#39;Stop&#39;
+
+if (-not $env:DATABASE_URL) {
+    Write-Host &quot;❌ DATABASE_URL not set. Run set-database-url.ps1 first.&quot; -ForegroundColor Red
+    return
+}
+
+# Build the absolute path to the Prisma schema in the backend
+$repoRoot = Get-Location
+$schemaPath = Join-Path -Path $repoRoot -ChildPath &#39;prisma/schema.prisma&#39;
+
+if (-not (Test-Path $schemaPath)) {
+    Write-Host &quot;❌ Prisma schema not found at $schemaPath&quot; -ForegroundColor Red
+    return
+}
+
+Write-Host &quot;🚀 Deploying Prisma migrations...&quot; -ForegroundColor Cyan
+pnpm exec prisma migrate deploy --schema $schemaPath
+Write-Host &quot;✅ Migration deployed.&quot; -ForegroundColor Green
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

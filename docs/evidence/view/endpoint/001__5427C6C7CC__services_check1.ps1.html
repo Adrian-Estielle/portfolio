@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • endpoint • 001__5427C6C7CC__services_check1.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>001__5427C6C7CC__services_check1.ps1</h1>
+    <div class="meta">Category: <b>endpoint</b> • Last updated: <b>2025-12-23 05:47</b></div>
+    <div class="actions">
+      <a class="btn" href="../../endpoint/001__5427C6C7CC__services_check1.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (001)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+# Service Health Check Script
+$ErrorActionPreference = &quot;Stop&quot;
+
+Write-Host &quot;`n🔍 Checking backend API endpoints...&quot; -ForegroundColor Cyan
+$apiBase = &quot;http://&lt;REDACTED_HOST&gt;&quot;
+$endpoints = @(&quot;/health&quot;, &quot;/auth/health&quot;)
+
+foreach ($ep in $endpoints) {
+    try {
+        $resp = Invoke-RestMethod -Uri &quot;$apiBase$ep&quot; -Method GET
+        Write-Host &quot;✅ $ep → $($resp | ConvertTo-Json -Compress)&quot; -ForegroundColor Green
+    } catch {
+        Write-Host &quot;❌ $ep failed: $_&quot; -ForegroundColor Red
+    }
+}
+
+Write-Host &quot;`n🔍 Checking PostgreSQL via Prisma...&quot; -ForegroundColor Cyan
+try {
+    npx prisma db pull | Out-Null
+    Write-Host &quot;✅ Prisma DB pull succeeded&quot; -ForegroundColor Green
+} catch {
+    Write-Host &quot;❌ Prisma DB pull failed: $_&quot; -ForegroundColor Red
+}
+
+Write-Host &quot;`n🔍 Seeding database...&quot; -ForegroundColor Cyan
+try {
+    node prisma/seed.js
+    Write-Host &quot;✅ Seed script ran successfully&quot; -ForegroundColor Green
+} catch {
+    Write-Host &quot;❌ Seed script failed: $_&quot; -ForegroundColor Red
+}
+
+Write-Host &quot;`n🔍 Checking SMTP Email (Nodemailer via SendGrid)...&quot; -ForegroundColor Cyan
+try {
+    $env:SENDGRID_API_KEY = &quot;SG.REDACTED.REDACTED&quot;
+    node -e @&quot;
+        const nodemailer = require(&#39;nodemailer&#39;);
+        const transporter = nodemailer.createTransport({
+            host: &#39;smtp.sendgrid.net&#39;,
+            port: 587,
+            auth: { user: &#39;apikey&#39;, pass: process.env.SENDGRID_API_KEY }
+        });
+        transporter.verify((err, success) =&gt; {
+            if (err) throw err;
+            console.log(&#39;SMTP connection verified&#39;);
+        });
+&quot;@
+} catch {
+    Write-Host &quot;❌ SMTP check failed: $_&quot; -ForegroundColor Red
+}
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

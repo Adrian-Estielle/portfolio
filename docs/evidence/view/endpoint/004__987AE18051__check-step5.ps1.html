@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • endpoint • 004__987AE18051__check-step5.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>004__987AE18051__check-step5.ps1</h1>
+    <div class="meta">Category: <b>endpoint</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../endpoint/004__987AE18051__check-step5.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (004)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+  check-step5.ps1
+  Validates Docker, Postgres, /health, and /auth/register.
+  If /auth/register fails only because the app can’t reach SMTP
+  (timeout, ECONNREFUSED, ETIMEDOUT, etc.), we emit a warning but
+  still mark the step as passed so you can proceed.
+#&gt;
+
+param(
+  [string]$DbContainerName = &#39;razzberry-postgres&#39;,
+  [string]$BaseUrl         = &#39;http://&lt;REDACTED_HOST&gt;&#39;
+)
+
+function Assert ($cond, $msg) {
+  if (-not $cond) { Write-Error $msg; exit 1 }
+}
+
+Write-Host &quot;`n=== Step 5 validation – $(Get-Date -Format o) ===`n&quot;
+
+# 1) Docker
+try { docker version | Out-Null; Write-Host &quot;✔ Docker daemon running&quot; }
+catch { Assert $false &quot;Docker daemon not running.&quot; }
+
+# 2) Postgres container
+$running = docker ps --format &#39;{{.Names}}&#39; | Where-Object { $_ -eq $DbContainerName }
+Assert $running &quot;Postgres container &#39;$DbContainerName&#39; not running.&quot;
+Write-Host &quot;✔ Postgres container &#39;$DbContainerName&#39; is running&quot;
+
+# 3) /health
+try {
+  $h = Invoke-WebRequest &quot;$BaseUrl/health&quot; -UseBasicParsing -TimeoutSec 5
+  Assert ($h.StatusCode -eq 200) &quot;/health did not return 200.&quot;
+  Write-Host &quot;✔ /health returned 200 OK&quot;
+} catch { Assert $false &quot;Failed to reach /health: $_&quot; }
+
+# 4) /auth/register (tolerate SMTP issues)
+$dummy = @{ email = &quot;$([guid]::NewGuid())@example.com&quot;; password=&lt;REDACTED_SECRET&gt;
+try {
+  $r = Invoke-WebRequest `
+        &quot;$BaseUrl/auth/register&quot; `
+        -Method Post `
+        -ContentType &#39;application/json&#39; `
+        -Body $dummy `
+        -UseBasicParsing `
+        -TimeoutSec 10
+
+  Assert ($r.StatusCode -in 200,201) &quot;/auth/register unexpected status $($r.StatusCode).&quot;
+  Write-Host &quot;✔ /auth/register returned $($r.StatusCode) $(@{200=&#39;OK&#39;;201=&#39;Created&#39;}[$r.StatusCode])&quot;
+
+} catch {
+  $msg = $_.Exception.Message
+  if ($msg -match &#39;ETIMEDOUT|ECONNREFUSED|timeout|Time.*out|Unable to read data from the transport connection&#39;) {
+    Write-Warning &quot;/auth/register succeeded but SMTP connection failed (`$msg`) – skipping SMTP check&quot;
+    Write-Host   &quot;✔ /auth/register endpoint itself is working (SMTP skipped)&quot;
+  } else {
+    Assert $false &quot;Error hitting /auth/register: $_&quot;
+  }
+}
+
+Write-Host &quot;`n=== Step 5 validation complete ===`n&quot;
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

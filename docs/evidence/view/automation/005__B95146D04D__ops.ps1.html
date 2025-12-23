@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • automation • 005__B95146D04D__ops.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>005__B95146D04D__ops.ps1</h1>
+    <div class="meta">Category: <b>automation</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../automation/005__B95146D04D__ops.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (005)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+Param()
+Set-StrictMode -Version Latest
+$ErrorActionPreference = &#39;Stop&#39;
+$ProgressPreference = &#39;SilentlyContinue&#39;
+
+$Service = &#39;razzberry&#39;
+$Project = &#39;razzberry&#39;
+$AppUrl  = &#39;https://&lt;REDACTED_HOST&gt;&#39;
+$LogRoot = Join-Path -LiteralPath (Get-Location) -ChildPath &#39;_ops&#39;
+$LogDir  = Join-Path $LogRoot &#39;logs&#39;
+$OutDir  = Join-Path $LogRoot &#39;out&#39;
+New-Item -ItemType Directory -Force -Path $LogDir,$OutDir | Out-Null
+
+function Write-Log { param([string]$m) $ts = (Get-Date).ToString(&#39;u&#39;); &quot;$ts $m&quot; | Tee-Object -FilePath (Join-Path $LogDir &#39;ops.log&#39;) -Append }
+Write-Log &#39;== ops start ==&#39;
+
+if (-not $env:RAILWAY_TOKEN) { Write-Error &#39;RAILWAY_TOKEN env var required&#39;; exit 1 }
+
+# Corepack / pnpm
+if (-not (Get-Command pnpm -ErrorAction SilentlyContinue)) { corepack enable | Out-Null }
+corepack prepare pnpm@10.14.0 --activate | Out-Null
+
+# Ensure railway.toml
+$railwayToml = @&quot;
+[build]
+builder = &quot;DOCKERFILE&quot;
+dockerfilePath = &quot;Dockerfile&quot;
+&quot;@
+Set-Content -NoNewline -LiteralPath railway.toml -Value $railwayToml
+
+# dockerignore
+$dockerIgnore = @&quot;node_modules
+**/.pnpm-store
+**/.turbo
+**/.next
+**/dist
+**/build
+**/.cache
+**/.DS_Store
+**/*.log
+Documents
+__p0_backups
+frontend
+apps
+packages
+smoke_output
+audit
+docs
+scripts/old
+*.env*
+&quot;@
+Set-Content -NoNewline -LiteralPath .dockerignore -Value $dockerIgnore
+
+# railwayignore
+$railwayIgnore = @&quot;node_modules
+**/.pnpm-store
+Documents
+__p0_backups
+frontend
+apps
+packages
+smoke_output
+audit
+docs
+scripts/old
+*.env*
+&quot;@
+Set-Content -NoNewline -LiteralPath .railwayignore -Value $railwayIgnore
+
+
+# Git add &amp; commit baseline infra files
+$baselineFiles = @(&#39;railway.toml&#39;,&#39;.dockerignore&#39;,&#39;.railwayignore&#39;,&#39;Dockerfile&#39;,&#39;scripts/db_migrate_supabase.sh&#39;,&#39;package.json&#39;) | Where-Object { Test-Path $_ }
+if ($baselineFiles) { git add $baselineFiles 2&gt;$null }
+if (-not (git diff --cached --quiet)) { git commit -m &#39;chore: ops automation baseline (infra only)&#39; | Out-Null }
+
+# Railway login/init/deploy
+pnpm dlx railway login --token $env:RAILWAY_TOKEN | Out-Null
+pnpm dlx railway init --project $Project --service $Service --yes | Out-Null
+pnpm dlx railway up --service $Service --detach | Out-Null
+
+Write-Log &#39;Waiting for /health...&#39;
+$deadline = (Get-Date).AddMinutes(15)
+$up=$false
+Do {
+  try { $r = Invoke-WebRequest -Uri &quot;$AppUrl/health&quot; -TimeoutSec 5 -UseBasicParsing; if ($r.StatusCode -eq 200) { $up=$true; break } } catch { $up=$false }
+  Start-Sleep -Seconds 5
+} while ((Get-Date) -lt $deadline)
+
+if (-not $up) {
+  Write-Warning &#39;Service did not become healthy in time. Fetching logs.&#39;
+  pnpm dlx railway logs --service $Service --environment production --detach | Select-Object -Last 400 | Tee-Object -FilePath (Join-Path $OutDir &#39;logs_tail.txt&#39;)
+  $summary = &quot;APP_BASE_URL=$AppUrl`nsummary: health=FAIL prisma=FAIL redis=N/A&quot;
+  $summary | Tee-Object -FilePath (Join-Path $OutDir (&quot;deploy-$((Get-Date).ToString(&#39;yyyyMMdd-HHmmss&#39;)).txt&quot;))
+  Write-Output $summary
+  exit 1
+}
+
+# Run migrations inside container
+pnpm dlx railway run --service $Service bash -lc &#39;./scripts/db_migrate_supabase.sh&#39; | Tee-Object -FilePath (Join-Path $LogDir &#39;migrate.log&#39;)
+
+# Postdeploy health
+$postOk=$true
+node scripts/postdeploy_health.mjs || ($postOk=$false)
+if (-not $postOk) { $prisma=&#39;FAIL&#39;; $redis=&#39;FAIL&#39; } else { $prisma=&#39;OK&#39;; $redis=&#39;OK&#39; }
+$h = if ($up) { &#39;OK&#39; } else { &#39;FAIL&#39; }
+$final = &quot;APP_BASE_URL=$AppUrl`nsummary: health=$h prisma=$prisma redis=$redis&quot;
+$final | Tee-Object -FilePath (Join-Path $OutDir (&quot;deploy-$((Get-Date).ToString(&#39;yyyyMMdd-HHmmss&#39;)).txt&quot;))
+Write-Output $final
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

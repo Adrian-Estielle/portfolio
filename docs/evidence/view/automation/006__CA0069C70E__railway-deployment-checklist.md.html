@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • automation • 006__CA0069C70E__railway-deployment-checklist.md</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>006__CA0069C70E__railway-deployment-checklist.md</h1>
+    <div class="meta">Category: <b>automation</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../automation/006__CA0069C70E__railway-deployment-checklist.md" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (006)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+# Railway Deployment Checklist (API + Workers)
+
+Use this when backend updates are ready but `railway up` keeps timing out or tokens have expired. It captures the playbook the support agents have been following during the current blitz.
+
+## 1. Authenticate via deployment token
+1. In Railway → Project → Settings → Deployment Tokens, create a token scoped to the Production environment.
+2. Export it before running commands:
+   ```bash
+   export RAILWAY_TOKEN=rwlt_...
+   ```
+3. Confirm auth works:
+   ```bash
+   railway whoami
+   ```
+   You should see the service account instead of “Unauthorized”.
+
+&gt; Skip `railway login --browserless` inside Codex; it fails without a browser. Always use deployment tokens when running from automations.
+
+## 2. Deploy the API service
+```bash
+railway up --service razzberry --ci
+```
+- `--ci` skips interactive prompts and streams build logs.
+- If the upload stalls, retry once after ~30 seconds. Persistent `operation timed out` errors usually mean Backboard is unhealthy; check Railway status before retrying.
+
+## 3. Check deployment state
+```bash
+railway status --service razzberry
+railway logs --service razzberry --lines 200
+```
+- Ensure the latest deployment shows `SUCCEEDED`.
+- Look for Prisma errors or missing env vars in the logs before moving on.
+
+## 4. Run post-deploy health checks
+```bash
+railway run --service razzberry pnpm run health:url
+```
+- Alternatively hit `https://&lt;service-domain&gt;/health` manually.
+- If `/health` is OK but the worker queues lag, run `pnpm run health:postdeploy` which also checks Redis and Supabase connectivity.
+
+## 5. Workers
+- Location queue service:
+  ```bash
+  railway up --service razzberry-worker --ci
+  railway logs --service razzberry-worker --lines 200
+  ```
+  Ensure `REDIS_URL`, `SUPABASE_*`, and other required vars are present.
+- AI bundle service (Railway `worker-ai`):
+  ```bash
+  railway up --service worker-ai --ci
+  railway logs --service worker-ai --lines 200
+  ```
+  The service start command is `pnpm ai:worker:all`, which launches the roundtable, persona, daily digest, research planner/batch, and insight workers together. Confirm `REDIS_URL`, `OPENAI_API_KEY`, and any research persona env vars before redeploying.
+
+## 6. Document the deploy
+After a successful deploy, update:
+- `COLLAB_BOARD.md` with the timestamp + summary (migrations applied, API online).
+- `Documents/Project Progress/Current/20251006-network-coordination.txt` with any token rotations or anomalies.
+
+### Troubleshooting Notes
+- **Timeouts at Backboard upload:** Pause 5 minutes, then retry with `railway up --service ... --ci`. If it persists, escalate in the team channel—Backboard may be degraded globally.
+- **Supabase connection errors (P1001):** Verify `DIRECT_URL` uses the pooler host `aws-1-us-west-1.pooler.supabase.com` and that the IP has access. Use `railway run --service razzberry env` to inspect live values.
+- **Missing migrations:** Run `pnpm prisma migrate deploy &amp;&amp; pnpm prisma generate` locally (with DB access) before redeploying so schema and client stay aligned.
+
+Keep this checklist close while coordinating with the support GPTs; it keeps the handoffs consistent.
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

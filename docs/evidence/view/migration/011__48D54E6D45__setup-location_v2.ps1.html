@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • migration • 011__48D54E6D45__setup-location_v2.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>011__48D54E6D45__setup-location_v2.ps1</h1>
+    <div class="meta">Category: <b>migration</b> • Last updated: <b>2025-12-23 05:19</b></div>
+    <div class="actions">
+      <a class="btn" href="../../migration/011__48D54E6D45__setup-location_v2.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (011)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+ .SYNOPSIS
+    Configure location capture and hourly analysis for the Razzberry backend.
+
+ .DESCRIPTION
+    This idempotent script adds a complete location ingestion pipeline to the
+    existing Razzberry monorepo. It installs required packages, updates the
+    Prisma schema, creates an Express route for bulk location uploads, mounts
+    the route in the API, and introduces a background worker that stores
+    locations and performs hourly clustering/analysis. All modifications are
+    performed relative to the detected repository root so you can run this
+    script from any directory. Re‑running the script will not duplicate
+    imports or blocks.
+
+    Key actions:
+
+      • Installs dependencies: h3-js, @googlemaps/google-maps-services-js,
+        node-cache, bullmq (if not present) and ioredis (for the worker).
+      • Adds a Location model to `backend/prisma/schema.prisma` if missing.
+      • Generates a Prisma migration and client to apply the new schema.
+      • Creates `backend/services/location.ts` with helper functions
+        recordLocations() and analyzeLocations().
+      • Creates `backend/routes/location.js` exposing POST /location/record
+        which validates input, decodes the JWT to obtain the user ID,
+        inserts rows into the database and enqueues them for analysis.
+      • Mounts the new route in `backend/index.js` after the /map route.
+      • Adds a dedicated worker at `backend/worker/locationWorker.js`
+        connecting to Redis. It consumes a locationIngest queue to persist
+        rows, and schedules hourly jobs on a locationAnalyze queue that run
+        analyzeLocations() to cluster places and update user interest. A
+        simple H3‑based clustering and Google Places lookup is stubbed in
+        for you to extend.
+      • Adds a package script `&quot;worker:location&quot;` to package.json for
+        launching the worker (e.g. `pnpm run worker:location`).
+
+    Note: Ensure that your DATABASE_URL and REDIS_URL environment variables
+    are set in `.env` or the Railway dashboard. GOOGLE_MAPS_KEY must be set
+    to enable reverse geocoding. The JWT_SECRET is used to decode tokens in
+    the location route.
+
+    After running this script, deploy your API and worker separately. On
+    Railway you can create a new service for the worker and set its command
+    to `pnpm run worker:location`. Add a Cron job (e.g. `0 * * * * pnpm
+    run worker:location`) or rely on the built‑in hourly scheduler inside
+    the worker for periodic analysis.
+#&gt;
+
+# Helper to locate repo root by climbing until a pnpm-lock.yaml or .git is found
+function Find-RepoRoot {
+    param([string]$startDir)
+    $dir = Get-Item $startDir
+    while ($dir -ne $null) {
+        if (Test-Path (Join-Path $dir &#39;.git&#39;) -or Test-Path (Join-Path $dir &#39;pnpm-lock.yaml&#39;)) {
+            return $dir.FullName
+        }
+        $dir = $dir.Parent
+    }
+    throw &#39;Could not locate repository root. Please run inside the project.&#39;
+}
+
+# Locate repo root and set working directory
+try {
+    $repoRoot = (git rev-parse --show-toplevel 2&gt;$null).Trim()
+} catch { $repoRoot = &#39;&#39; }
+if (-not $repoRoot) { $repoRoot = Find-RepoRoot $PWD }
+Set-Location $repoRoot
+Write-Host &quot;📂 Repo root: $repoRoot&quot;
+
+# Paths
+$backendDir  = Join-Path $repoRoot &#39;backend&#39;
+$schemaFile  = Join-Path $backendDir &#39;prisma/schema.prisma&#39;
+$routeDir    = Join-Path $backendDir &#39;routes&#39;
+$servicesDir = Join-Path $backendDir &#39;services&#39;
+$workerDir   = Join-Path $backendDir &#39;worker&#39;
+
+# Ensure directories exist
+if (-not (Test-Path $servicesDir)) { New-Item -ItemType Directory -Path $servicesDir | Out-Null }
+if (-not (Test-Path $routeDir))    { New-Item -ItemType Directory -Path $routeDir    | Out-Null }
+if (-not (Test-Path $workerDir))   { New-Item -ItemType Directory -Path $workerDir   | Out-Null }
+
+# 1) Install dependencies (idempotent)
+Write-Host &quot;🔧 Installing location dependencies via pnpm...&quot;
+Push-Location $backendDir
+pnpm add h3-js @googlemaps/google-maps-services-js node-cache bullmq ioredis | Out-Null
+Pop-Location
+Write-Host &quot;   ✅ Dependencies installed/updated.&quot;
+
+# 2) Ensure Location model exists in Prisma schema
+if (-not (Test-Path $schemaFile)) {
+    throw &quot;❌ Cannot find schema.prisma at $schemaFile&quot;
+}
+$schema = Get-Content $schemaFile -Raw
+if ($schema -notmatch &quot;model\s+Location\s+&quot;) {
+    Write-Host &quot;📝 Adding Location model to schema.prisma...&quot;
+    $locationModel = @&#39;
+
+model Location {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  lat        Float
+  lng        Float
+  recordedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  @@index([userId])
+  @@index([lat, lng])
+}
+&#39;@
+    Add-Content -Path $schemaFile -Value $locationModel
+    Write-Host &quot;   ↪ Location model appended.&quot;
+} else {
+    Write-Host &quot;   ↪ Location model already present – skipping schema update.&quot;
+}
+
+# Ensure User has back‑relation to Location to satisfy Prisma validation
+$schema = Get-Content $schemaFile -Raw  # reload in case we just appended
+if ($schema -notmatch &quot;locations\s+Location\[]&quot;) {
+    Write-Host &quot;📝 Adding &#39;locations Location[]&#39; relation field to User model...&quot;
+    $lines = Get-Content $schemaFile
+    $patched = @()
+    $insideUser = $false
+    foreach ($l in $lines) {
+        # Detect start of User model
+        if ($l -match &#39;^model\s+User\s+{&#39;) {
+            $insideUser = $true
+            $patched += $l
+            continue
+        }
+        # Before closing brace of User model, insert the relation field
+        if ($insideUser -and $l -match &#39;^\}&#39;) {
+            $patched += &#39;  locations Location[]&#39;
+            $patched += $l
+            $insideUser = $false
+            continue
+        }
+        $patched += $l
+    }
+    Set-Content -Path $schemaFile -Value ($patched -join &quot;`n&quot;) -Encoding UTF8
+    Write-Host &quot;   ↪ Added locations relation to User.&quot;
+}
+
+# 3) Generate migration and client
+Write-Host &quot;📦 Running prisma migrate and generate (may prompt)...&quot;
+Push-Location $backendDir
+try {
+    npx prisma migrate dev --name add_location --skip-seed | Out-Null
+} catch {
+    Write-Warning &quot;Prisma migrate failed: $_.Exception.Message. Ensure DATABASE_URL is set and database reachable.&quot;
+}
+try {
+    npx prisma generate | Out-Null
+} catch {
+    Write-Warning &quot;Prisma generate failed: $_.Exception.Message&quot;
+}
+Pop-Location
+Write-Host &quot;   ✅ Prisma client regenerated.&quot;
+
+# 4) Create services/location.ts
+$svcPath = Join-Path $servicesDir &#39;location.ts&#39;
+@&#39;
+import { PrismaClient } from &quot;@prisma/client&quot;;
+import h3 from &quot;h3-js&quot;;
+import NodeCache from &quot;node-cache&quot;;
+import { Client as GoogleMapsClient } from &quot;@googlemaps/google-maps-services-js&quot;;
+
+const prisma = new PrismaClient();
+const cache = new NodeCache({ stdTTL: 60 * 60 * 24 * 30 }); // 30‑day cache
+const maps = new GoogleMapsClient({});
+
+/**
+ * Persist an array of location entries for a user.
+ * Each entry should contain lat, lng, and optional recordedAt.
+ */
+export async function recordLocations(userId: number, entries: { lat: number; lng: number; recordedAt?: Date }[]) {
+  const data = entries.map(e =&gt; ({
+    userId,
+    lat: e.lat,
+    lng: e.lng,
+    recordedAt: e.recordedAt ? new Date(e.recordedAt) : new Date(),
+  }));
+  await prisma.location.createMany({ data });
+}
+
+/**
+ * Cluster recent location rows (past hour) by H3 cell, reverse geocode
+ * cluster centroids via Google Places and store user interests. This
+ * implementation is a stub – extend as needed for your production use.
+ */
+export async function analyzeLocations() {
+  const since = new Date(Date.now() - 60 * 60 * 1000);
+  const locations = await prisma.location.findMany({ where: { recordedAt: { gte: since } } });
+  if (locations.length === 0) return;
+  // Group by user and H3 cell at resolution 8
+  const groups: Record&lt;string, { userId: number; cell: string; points: { lat: number; lng: number }[] }&gt; = {};
+  for (const loc of locations) {
+    const cell = h3.geoToH3(loc.lat, loc.lng, 8);
+    const key = `${loc.userId}-${cell}`;
+    if (!groups[key]) groups[key] = { userId: loc.userId, cell, points: [] };
+    groups[key].points.push({ lat: loc.lat, lng: loc.lng });
+  }
+  for (const key of Object.keys(groups)) {
+    const group = groups[key];
+    // Compute centroid
+    const lat = group.points.reduce((s, p) =&gt; s + p.lat, 0) / group.points.length;
+    const lng = group.points.reduce((s, p) =&gt; s + p.lng, 0) / group.points.length;
+    const cacheKey = `${lat.toFixed(4)},${lng.toFixed(4)}`;
+    let placeName: string | undefined = cache.get(cacheKey);
+    if (!placeName &amp;&amp; process.env.GOOGLE_MAPS_KEY) {
+      try {
+        const resp = await maps.reverseGeocode({ params: { latlng: { lat, lng }, key: process.env.GOOGLE_MAPS_KEY } });
+        placeName = resp.data.results?.[0]?.formatted_address;
+        if (placeName) cache.set(cacheKey, placeName);
+      } catch (err) {
+        console.error(&#39;Reverse geocoding failed&#39;, err);
+      }
+    }
+    // TODO: update user interest table based on placeName category
+    console.log(`[Analyzer] User ${group.userId} visited cell ${group.cell} -&gt; ${placeName ?? &#39;unknown&#39;}`);
+  }
+}
+
+export default { recordLocations, analyzeLocations };
+&#39;@ | Set-Content $svcPath -Encoding UTF8
+Write-Host &quot;📝 Wrote services/location.ts&quot;
+
+# 5) Create routes/location.js
+$routePath = Join-Path $routeDir &#39;location.js&#39;
+@&#39;
+import express from &quot;express&quot;;
+import { z } from &quot;zod&quot;;
+import jwt from &quot;jsonwebtoken&quot;;
+import { Queue } from &quot;bullmq&quot;;
+import { PrismaClient } from &quot;@prisma/client&quot;;
+
+const router = express.Router();
+const prisma = new PrismaClient();
+
+// Configure Redis connection for the queue
+const conn = process.env.REDIS_URL
+  ? { connection: { url: process.env.REDIS_URL } }
+  : { connection: { host: process.env.REDIS_HOST || &#39;&lt;REDACTED_IP&gt;&#39;, port: parseInt(process.env.REDIS_PORT || &#39;6379&#39;), password=&lt;REDACTED_SECRET&gt;;
+const ingestQueue = new Queue(&#39;locationIngest&#39;, conn);
+
+// Schema for bulk location uploads
+const entrySchema = z.object({
+  lat: z.number(),
+  lng: z.number(),
+  recordedAt: z.union([z.string(), z.number(), z.date()]).optional(),
+});
+const payloadSchema = z.object({ entries: z.array(entrySchema).min(1) });
+
+router.post(&#39;/record&#39;, async (req, res) =&gt; {
+  // Validate JWT from Authorization header
+  const auth = req.headers.authorization || &#39;&#39;;
+  const token=&lt;REDACTED_SECRET&gt; &#39;)[1];
+  if (!token) return res.status(401).json({ error: &#39;Missing bearer &lt;REDACTED_TOKEN&gt;&#39; });
+  let userId;
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    userId=&lt;REDACTED_SECRET&gt;;
+  } catch (err) {
+    return res.status(401).json({ error: &#39;Invalid token&#39; });
+  }
+  // Validate request body
+  const result = payloadSchema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ error: &#39;Invalid input&#39;, details: result.error });
+  }
+  const entries = result.data.entries.map(e =&gt; ({
+    lat: e.lat,
+    lng: e.lng,
+    recordedAt: e.recordedAt ? new Date(e.recordedAt) : new Date(),
+    userId,
+  }));
+  try {
+    // Insert into database immediately
+    await prisma.location.createMany({ data: entries });
+    // Enqueue each entry for asynchronous processing
+    const jobs = entries.map(item =&gt; ({ name: &#39;location&#39;, data: item, opts: { removeOnComplete: true, removeOnFail: true } }));
+    await ingestQueue.addBulk(jobs);
+    res.status(201).json({ inserted: entries.length });
+  } catch (err) {
+    console.error(&#39;Location record error:&#39;, err);
+    res.status(500).json({ error: &#39;Internal error&#39; });
+  }
+});
+
+export default router;
+&#39;@ | Set-Content $routePath -Encoding UTF8
+Write-Host &quot;📝 Wrote routes/location.js&quot;
+
+# 6) Patch backend/index.js to mount location route
+$indexFile = Join-Path $backendDir &#39;index.js&#39;
+if (-not (Test-Path $indexFile)) { throw &quot;❌ Cannot find backend/index.js&quot; }
+$indexContent = Get-Content $indexFile -Raw
+if ($indexContent -notmatch &quot;/location&#39;&quot;) {
+    Write-Host &quot;🛠️  Mounting /location route in index.js...&quot;
+    $lines = Get-Content $indexFile
+    $patched = @()
+    $importAdded = $false
+    $routeMounted = $false
+    foreach ($line in $lines) {
+        # After other imports, insert import for location
+        if (-not $importAdded -and $line -match &quot;^import aiRoutes&quot; ) {
+            $patched += $line
+            $patched += &quot;import locationRoutes from &#39;./routes/location.js&#39;;&quot;
+            $importAdded = $true
+            continue
+        }
+        # After map route, mount location
+        if (-not $routeMounted -and $line -match &quot;/map&#39;&quot; ) {
+            $patched += $line
+            $patched += &quot;app.use(&#39;/location&#39;, locationRoutes);&quot;
+            $routeMounted = $true
+            continue
+        }
+        $patched += $line
+    }
+    Set-Content -Path $indexFile -Value ($patched -join &quot;`n&quot;) -Encoding UTF8
+    Write-Host &quot;   ↪ /location mounted in index.js&quot;
+} else {
+    Write-Host &quot;   ↪ /location route already mounted – skipping&quot;
+}
+
+# 7) Create worker/locationWorker.js
+$workerPath = Join-Path $workerDir &#39;locationWorker.js&#39;
+@&#39;
+import { Queue, Worker, QueueScheduler } from &#39;bullmq&#39;;
+import { recordLocations, analyzeLocations } from &#39;../services/location.js&#39;;
+import { PrismaClient } from &#39;@prisma/client&#39;;
+
+const prisma = new PrismaClient();
+const conn = process.env.REDIS_URL
+  ? { connection: { url: process.env.REDIS_URL } }
+  : { connection: { host: process.env.REDIS_HOST || &#39;&lt;REDACTED_IP&gt;&#39;, port: parseInt(process.env.REDIS_PORT || &#39;6379&#39;), password=&lt;REDACTED_SECRET&gt;;
+
+// Ensure schedulers exist for both queues
+new QueueScheduler(&#39;locationIngest&#39;, conn);
+new QueueScheduler(&#39;locationAnalyze&#39;, conn);
+
+// Worker to persist raw location entries from API
+new Worker(&#39;locationIngest&#39;, async job =&gt; {
+  const { userId, lat, lng, recordedAt } = job.data;
+  // Persist individual entry (note: API already inserts in bulk; this is redundant but ensures eventual consistency)
+  await prisma.location.create({ data: { userId, lat, lng, recordedAt: new Date(recordedAt) } });
+}, { connection: conn }).on(&#39;error&#39;, e =&gt; console.error(&#39;[locationIngest] worker error&#39;, e));
+
+// Worker to perform periodic analysis
+new Worker(&#39;locationAnalyze&#39;, async () =&gt; {
+  await analyzeLocations();
+}, { connection: conn }).on(&#39;error&#39;, e =&gt; console.error(&#39;[locationAnalyze] worker error&#39;, e));
+
+// Schedule hourly analysis via setInterval
+setInterval(async () =&gt; {
+  const analyzeQ = new Queue(&#39;locationAnalyze&#39;, conn);
+  await analyzeQ.add(&#39;analyze&#39;, {}, { removeOnComplete: true, removeOnFail: true });
+  console.log(&#39;[LocationWorker] Enqueued hourly analysis job&#39;);
+}, 60 * 60 * 1000);
+
+console.log(&#39;🏃 Location worker running. Waiting for jobs...&#39;);
+&#39;@ | Set-Content $workerPath -Encoding UTF8
+Write-Host &quot;📝 Wrote worker/locationWorker.js&quot;
+
+# 8) Add NPM script for location worker
+$pkgJsonPath = Join-Path $repoRoot &#39;package.json&#39;
+if (Test-Path $pkgJsonPath) {
+    $pkg = Get-Content $pkgJsonPath -Raw | ConvertFrom-Json
+    if (-not $pkg.scripts) { $pkg | Add-Member -MemberType NoteProperty -Name scripts -Value @{} }
+    # If the worker script isn&#39;t defined (PS doesn&#39;t allow colon property names directly), add via Add-Member
+    if ($pkg.scripts.PSObject.Properties.Name -notcontains &#39;worker:location&#39;) {
+        $pkg.scripts | Add-Member -Name &#39;worker:location&#39; -Value &#39;node backend/worker/locationWorker.js&#39; -MemberType NoteProperty -Force
+        $pkg | ConvertTo-Json -Depth 10 | Set-Content -Path $pkgJsonPath -Encoding UTF8
+        Write-Host &quot;📦 Added script \&quot;worker:location\&quot; to package.json&quot;
+    } else {
+        Write-Host &quot;   ↪ worker:location script already exists – skipping&quot;
+    }
+}
+
+Write-Host &quot;\n✅ Location ingestion and analysis configured. You can now run the worker with &#39;pnpm run worker:location&#39; and deploy it as a separate service.&quot;
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Local scratch / backups (not part of published portfolio)
+_kb_*.ps1
+_portfolio_*.ps1
+docs/_bak/
+docs/**/*.bak.*
+docs/practice_notes/
+*.bak.*

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • endpoint • 003__433FCD1DE3__setup-api-docs.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>003__433FCD1DE3__setup-api-docs.ps1</h1>
+    <div class="meta">Category: <b>endpoint</b> • Last updated: <b>2025-12-23 05:19</b></div>
+    <div class="actions">
+      <a class="btn" href="../../endpoint/003__433FCD1DE3__setup-api-docs.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (003)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+ Automates API cheatsheet tooling for the flattened backend.
+ • Installs dev deps (express-list-endpoints, ts-node) in the active backend package
+ • Creates scripts/generate-api-cheatsheet.ts if absent
+ • Adds &quot;doc:routes&quot; to package.json so `pnpm run doc:routes` works from repo root
+ • Remains backward-compatible if legacy backend/ folder still exists
+#&gt;
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = &#39;Stop&#39;
+
+function Stop-Here([string]$msg) {
+    Write-Host &quot;`nFATAL: $msg&quot; -ForegroundColor Red
+    return
+}
+
+# ───── Locate repo root ─────
+$start = if ($PSScriptRoot) { $PSScriptRoot } else { $PWD.Path }
+while ($start -and -not (Test-Path (Join-Path $start &#39;.git&#39;))) {
+    $parent = Split-Path $start -Parent
+    if ($parent -eq $start) { $start = $null; break }
+    $start = $parent
+}
+if (-not $start) { Stop-Here &#39;Not inside a git repository (no .git found).&#39;; return }
+
+$root = (Resolve-Path $start).Path
+Write-Host &quot;📂 Repo root → $root&quot; -ForegroundColor Cyan
+
+# ───── Determine backend package path ─────
+$legacyBackend = Join-Path $root &#39;backend/package.json&#39;
+if (Test-Path $legacyBackend) {
+    $backendDir = Split-Path $legacyBackend -Parent
+    $pnpmFilter = &#39;./backend&#39;
+    Write-Host &quot;↪ Legacy backend/ layout detected; operating inside $backendDir&quot; -ForegroundColor Yellow
+} else {
+    $backendDir = $root
+    $pnpmFilter = &#39;.&#39;
+    Write-Host &quot;✅ Flattened backend detected at repo root&quot; -ForegroundColor Green
+}
+
+$backendPkgPath = Join-Path $backendDir &#39;package.json&#39;
+if (-not (Test-Path $backendPkgPath)) { Stop-Here &quot;package.json not found at $backendDir&quot;; return }
+
+# ───── Ensure dev dependencies ─────
+function Ensure-DevDep([string]$pkg) {
+    $pkgJson = Get-Content $backendPkgPath -Raw | ConvertFrom-Json
+    $hasDep = $false
+    if ($pkgJson.devDependencies -and $pkgJson.devDependencies.$pkg) { $hasDep = $true }
+    elseif ($pkgJson.dependencies -and $pkgJson.dependencies.$pkg) { $hasDep = $true }
+
+    if ($hasDep) {
+        Write-Host &quot;↪ $pkg already present.&quot;
+        return
+    }
+
+    Write-Host &quot;➕ Adding $pkg (dev dependency).&quot;
+    if (Get-Command pnpm -ErrorAction SilentlyContinue) {
+        if ($pnpmFilter -eq &#39;.&#39;) {
+            pnpm add -D $pkg | Out-Null;
+        } else {
+            pnpm --filter $pnpmFilter add -D $pkg | Out-Null;
+        }
+    } elseif (Get-Command npm -ErrorAction SilentlyContinue) {
+        Push-Location $backendDir
+        npm install --save-dev $pkg | Out-Null
+        Pop-Location
+    } else {
+        Stop-Here &#39;Neither pnpm nor npm available to install dependencies.&#39;
+    }
+}
+
+Ensure-DevDep &#39;express-list-endpoints&#39;
+Ensure-DevDep &#39;ts-node&#39;
+
+# ───── Generator script ─────
+if ($backendDir -eq $root) {
+    $gen = Join-Path $root &#39;scripts/generate-api-cheatsheet.ts&#39;
+    $importPath = &#39;./index.js&#39;
+} else {
+    $gen = Join-Path $backendDir &#39;scripts/generate-api-cheatsheet.ts&#39;
+    $importPath = &#39;../index.js&#39;
+}
+
+if (-not (Test-Path $gen)) {
+    New-Item -ItemType Directory -Force -Path (Split-Path $gen) | Out-Null
+@&quot;
+import fs from &#39;fs&#39;;
+import listEndpoints from &#39;express-list-endpoints&#39;;
+import app from &#39;$importPath&#39;;
+
+const eps = listEndpoints(app);
+let out = `
+===================== RAZZBERRY API CHEAT-SHEET =====================
+
+Base URL  : https://&lt;REDACTED_HOST&gt;
+Auth      : Bearer &lt;REDACTED_TOKEN&gt; (Authorization header)
+
+--------------------------------------------------------------------
+`;
+for (const e of eps) {
+  for (const method of e.methods) {
+    out += `${method.padEnd(6)} ${e.path}\n`;
+  }
+}
+out += &#39;\n--------------------------------------------------------------------\n&#39;;
+fs.writeFileSync(&#39;API_CHEATSHEET.txt&#39;, out.trim() + &#39;\n&#39;, &#39;utf8&#39;);
+console.log(&#39;✅  API_CHEATSHEET.txt generated.&#39;);
+&quot;@ | Set-Content $gen -Encoding UTF8
+    Write-Host &quot;📝 Created $gen&quot;
+} else {
+    Write-Host &quot;↪ generator script already exists at $gen&quot;
+}
+
+# ───── Add root script entry ─────
+$rootPkgPath = Join-Path $root &#39;package.json&#39;
+$rootPkg     = Get-Content $rootPkgPath -Raw | ConvertFrom-Json
+if (-not $rootPkg.scripts) { $rootPkg | Add-Member -NotePropertyName scripts -NotePropertyValue @{} }
+$scriptValue = if ($backendDir -eq $root) {
+    &#39;pnpm exec ts-node scripts/generate-api-cheatsheet.ts&#39;
+} else {
+    &#39;pnpm --filter backend exec ts-node scripts/generate-api-cheatsheet.ts&#39;
+}
+if ($rootPkg.scripts.PSObject.Properties.Name -notcontains &#39;doc:routes&#39; -or $rootPkg.scripts.&#39;doc:routes&#39; -ne $scriptValue) {
+    $rootPkg.scripts.&#39;doc:routes&#39; = $scriptValue
+    $rootPkg | ConvertTo-Json -Depth 10 | Set-Content $rootPkgPath -Encoding UTF8
+    Write-Host &#39;✍️  Updated &quot;doc:routes&quot; in package.json.&#39;
+} else {
+    Write-Host &#39;↪ &quot;doc:routes&quot; already up-to-date.&#39;
+}
+
+Write-Host &quot;`n🎉  Setup complete.  Run  pnpm run doc:routes  to refresh API_CHEATSHEET.txt.&quot; -ForegroundColor Green
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

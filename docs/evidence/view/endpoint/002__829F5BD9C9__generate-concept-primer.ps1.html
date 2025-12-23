@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • endpoint • 002__829F5BD9C9__generate-concept-primer.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>002__829F5BD9C9__generate-concept-primer.ps1</h1>
+    <div class="meta">Category: <b>endpoint</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../endpoint/002__829F5BD9C9__generate-concept-primer.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (002)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+  Generates docs/concept-primer.md containing the same content
+  that used to live in the “Concept Primer – OAuth &amp; RLS” PDF.
+#&gt;
+@&#39;
+# Concept Primer – OAuth 2, PKCE &amp; PostgreSQL RLS
+
+## Why OAuth 2 / OpenID Connect is more than “Login with Google”
+*   Redirect / state / code‑exchange dance
+*   Mobile apps must use **PKCE** (no client secret)
+*   Short‑lived JWT access tokens + long‑lived refresh tokens
+*   Rotation &amp; revocation on device loss
+
+## Why Row‑Level Security (RLS) matters
+*   Policies are enforced **inside** PostgreSQL
+*   Every micro‑service, BI tool, ad‑hoc query is automatically safe
+*   Engine reads `current_setting(&#39;jwt.claims.sub&#39;)` to know caller
+
+## Dependency graph (high‑level)
+
+(OAuth provider) ─► JWT ─► Express middleware `requireAuth`
+                 │
+                 ▼
+          `SET jwt.claims.sub` ─► RLS policies
+                 │
+                 ▼
+      Safe SQL from Prisma / Worker / BI
+&#39;@ | Set-Content -Encoding utf8 -Path (Join-Path (git rev-parse --show-toplevel).Trim() &#39;docs/concept-primer.md&#39;)
+
+Write-Host &quot;✅  Wrote docs/concept-primer.md – convert to PDF if needed&quot;
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

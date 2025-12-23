@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • automation • 007__2687AA3246__run-all.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>007__2687AA3246__run-all.ps1</h1>
+    <div class="meta">Category: <b>automation</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../automation/007__2687AA3246__run-all.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (007)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+  run-all.ps1
+  ──────────────────────────────────────────────────────────────────────────
+  • Runs the Step‑5 validation (check-step5.ps1).
+  • Aborts on failure.
+  • Runs sync‑secrets.ps1 (if present).
+  • Prints a friendly “🏁  All tasks finished” banner.
+
+  Usage:
+      .\scripts\run-all.ps1                # uses default container name
+      .\scripts\run-all.ps1 -DbContainer razzberry-postgres
+#&gt;
+
+param(
+    [string]$DbContainer = &#39;razzberry-postgres&#39;
+)
+
+# helper for obvious output
+function Banner([string]$txt) {
+    Write-Host &quot;`n=== $txt ===`n&quot;
+}
+
+$repoRoot  = Split-Path $PSScriptRoot -Parent
+$checker   = Join-Path $repoRoot &#39;check-step5.ps1&#39;
+$syncer    = Join-Path $PSScriptRoot &#39;sync-secrets.ps1&#39;
+
+Banner &quot;Razzberry Automation – Full Pass&quot;
+
+# ── 1. Ensure checker exists ────────────────────────────────────────────
+if (-not (Test-Path $checker)) {
+    Write-Error &quot;check-step5.ps1 not found at $checker – aborting.&quot;
+    exit 1
+}
+
+# ── 2. Run Step‑5 validation ────────────────────────────────────────────
+&amp; $checker -DbContainerName $DbContainer
+if ($LASTEXITCODE) {
+    Write-Error &#39;Step 5 checker failed – aborting.&#39;
+    exit 1
+}
+
+# ── 3. Sync secrets (optional) ──────────────────────────────────────────
+if (Test-Path $syncer) {
+    Banner &quot;Syncing secrets&quot;
+    &amp; $syncer
+    if ($LASTEXITCODE) {
+        Write-Error &#39;sync‑secrets.ps1 reported an error – aborting.&#39;
+        exit 1
+    }
+} else {
+    Write-Warning &quot;sync-secrets.ps1 not found – skipping secret sync&quot;
+}
+
+Banner &quot;🏁  All tasks finished. You may now redeploy.&quot;
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • migration • 018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md</h1>
+    <div class="meta">Category: <b>migration</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="actions">
+      <a class="btn" href="../../migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (018)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+# Backend Root Migration Checklist
+
+Primary goal
+- Flatten backend to repo root so all runtime, build, and deploy paths reference root assets (`index.js`, `prisma/`, `routes/`, `services/`, `worker/`).
+
+Acceptance criteria
+- CI green: schema validate and entrypoint syntax check from root.
+- Railway deploys: API runs, migrations apply, health passes; Worker starts from root and connects to Redis.
+- No remaining critical configs require `cd backend` or path prefixes to `backend/`.
+
+Build &amp; Deploy
+- [x] Nixpacks (API):
+  - Files: `nixpacks.toml`
+  - Replace `cd backend` steps with root commands:
+    - install: `corepack enable &amp;&amp; corepack prepare pnpm@10.14.0 --activate &amp;&amp; pnpm install`
+    - build: `pnpm prisma:generate`
+    - start: `pnpm start`
+  - Or archive Nixpacks if Dockerfile is the single source of truth for API.
+- [x] Nixpacks (Worker):
+  - Files: `nixpacks.worker.toml`
+  - Replace `cd backend` steps with root equivalents or point start to `pnpm run worker:location`.
+  - Align Prisma generate/migrate to use `./prisma/schema.prisma`.
+- [x] Railway worker config:
+  - File: `worker.railway.json`
+  - Update `startCommand` to: `pnpm prisma:migrate &amp;&amp; node worker/locationWorker.js` (or `pnpm run worker:location`).
+
+CI/CD
+- [x] GitHub Actions (CI checks):
+  - File: `.github/workflows/ci-checks.yml`
+  - Update Prisma validate path: `--schema=prisma/schema.prisma`
+  - Update entrypoint check: `node --check index.js`
+- [x] CODEOWNERS (optional):
+  - File: `.github/CODEOWNERS`
+  - Adjust patterns if we remove `backend/` folder entirely or migrate ownership to root paths.
+
+Runtime &amp; Scripts
+- [x] Scripts referencing `cd backend`:
+  - Files: `scripts/railway-migrate.sh`, `fix-deployment.sh`
+  - Update to root prisma commands: `npx prisma generate --schema=./prisma/schema.prisma`, `npx prisma migrate deploy --schema=./prisma/schema.prisma`.
+- [x] Verify `docker-entrypoint.sh` behavior:
+  - It already runs from script directory at root and uses root `prisma/schema.prisma`. Comments mention “backend”; update comment when convenient.
+
+Documentation
+- [x] README updates:
+  - Replace workspace‑scoped commands (`--filter ./backend...`) with root equivalents.
+  - Clarify how to run API (`pnpm start`) and Worker (`pnpm run worker:location`).
+- [x] Docs under `docs/` and `Documents/` that claim “API resides in backend/”:
+  - Update or annotate with a short “flattened root (v5)” note.
+
+Cleanup
+- [x] `backend/` folder:
+  - Directory removed on 2025-10-02; historical docs remain under `Documents/`.
+
+Sanity validation
+- [x] `pnpm install --frozen-lockfile` succeeds. (2025-10-02)
+- [x] `pnpm prisma:generate` from root succeeds, client resolves. (2025-10-02)
+- [x] API boots locally (`pnpm start`), health at `/health` returns ok. (2025-10-02: ran `node -r dotenv/config index.js`, verified `{&quot;ok&quot;:true}` on `/health` with live Supabase/Redis env.)
+- [x] Worker boots (`pnpm run worker:location`), connects to Redis, no unhandled errors. (2025-10-02: ran `node worker/locationWorker.js` against Upstash; enqueued analysis job, no errors logged.)
+- [x] CI passes on PR: schema validate + node check updated to root. (2025-10-02: ran frontend build, `pnpm exec prisma validate`, and `node --check index.js` locally to mirror workflow steps.)
+
+Notes
+- See `.collab/findings/backend-path-audit.txt` (currently empty) for the latest scan.
+- Rebuild findings with `bash scripts/audit_backend_refs.sh`.
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>
