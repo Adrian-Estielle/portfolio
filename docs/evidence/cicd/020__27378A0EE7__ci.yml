@@ -1,0 +1,45 @@
+# Sanitized artifact (020)
+# Notes: identifiers/secrets replaced with <REDACTED_*> placeholders.
+# Source: <REDACTED_PATH>
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build_test_package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore HelloBuild.sln
+
+      - name: Build
+        run: dotnet build HelloBuild.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test HelloBuild.sln -c Release --no-build --logger "trx;LogFileName=test_results.trx"
+
+      - name: Publish artifact
+        run: |
+          mkdir -p artifacts/HelloBuild
+          dotnet publish src/HelloBuild/HelloBuild.csproj -c Release -o artifacts/HelloBuild
+          echo "git_commit=$(git rev-parse HEAD)" > artifacts/build_metadata.txt
+          echo "run_id=${GITHUB_RUN_ID}" >> artifacts/build_metadata.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: HelloBuild_artifacts
+          path: artifacts/**
+

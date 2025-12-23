@@ -1,0 +1,57 @@
+# Sanitized artifact (019)
+# Notes: identifiers/secrets replaced with <REDACTED_*> placeholders.
+# Source: <REDACTED_PATH>
+name: security
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  deps-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.20.0'
+          cache: 'pnpm'
+      - name: Enable corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.14.0 --activate
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Audit (pnpm audit with fallback)
+        run: |
+          pnpm audit --prod || echo 'pnpm audit failed (non-blocking)'
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+      - uses: github/codeql-action/autobuild@v3
+      - uses: github/codeql-action/analyze@v3
+  dependabot-metadata:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dependabot metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token=<REDACTED_SECRET> secrets.GITHUB_TOKEN }}
+
