@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>How I build &amp; validate this portfolio - Field Notes</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html#evidence-index">Evidence notes</a></div>
+    <h1>How I build &amp; validate this portfolio</h1>
+    <p class="muted">My proof-first rules: what I publish, how I sanitize it, and what I verify before it goes public.</p>
+
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cheatsheets.html">Cheat sheets</a>
+      <a href="ci.html">CI runbook</a>
+      <a href="portfolio-build.html">Portfolio build</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Proof-first strategy</h2>
+    <ul>
+      <li><strong>Projects = evidence</strong>: code + a reproducible process + an observable output (artifact/report/run log).</li>
+      <li><strong>Field Notes = credibility</strong>: I write why → steps → validation → failure modes (including click paths and log locations).</li>
+      <li><strong>Sanitization is non-negotiable</strong>: no tenant IDs, internal domains, user identifiers, customer data, or secrets.</li>
+    </ul>
+
+    <div class="callout note">
+      <strong>Intent:</strong> make it easy for a reviewer to verify claims quickly by following links and reproducing outputs.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>What counts as proof</h2>
+    <ul>
+      <li>CI runs with visible logs and downloadable artifacts.</li>
+      <li>Scripts that produce an output file (report, log, exported config) that can be inspected.</li>
+      <li>Runbooks that include “where to look when it fails” (UI clicks, log paths, common error patterns).</li>
+      <li>Before/after evidence when change is the point (migration checklist, validation steps, rollback plan).</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Sanitization rules (public-safe)</h2>
+    <ul>
+      <li>I never publish originals; I publish sanitized copies under <code>docs/</code>.</li>
+      <li>I replace identifiers/secrets with placeholders like <code>&lt;REDACTED_TENANT_ID&gt;</code>, <code>&lt;REDACTED_EMAIL&gt;</code>, <code>&lt;REDACTED_SECRET&gt;</code>.</li>
+      <li>If I can’t confidently sanitize something (binary artifacts, screenshots, unclear context), I mark it <strong>NEEDS MANUAL REVIEW</strong> and don’t ship it.</li>
+    </ul>
+
+    <div class="callout warn">
+      <strong>Hard stop:</strong> if a secret scan hits anything that looks like a live credential, I stop and fix it before pushing.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Validation checklist (what I run before pushing)</h2>
+    <ul>
+      <li><strong>Link sanity:</strong> every new page and evidence link is relative and resolves under <code>docs/</code>.</li>
+      <li><strong>Secret scan:</strong> search for common credential patterns (tokens, private keys, internal hostnames).</li>
+      <li><strong>Spot-check:</strong> open a handful of artifacts and confirm placeholders are present where expected.</li>
+      <li><strong>Git hygiene:</strong> stage only intended files under <code>docs/</code> and keep scratch/backup files untracked.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>How I use GPT via CLI (safely)</h2>
+    <ul>
+      <li>I use a CLI workflow to accelerate drafting runbooks, generating inventories, and creating repeatable publish scripts.</li>
+      <li>I treat the model output as a <strong>draft</strong> and verify it against the filesystem and tool output before publishing.</li>
+      <li>I keep the workflow resumable: checkpoints on disk, streaming reads for large inventories, and “resume forward” behavior.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Where to browse</h2>
+    <ul>
+      <li><a href="../evidence.html">Evidence archive</a> — curated hub (sanitized).</li>
+      <li><a href="../notes.html#evidence-index">Evidence notes index</a> — short “how I run it” notes per domain.</li>
+      <li><a href="ci.html">CI runbook</a> — how the HelloBuild proof is produced.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
