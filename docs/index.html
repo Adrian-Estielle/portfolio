@@ -15,7 +15,7 @@
     <div class="toplinks">
       <a href="https://github.com/Adrian-Estielle/portfolio">GitHub Repo</a>
       <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">CI Runs</a>
-      <a href="notes.html">Field Notes / KB</a> <a href="evidence/">Archives</a>
+      <a href="notes.html">Field Notes / KB</a> <a href="evidence/">Evidence Archive</a>
       <span class="muted">GitHub Pages: https://adrian-estielle.github.io/portfolio/</span>
     </div>
 
@@ -24,6 +24,74 @@
 </header>
 
 <main class="container">
+  <section class="card" id="evidence-archive" style="margin-top:1.1rem;">
+    <div style="display:flex;flex-wrap:wrap;gap:.85rem;align-items:center;justify-content:space-between;">
+      <div>
+        <h2 style="margin:.1rem 0 .15rem;">Evidence Archive</h2>
+        <div class="muted">Sanitized scripts, checklists, and CI configs that show how I build, validate, and troubleshoot. (No customer data or secrets.)</div>
+      </div>
+      <a href="evidence/" style="display:inline-block;padding:.62rem .95rem;border-radius:12px;background:var(--link);color:#fff;font-weight:750;">Open Evidence Archive</a>
+    </div>
+
+    <div class="kbgrid" style="margin-top:.95rem;">
+      <div class="kbcard">
+        <strong><a href="evidence.html#endpoint">Endpoint</a> <span class="muted">· 4 artifacts</span></strong>
+        <div class="muted" style="margin-top:.35rem;">Deployment preflights + health checks (API, DB, SMTP) that catch breakages early.</div>
+        <div class="links" style="margin-top:.45rem;">
+          <a href="evidence.html#endpoint">Browse category</a> · <a href="notes.html#evidence-endpoint">KB notes</a>
+        </div>
+        <ul class="small" style="margin:.55rem 0 0;padding-left:1.2rem;">
+          <li><a href="evidence/view/endpoint/004__987AE18051__check-step5.ps1.html">check-step5.ps1</a></li>
+          <li><a href="evidence/view/endpoint/001__5427C6C7CC__services_check1.ps1.html">services_check1.ps1</a></li>
+          <li><a href="evidence/view/endpoint/003__433FCD1DE3__setup-api-docs.ps1.html">setup-api-docs.ps1</a></li>
+        </ul>
+      </div>
+
+      <div class="kbcard">
+        <strong><a href="evidence.html#automation">Automation</a> <span class="muted">· 4 artifacts</span></strong>
+        <div class="muted" style="margin-top:.35rem;">Operational scripts + runbooks that turn fragile deploys into repeatable runs.</div>
+        <div class="links" style="margin-top:.45rem;">
+          <a href="evidence.html#automation">Browse category</a> · <a href="notes.html#evidence-automation">KB notes</a>
+        </div>
+        <ul class="small" style="margin:.55rem 0 0;padding-left:1.2rem;">
+          <li><a href="evidence/view/automation/006__CA0069C70E__railway-deployment-checklist.md.html">deployment checklist</a></li>
+          <li><a href="evidence/view/automation/005__B95146D04D__ops.ps1.html">ops.ps1</a></li>
+          <li><a href="evidence/view/automation/007__2687AA3246__run-all.ps1.html">run-all.ps1</a></li>
+        </ul>
+      </div>
+
+      <div class="kbcard">
+        <strong><a href="evidence.html#migration">Migration</a> <span class="muted">· 7 artifacts</span></strong>
+        <div class="muted" style="margin-top:.35rem;">Migration/cutover helpers: idempotent DB migrations, validation, and release gating.</div>
+        <div class="links" style="margin-top:.45rem;">
+          <a href="evidence.html#migration">Browse category</a> · <a href="notes.html#evidence-migration">KB notes</a>
+        </div>
+        <ul class="small" style="margin:.55rem 0 0;padding-left:1.2rem;">
+          <li><a href="evidence/view/migration/009__79B4317E98__create-location-migration-v2.ps1.html">create-location-migration-v2.ps1</a></li>
+          <li><a href="evidence/view/migration/010__961A0003A8__apply-migration.ps1.html">apply-migration.ps1</a></li>
+          <li><a href="evidence/view/migration/016__89FBA6C19D__dev-testing-release-checklist.md.html">dev/testing release checklist</a></li>
+        </ul>
+      </div>
+
+      <div class="kbcard">
+        <strong><a href="evidence.html#cicd">CI/CD</a> <span class="muted">· 5 artifacts</span></strong>
+        <div class="muted" style="margin-top:.35rem;">Build/test/package automation with reproducible outputs (GitHub Actions + Jenkins).</div>
+        <div class="links" style="margin-top:.45rem;">
+          <a href="evidence.html#cicd">Browse category</a> · <a href="notes.html#evidence-cicd">KB notes</a>
+        </div>
+        <ul class="small" style="margin:.55rem 0 0;padding-left:1.2rem;">
+          <li><a href="evidence/view/cicd/020__27378A0EE7__ci.yml.html">GitHub Actions workflow</a></li>
+          <li><a href="evidence/view/cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1.html">jenkins_bootstrap.ps1</a></li>
+          <li><a href="evidence/view/cicd/012__8DAB39C4D2__build.ps1.html">build.ps1</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="muted small" style="margin-top:.75rem;">
+      Each artifact has short “how I run it” notes (steps + validation + edge cases) in <a href="notes.html#evidence-index">notes.html</a>.
+    </div>
+  </section>
+
   <div class="grid">
     <article class="card">
       <h2>HelloBuild - CI/CD (GitHub Actions + Jenkins)</h2>
@@ -98,8 +166,9 @@
   </section>
 
   <footer>
-    <div class="muted">Tip: the runbooks in <a href="notes.html">Field Notes / KB</a> <a href="evidence/">Archives</a> are where the real edge cases and operational patterns live.</div>
+    <div class="muted">Tip: the runbooks in <a href="notes.html">Field Notes / KB</a> and <a href="evidence/">Evidence Archive</a> are where the real edge cases and operational patterns live.</div>
   </footer>
 </main>
 </body>
 </html>
+
