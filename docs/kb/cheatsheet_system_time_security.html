@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>System time + security cheat sheet (why clocks matter)</title>
+  <meta name="description" content="Why time drift breaks auth/certs/MFA/logs, what symptoms look like, how to verify + fix on Windows/domain/Linux, and how to harden time integrity."/>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.55;margin:0;color:#111;background:#fff;}
+    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
+    header{padding:2rem 0 1rem;}
+    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
+    .muted{color:#555}
+    .nav{margin-top:.7rem}
+    .nav a{margin-right:.75rem}
+    h1{margin:.15rem 0 .25rem;font-size:2rem}
+    h2{margin:1.35rem 0 .55rem;font-size:1.35rem}
+    h3{margin:1.05rem 0 .45rem;font-size:1.1rem}
+    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
+    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
+    .callout.warn{border-left-color:#b91c1c;background:#fef2f2}
+    .callout.note{border-left-color:#0f766e;background:#ecfdf5}
+    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.95em}
+    ul,ol{padding-left:1.25rem}
+    .k{display:inline-block;padding:.15rem .5rem;border:1px solid #e8e8e8;border-radius:999px;color:#444;margin-right:.35rem;font-size:.9rem}
+    .small{font-size:.95em}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid #eee;padding:.55rem .6rem;vertical-align:top}
+    th{text-align:left;background:#fafafa}
+  </style>
+</head>
+<body>
+<header>
+  <a href="../index.html">← portfolio home</a>
+  <div class="nav">
+    <a href="../notes.html">Field Notes / KB hub</a>
+  </div>
+  <h1>System time + security cheat sheet (why clocks matter)</h1>
+  <div class="muted">Why time drift breaks auth/certs/MFA/logs, what symptoms look like, how to verify + fix on Windows/domain/Linux, and how to harden time integrity.</div>
+  <div class="callout"><strong>* Under active development:</strong> this cheat sheet will be expanded with sanitized real log excerpts and screenshots.</div>
+</header>
+<main>
+<section class="card">
+  <h2>Why “time” is a security dependency</h2>
+  <p>
+    System time is not a cosmetic setting. It’s used as a <strong>trust boundary</strong> for authentication,
+    certificate validation, MFA, replay protection, and incident response. When clocks drift, systems don’t fail politely —
+    they fail as <strong>auth breaks</strong>, <strong>tokens are rejected</strong>, <strong>certs look invalid</strong>, and logs become hard to correlate.
+  </p>
+  <div>
+    <span class="k">Authentication</span>
+    <span class="k">Certificates</span>
+    <span class="k">MFA</span>
+    <span class="k">Tokens</span>
+    <span class="k">Audit logs</span>
+  </div>
+  <div class="callout warn">
+    Field rule: if you see “random” sign-in failures across otherwise healthy systems, check clock + time source before you burn hours debugging policy.
+  </div>
+</section>
+
+<section class="card">
+  <h2>Where time is used (security mechanisms)</h2>
+
+  <h3>1) Kerberos / Active Directory authentication</h3>
+  <ul>
+    <li>Kerberos tickets are time-bound (issued time, start time, end time).</li>
+    <li>Windows domains enforce a clock-skew tolerance (commonly ~5 minutes).</li>
+    <li>If client and DC time differ too much, you’ll see failures like “time difference between client and server is too great” / <code>KRB_AP_ERR_SKEW</code>.</li>
+  </ul>
+
+  <h3>2) Certificates + TLS</h3>
+  <ul>
+    <li>X.509 certificates have a validity window: <code>NotBefore</code> and <code>NotAfter</code>.</li>
+    <li>If your clock is in the past/future, a valid cert looks “not yet valid” or “expired”.</li>
+    <li>Revocation checks (CRL/OCSP) also rely on accurate time for “this response is still fresh” logic.</li>
+  </ul>
+
+  <h3>3) OAuth/OIDC/SAML tokens (cloud sign-in)</h3>
+  <ul>
+    <li>Access tokens and assertions have timestamps and validity windows (<code>exp</code>, <code>nbf</code>, <code>iat</code> are common).</li>
+    <li>Even if the server is authoritative, clients, proxies, and libraries often validate token time windows locally.</li>
+    <li>Large drift = “invalid token”, “token used before issued”, or silent sign-in loops.</li>
+  </ul>
+
+  <h3>4) MFA (TOTP codes)</h3>
+  <ul>
+    <li>TOTP is literally “time-based one-time password”.</li>
+    <li>If device time is off, codes fail even when the user is doing everything right.</li>
+  </ul>
+
+  <h3>5) Replay prevention / signed requests</h3>
+  <ul>
+    <li>Many APIs use timestamps in signatures to prevent replay (“this request is only valid for N minutes”).</li>
+    <li>Clock drift breaks those signatures and looks like auth failures.</li>
+  </ul>
+
+  <h3>6) Security logging + incident response</h3>
+  <ul>
+    <li>Correlation depends on consistent timestamps across endpoints, servers, identity providers, and network gear.</li>
+    <li>Bad time = broken timelines, false causality, and longer IR.</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>What it looks like when time is wrong (symptoms)</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Symptom</th>
+        <th>What’s really happening</th>
+        <th>First check</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Domain sign-in / Kerberos failures, “time difference too great”</td>
+        <td>Kerberos ticket validation fails due to skew</td>
+        <td><code>w32tm /query /status</code> + verify domain hierarchy source</td>
+      </tr>
+      <tr>
+        <td>Browser TLS warnings / cert looks invalid</td>
+        <td>Clock outside cert validity window</td>
+        <td>Check system clock + timezone, then resync</td>
+      </tr>
+      <tr>
+        <td>MFA code invalid (TOTP), user “swears it’s right”</td>
+        <td>Device clock drift breaks time window</td>
+        <td>Force time sync on phone + workstation</td>
+      </tr>
+      <tr>
+        <td>Cloud sign-in loops / “token not valid yet” / “expired”</td>
+        <td>Client/local validation fails due to skew</td>
+        <td>Sync time + confirm correct timezone</td>
+      </tr>
+      <tr>
+        <td>SIEM timelines don’t make sense</td>
+        <td>Endpoints/servers disagree on time</td>
+        <td>Validate NTP source and drift monitoring</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout note">
+    Time problems often masquerade as “Conditional Access issue”, “broken certificate”, “network problem”, or “device compliance weirdness”.
+    If failures are inconsistent across apps, time is a prime suspect.
+  </div>
+</section>
+
+<section class="card">
+  <h2>Root causes (real-world)</h2>
+  <ul>
+    <li><strong>Wrong timezone</strong> (common after imaging, BIOS defaults, or travel).</li>
+    <li><strong>NTP blocked</strong> (UDP/123 blocked, captive portal, guest Wi‑Fi).</li>
+    <li><strong>Multiple competing time sources</strong> (domain hierarchy vs external NTP vs hypervisor integration fighting).</li>
+    <li><strong>VM snapshots / resume</strong> (time jumps after pause/snapshot/restore).</li>
+    <li><strong>Laptop sleep/dock cycles</strong> (drift + delayed resync).</li>
+    <li><strong>Bad CMOS battery / BIOS clock</strong> (time resets after power off).</li>
+    <li><strong>Time tampering</strong> (misconfig or malicious). Treat unexplained time jumps as a security signal.</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Fast verification (commands that actually answer “am I in sync?”)</h2>
+
+  <h3>Windows (any)</h3>
+  <pre><code>w32tm /query /status
+w32tm /query /source</code></pre>
+
+  <h3>Windows (domain member) — confirm you’re using domain hierarchy</h3>
+  <pre><code>w32tm /query /configuration</code></pre>
+  <div class="muted small">
+    Look for: <code>Type: NT5DS</code> / “sync from domain hierarchy” (wording varies by version).
+  </div>
+
+  <h3>Windows UI check</h3>
+  <ul>
+    <li>Settings → <strong>Time &amp; language</strong> → <strong>Date &amp; time</strong></li>
+    <li>Ensure “Set time automatically” is on, timezone is correct, then “Sync now”</li>
+  </ul>
+
+  <h3>Linux (common)</h3>
+  <pre><code>timedatectl
+chronyc tracking
+chronyc sources -v</code></pre>
+
+  <h3>Where I check logs (Windows)</h3>
+  <ul>
+    <li>Event Viewer → Windows Logs → <strong>System</strong></li>
+    <li>Filter by source: <strong>Time-Service</strong> (messages vary by build)</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Remediation playbooks (least risky → more invasive)</h2>
+
+  <h3>Playbook A — Workstation time is wrong (standalone or AAD-joined)</h3>
+  <ol>
+    <li>Fix timezone first (wrong timezone looks like “time drift”).</li>
+    <li>Settings → Date &amp; time → enable auto time → click <strong>Sync now</strong>.</li>
+    <li>If it refuses to sync:
+      <ul>
+        <li>Verify outbound connectivity (captive portal / proxy).</li>
+        <li>Restart the Windows Time service.</li>
+      </ul>
+    </li>
+  </ol>
+  <pre><code>sc query w32time
+sc stop w32time
+sc start w32time
+w32tm /resync /force</code></pre>
+
+  <h3>Playbook B — Domain-joined device (ensure domain hierarchy)</h3>
+  <div class="callout warn">
+    Domain members should normally sync from the domain hierarchy, not random external NTP servers.
+  </div>
+  <pre><code>w32tm /config /syncfromflags:domhier /update
+w32tm /resync /force
+w32tm /query /source</code></pre>
+
+  <h3>Playbook C — PDC emulator (the “authoritative” DC) is wrong</h3>
+  <p class="small muted">High-level: external NTP → PDC → other DCs → domain members.</p>
+  <pre><code># Example pattern (adjust peers to your approved sources)
+w32tm /config /manualpeerlist:"time.windows.com,0x9" /syncfromflags:manual /reliable:YES /update
+net stop w32time
+net start w32time
+w32tm /resync /force
+w32tm /query /status</code></pre>
+  <div class="callout note">
+    In real environments, approved peers are typically internal stratum-1/2 sources or security-approved external sources.
+  </div>
+
+  <h3>Playbook D — Virtualization / “time keeps drifting back”</h3>
+  <ul>
+    <li>Confirm whether hypervisor time sync + domain time sync are fighting.</li>
+    <li>For domain-joined workloads, ensure the domain hierarchy is the logical source of truth.</li>
+    <li>Validate after resume/snapshot restore (time jumps are common there).</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Hardening / operational controls (keep time trustworthy)</h2>
+  <ul>
+    <li><strong>Lock down who can change time</strong> (Windows user right: “Change the system time”).</li>
+    <li><strong>Document your time chain</strong>: external/internal NTP → DCs → endpoints.</li>
+    <li><strong>Monitor drift</strong>: alert when endpoints drift beyond a threshold (don’t wait for auth to fail).</li>
+    <li><strong>Protect NTP configuration</strong> (treat it like a security control, not a preference).</li>
+    <li><strong>Investigate unexplained time jumps</strong> — could be misconfig, could be tampering.</li>
+  </ul>
+
+  <div class="callout warn">
+    Time integrity is part of security posture. If an attacker can manipulate clocks, they can interfere with logging, token validation assumptions, and incident timelines.
+  </div>
+</section>
+
+<section class="card">
+  <h2>References</h2>
+  <ul class="small">
+    <li><a href="https://learn.microsoft.com/en-us/windows-server/networking/windows-time-service/windows-time-service-tools-and-settings">Windows Time Service tools/settings</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/windows-server/networking/windows-time-service/how-the-windows-time-service-works">How Windows Time Service works</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/entra/identity/app-provisioning/provisioning-logs">Provisioning logs (example of time-critical audit/correlation)</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc5905">RFC 5905: NTP (Network Time Protocol)</a></li>
+  </ul>
+</section>
+<footer class="muted" style="padding:2rem 0 3rem;">
+  <div>Back to <a href="../notes.html">Field Notes / KB</a>.</div>
+</footer>
+</main>
+</body>
+</html>
