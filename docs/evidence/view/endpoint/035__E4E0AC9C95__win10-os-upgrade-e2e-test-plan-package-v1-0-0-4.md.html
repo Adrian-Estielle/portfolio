@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • endpoint • 035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.md</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.md</h1>
+    <div class="meta">Category: <b>endpoint</b> • Last updated: <b>2025-12-24 18:31</b></div>
+    <div class="actions">
+      <a class="btn" href="../../documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.md" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Windows 10 OS upgrade package — final E2E validation plan (sanitized)
+
+## Context
+This is a “final build” E2E validation plan used to verify a late-stage upgrade package revision after multiple iterations. It captures version deltas, environment coverage, and the safety rails used to prove the upgrade preserved baseline functionality (including domain/peripheral considerations).
+
+## Scope
+- Validate server-side deployment prerequisites and the endpoint upgrade workflow.
+- Cover both “pre-staged” and “on-the-spot” upgrade initiation patterns.
+- Validate restore behavior and post-restore readiness checks.
+- Include targeted internationalization/localization coverage (representative configurations).
+
+## Test / validation matrix (sanitized summary)
+| Area | Coverage | Validation focus |
+|---|---|---|
+| Upgrade package versions | Multiple iterative builds leading to the final revision | Confirm regression fixes and new behavior; verify no new high-severity defects |
+| Endpoint coverage | Multiple supported endpoint/app versions and endpoint types | Upgrade success, workflow regression, peripheral baseline, OS/service stability |
+| Restore coverage | Executed on a representative subset | Restore correctness + post-restore validation |
+| International configurations | Representative non-default locales (plus targeted retest) | UI/layout correctness, workflow integrity under localization |
+
+## Acceptance criteria
+- Upgrade completes successfully across representative coverage set.
+- Baseline features remain operational post-upgrade (workflows + peripherals).
+- Restore + post-restore validation succeeds on the exercised subset.
+- International configuration checks pass without localization regressions.
+
+## Rollback / contingency summary
+- If upgrade introduces instability or regression, restore immediately and verify baseline functionality.
+- If a dependency mismatch is detected (unsupported config/version), block the upgrade and remediate prerequisites before retry.
+
+## Evidence notes (what this demonstrates)
+- Managing validation across iterative build changes (explicit version deltas + re-validation scope).
+- Building confidence with a matrix that includes restore and localization edge cases.
+
+## Redactions summary
+- Removed/replaced: internal names, internal domains/shares, internal device identifiers, and internal references to email/ticketing/ALM systems.
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

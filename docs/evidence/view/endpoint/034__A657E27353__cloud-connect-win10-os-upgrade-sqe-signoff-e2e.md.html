@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • endpoint • 034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.md</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.md</h1>
+    <div class="meta">Category: <b>endpoint</b> • Last updated: <b>2025-12-24 18:31</b></div>
+    <div class="actions">
+      <a class="btn" href="../../documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.md" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Cloud-connected OS upgrade — SQE sign-off (E2E test plan, sanitized)
+
+## Context
+This document is the E2E test plan I used to validate a cloud-connected (“HTTPS delivery”) upgrade flow for Windows-based endpoints. The emphasis was stability after install and a repeatable restore path when needed.
+
+## Scope
+- Validate cloud-delivered installation workflow and post-install stability.
+- Exercise both “preflight/download checks” and the OS/database upgrade steps.
+- Confirm core workflows and key peripherals remain stable.
+- Validate restore operations return endpoints to a functional baseline.
+
+## Test / validation matrix (sanitized summary)
+| Target | Connectivity | Coverage approach | What was validated |
+|---|---|---|---|
+| Cloud-connected lab endpoints (VMs and consoles) | HTTPS | Representative spread of supported app versions | End-to-end install, service startup, logs/traceability, workflow regression |
+| “Final build” verification set | HTTPS | Repeated passes on the final build | Repeatability and “no new defects” confidence signal |
+
+## Acceptance criteria
+- Preflight checks succeed and required artifacts download reliably.
+- Upgrade completes without unexpected service failures or workflow regressions.
+- Restore can be executed cleanly, followed by a post-restore validation pass.
+- No high-severity new defects introduced within the tested coverage set.
+
+## Rollback / contingency summary
+- Treat restore as the primary rollback mechanism; if any step fails, restore and re-validate baseline.
+- If an endpoint is not eligible (unsupported version/config), fail closed and do not proceed with upgrade.
+
+## Evidence notes (what this demonstrates)
+- A structured validation approach for remote upgrades (repeatable steps, clear gates, measurable outcomes).
+- “Eligibility checks” and restore verification as core safety rails.
+
+## Redactions summary
+- Removed/replaced: internal names, internal share/URL paths, internal environment identifiers, and internal test-case identifiers.
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

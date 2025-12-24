@@ -5,3 +5,6 @@ docs/_bak/
 docs/**/*.bak.*
 docs/practice_notes/
 *.bak.*
+/.backup_evidence/
+/evidence/
+/tools/restructure_evidence.py

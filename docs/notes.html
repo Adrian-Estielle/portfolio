@@ -60,6 +60,26 @@
     </div>
   </section>
 
+  <section class="card" id="kb-upgrade-validation-sqe-signoff">
+    <h2>KB: Upgrade validation &amp; SQE signoff (sanitized)</h2>
+    <div class="muted">A repeatable pattern I use for endpoint OS/app upgrade validation: define the coverage matrix → run upgrades → verify workflows/peripherals → verify restore/rollback → capture go/no-go criteria.</div>
+    <ul>
+      <li><strong>Coverage matrix:</strong> representative endpoint types (virtual + physical), supported app/version bands, and delivery modes (cloud-connected vs local delivery).</li>
+      <li><strong>Validation focus:</strong> post-upgrade service health, core workflows, and “high-risk peripherals” (scan/print/readers/locks).</li>
+      <li><strong>Rollback:</strong> restore-first mindset; always verify post-restore baseline before returning a device to service.</li>
+      <li><strong>Edge cases:</strong> eligibility/version gating, driver/peripheral drift after restore, and localization/international configuration checks where applicable.</li>
+    </ul>
+    <div class="muted" style="margin-top:.35rem;">
+      Evidence:
+      <a href="evidence/endpoint.html#documentation">Endpoint documentation</a> ·
+      <a href="evidence/view/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.md.html">032</a>,
+      <a href="evidence/view/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.md.html">033</a>,
+      <a href="evidence/view/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.md.html">034</a>,
+      <a href="evidence/view/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.md.html">035</a>,
+      <a href="evidence/view/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.md.html">036</a>.
+    </div>
+  </section>
+
   <section class="card">
     <h2>Endpoint runbooks*</h2>
     <ul><li><a href="kb/endpoint_autopilot_offline_unmanaged_recovery.html">Autopilot recovery: offline/unmanaged outcome</a></li><li><a href="kb/endpoint_autopilot.html">Windows Autopilot enrollment + recovery checklist</a></li><li><a href="kb/endpoint_intune_compliance.html">Intune</a></li><li><a href="kb/endpoint_onedrive_autosync.html">Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive)</a></li></ul>

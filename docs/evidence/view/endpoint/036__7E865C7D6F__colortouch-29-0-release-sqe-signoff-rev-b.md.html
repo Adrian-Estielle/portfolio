@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • endpoint • 036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.md</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.md</h1>
+    <div class="meta">Category: <b>endpoint</b> • Last updated: <b>2025-12-24 18:31</b></div>
+    <div class="actions">
+      <a class="btn" href="../../documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.md" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Application release sign-off — endpoint regression &amp; readiness (sanitized)
+
+## Context
+This is a release sign-off artifact used to capture scope, coverage, and release criteria for an endpoint-facing application release (feature set + regression expectations). I used it to align engineering, product, and quality stakeholders on what was tested, what was deferred, and what gates were required for release.
+
+## Scope
+- Define the feature set covered by the sign-off revision.
+- Document release criteria (defect thresholds, regression expectations, and approval requirements).
+- Capture where evidence lives (test suites, regression runs, and known issue lists).
+
+## Test / validation matrix (sanitized summary)
+| Category | Coverage | Evidence captured |
+|---|---|---|
+| Feature validation | New/revised features for the release | Manual and automated test execution results |
+| Regression | Theme/workflow-based regression packs | Pass-rate and defect signal (severity thresholds) |
+| Endpoint variants | Representative device types and supported versions | Targeted compatibility validation |
+| Hardware/firmware baseline | Representative peripherals/modules | Post-upgrade / post-release stability checks |
+
+## Acceptance criteria
+- No open showstopper issues at release time; severity thresholds met.
+- Planned qualification strategy executed; regression runs at a “clean” signal threshold.
+- Known issue list reviewed and documented with clear exclusions/deferrals.
+
+## Rollback / contingency summary
+- If post-release monitoring shows a critical regression, pause rollout and revert to the prior stable package/version per the standard release mechanism.
+
+## Evidence notes (what this demonstrates)
+- Structured “release readiness” documentation: criteria, coverage, and traceable evidence.
+- Clear communication of what’s in-scope vs deferred to prevent ambiguity in go/no-go decisions.
+
+## Redactions summary
+- Removed/replaced: internal names/signatures, internal ticket/work-item IDs, internal test-management paths, and internal file-share locations.
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

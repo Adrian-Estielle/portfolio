@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • endpoint • 033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.md</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.md</h1>
+    <div class="meta">Category: <b>endpoint</b> • Last updated: <b>2025-12-24 18:31</b></div>
+    <div class="actions">
+      <a class="btn" href="../../documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.md" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Windows 10 OS upgrade package — SQE sign-off (execution summary, sanitized)
+
+## Context
+This sign-off report summarizes validation of a Windows 10 upgrade package for Windows-based dispensing endpoints, including upgrade + post-upgrade stability checks and restore verification. I used it as a “go/no-go” artifact when coordinating release readiness across stakeholders.
+
+## Scope
+- Validate upgrade package deployment and post-upgrade stability on representative endpoint types.
+- Verify restore behavior (rollback) and post-restore device readiness.
+- Validate peripherals and workflow regression items commonly impacted by OS upgrades.
+
+## Test / validation matrix (sanitized summary)
+| Target class | Connectivity mode(s) | Version coverage | Validation focus |
+|---|---|---|---|
+| Virtualized endpoints and consoles | Cloud-connected and queue-based | Supported version band for the release | Upgrade completion, service health, workflow regression |
+| Physical endpoints | Queue-based | Supported version band for the release | Peripherals (printers/scanners/readers), drawer/lock behavior, restore + post-restore |
+
+## Acceptance criteria
+- Upgrade success across all targets in the matrix.
+- 100% pass on the executed regression suite (workflows + peripherals) for the chosen coverage set.
+- Restore completes successfully where exercised, followed by a clean post-restore validation pass.
+- No new high-severity defects introduced by the build.
+
+## Rollback / contingency summary
+- If an upgrade fails or creates a regression, execute the restore procedure and validate baseline functionality before returning the device to service.
+- If a restore requires driver/peripheral remediation, re-apply the validated driver baseline and re-run the peripheral checks.
+
+## Evidence notes (what this demonstrates)
+- Practical SQE gating: define coverage, run the matrix, document outcomes, and capture sign-off.
+- OS upgrade risk controls: restore-first thinking, plus explicit peripheral/workflow validation.
+
+## Redactions summary
+- Removed/replaced: internal names, signatures, internal network identifiers (IPs/hosts), internal file shares, internal comments, and internal ticket/test IDs.
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>
