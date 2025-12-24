@@ -12,7 +12,7 @@
 #
 # Usage   :
 #   # Ensure $Env:DATABASE_URL is set to a *write‑able* Postgres connection.
-#   # Then run from the repo root (`C:\src\razzberry-backend`):
+#   # Then run from the repo root:
 #   pwsh ./scripts/create-location-migration.ps1 -Name add_location
 #
 #   You can omit `-Name` to use the default `add_location`.

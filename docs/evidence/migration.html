@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Evidence • Migration</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../evidence.html">Evidence hub</a> · <a href="index.html">Viewer</a></div>
+    <h1>Migration evidence</h1>
+    <p class="muted">Cutover and release helpers: idempotent migrations, rollout checklists, and safety rails.</p>
+
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cicd.html">CI/CD</a>
+      <span class="muted">·</span>
+      <a href="scripts.html">Scripts index</a>
+      <a href="documentation.html">Docs index</a>
+      <a href="../notes.html#evidence-migration">KB notes</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card" id="scripts">
+    <h2>Scripts</h2>
+    <ul>
+      <li><strong><a href="view/migration/009__79B4317E98__create-location-migration-v2.ps1.html">create-location-migration-v2.ps1</a></strong> — Idempotent migration creator/applier (Prisma) gated by <code>DATABASE_URL</code>. <span class="muted">(<a href="scripts/migration/009__79B4317E98__create-location-migration-v2.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/migration/010__961A0003A8__apply-migration.ps1.html">apply-migration.ps1</a></strong> — Runs <code>prisma migrate deploy</code> safely (fails fast when env/schema is wrong). <span class="muted">(<a href="scripts/migration/010__961A0003A8__apply-migration.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/migration/011__48D54E6D45__setup-location_v2.ps1.html">setup-location_v2.ps1</a></strong> — Adds a location ingestion + analysis pipeline (routes, worker, Redis queue) in an idempotent way. <span class="muted">(<a href="scripts/migration/011__48D54E6D45__setup-location_v2.ps1">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <section class="card" id="documentation">
+    <h2>Documentation</h2>
+    <ul>
+      <li><strong><a href="view/migration/016__89FBA6C19D__dev-testing-release-checklist.md.html">dev-testing-release-checklist.md</a></strong> — Release checklist focused on observable signals (health, logs, smoke tests) instead of vibes. <span class="muted">(<a href="documentation/migration/016__89FBA6C19D__dev-testing-release-checklist.md">raw</a>)</span></li>
+      <li><strong><a href="view/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md.html">BACKEND_ROOT_MIGRATION_CHECKLIST.md</a></strong> — “Backend root” migration checklist and gotchas (what breaks, what to verify). <span class="muted">(<a href="documentation/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md">raw</a>)</span></li>
+      <li><strong><a href="view/migration/019__2BA04B36DE__security.yml.html">security.yml</a></strong> — CI security workflow reference (static analysis / dependency checks). <span class="muted">(<a href="documentation/migration/019__2BA04B36DE__security.yml">raw</a>)</span></li>
+      <li><strong><a href="view/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md.html">PORTFOLIO_CHECKLIST.md</a></strong> — My packaging checklist when publishing a repo: what I include/exclude and why. <span class="muted">(<a href="documentation/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <footer class="muted">
+    <div style="margin:1.2rem 0 2.2rem;">
+      Back to <a href="../evidence.html">Evidence hub</a> or <a href="../index.html">portfolio home</a>.
+    </div>
+  </footer>
+</main>
+</body>
+</html>
+

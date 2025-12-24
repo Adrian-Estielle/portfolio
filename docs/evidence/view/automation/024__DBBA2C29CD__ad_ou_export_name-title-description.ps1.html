@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • automation • 024__DBBA2C29CD__ad_ou_export_name-title-description.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>024__DBBA2C29CD__ad_ou_export_name-title-description.ps1</h1>
+    <div class="meta">Category: <b>automation</b> • Last updated: <b>2025-12-23 17:48</b></div>
+    <div class="actions">
+      <a class="btn" href="../../scripts/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (024)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+What it does
+- Exports Name / Title / Description for users under a target OU (optionally including sub-OUs).
+
+When used
+- Building a role/attribute baseline, or validating bulk Description normalization.
+
+Inputs
+- DomainControllerFqdn: DC hostname/FQDN (optional).
+- TargetOuDn: distinguishedName of the OU to query.
+- SearchScope: OneLevel or Subtree.
+- OutputCsvPath: where to write the CSV.
+
+Safety notes
+- Read-only against AD; writes a local CSV output.
+
+Validation
+- Open the CSV and spot-check a few users directly in AD.
+- Confirm SearchScope is intentional (Subtree can be large).
+
+What was sanitized
+- Internal DC hostnames, OU DNs, and output paths removed.
+- Original local filename: `Pull title description name.ps1`.
+#&gt;
+
+[CmdletBinding()]
+param(
+  [string]$DomainControllerFqdn,
+  [Parameter(Mandatory = $true)]
+  [string]$TargetOuDn = &#x27;OU=&lt;DEPARTMENT&gt;,OU=Users,DC=example,DC=org&#x27;,
+  [ValidateSet(&#x27;OneLevel&#x27;,&#x27;Subtree&#x27;)]
+  [string]$SearchScope = &#x27;Subtree&#x27;,
+  [string]$OutputCsvPath = (Join-Path -Path (Get-Location) -ChildPath &#x27;ou_name_title_description.csv&#x27;)
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = &#x27;Stop&#x27;
+$ProgressPreference = &#x27;SilentlyContinue&#x27;
+
+Import-Module ActiveDirectory -ErrorAction Stop
+
+if ($DomainControllerFqdn) {
+  $PSDefaultParameterValues[&#x27;*-AD*:Server&#x27;] = $DomainControllerFqdn
+}
+
+$users = Get-ADUser -Filter * -SearchBase $TargetOuDn -SearchScope $SearchScope -Property Title,Description
+$users |
+  Select-Object Name,Title,Description |
+  Export-Csv -LiteralPath $OutputCsvPath -NoTypeInformation
+
+Write-Host &quot;Wrote: $OutputCsvPath&quot;
+
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Evidence • CI/CD</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../evidence.html">Evidence hub</a> · <a href="index.html">Viewer</a></div>
+    <h1>CI/CD evidence</h1>
+    <p class="muted">Build/test/package automation with repeatable output and visible logs.</p>
+
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cicd.html">CI/CD</a>
+      <span class="muted">·</span>
+      <a href="scripts.html">Scripts index</a>
+      <a href="documentation.html">Docs index</a>
+      <a href="../notes.html#evidence-cicd">KB notes</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card" id="scripts">
+    <h2>Scripts</h2>
+    <ul>
+      <li><strong><a href="view/cicd/012__8DAB39C4D2__build.ps1.html">build.ps1</a></strong> — Local .NET build helper that mirrors CI steps (restore/build/test/publish). <span class="muted">(<a href="scripts/cicd/012__8DAB39C4D2__build.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1.html">jenkins_bootstrap.ps1</a></strong> — Brings up a local Jenkins controller (Docker) so I can demo “real Jenkins” runs. <span class="muted">(<a href="scripts/cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/cicd/014__DF90BC2348__setup_branches_and_ci.ps1.html">setup_branches_and_ci.ps1</a></strong> — Repo bootstrap: branch scaffolding + starter CI workflow creation. <span class="muted">(<a href="scripts/cicd/014__DF90BC2348__setup_branches_and_ci.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/cicd/015__EE68DC1D0E__4project_contents.ps1.html">4project_contents.ps1</a></strong> — Dumps selected source files into a single review artifact (useful for audits/assessments). <span class="muted">(<a href="scripts/cicd/015__EE68DC1D0E__4project_contents.ps1">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <section class="card" id="documentation">
+    <h2>Documentation</h2>
+    <ul>
+      <li><strong><a href="view/cicd/020__27378A0EE7__ci.yml.html">ci.yml</a></strong> — GitHub Actions pipeline: restore → build → test → publish → upload artifact. <span class="muted">(<a href="documentation/cicd/020__27378A0EE7__ci.yml">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <footer class="muted">
+    <div style="margin:1.2rem 0 2.2rem;">
+      Back to <a href="../evidence.html">Evidence hub</a> or <a href="../index.html">portfolio home</a>.
+    </div>
+  </footer>
+</main>
+</body>
+</html>
+

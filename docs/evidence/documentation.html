@@ -3,32 +3,57 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Project documentation archive</title>
+  <title>Project documentation index</title>
   <link rel="stylesheet" href="../site.css"/>
 </head>
 <body>
 <header class="site-header">
   <div class="container">
-    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html">Field Notes hub</a></div>
-    <h1>Project documentation archive*</h1>
-    <p class="muted">Sanitized docs: runbooks, KB exports, design notes, decision logs. (Keep them short and operational.)</p>
-    <div class="callout"><strong>* Under active development:</strong> this archive grows over time as documents are sanitized.</div>
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../evidence.html">Evidence hub</a> · <a href="index.html">Viewer</a></div>
+    <h1>Project documentation (index)</h1>
+    <p class="muted">Documentation artifacts only — checklists, configs, notes. Scripts live in <a href="scripts.html">scripts.html</a>.</p>
+
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cicd.html">CI/CD</a>
+      <span class="muted">·</span>
+      <a href="scripts.html">Scripts index</a>
+      <a href="../notes.html#evidence-index">Evidence notes</a>
+    </div>
   </div>
 </header>
 
 <main class="container">
-  <section class="card">
-    <h2>Files</h2>
-    <p class="muted"><strong>Main evidence archive:</strong> <a href="../evidence.html">evidence.html</a></p>
-    <p class="muted">Artifacts are organized by domain category (endpoint/automation/migration/cicd) under <code>docs/evidence/</code>.</p>
+  <section class="card" id="endpoint">
+    <h2>Endpoint <span class="muted">· 0 docs</span></h2>
+    <p class="muted">No endpoint documentation artifacts published yet.</p>
   </section>
 
-  <section class="card">
-    <h2>What belongs here</h2>
+  <section class="card" id="automation">
+    <h2>Automation <span class="muted">· 3 docs</span></h2>
     <ul>
-      <li>“How we operated it” notes (checks, failure modes, recovery) — not vendor marketing summaries.</li>
-      <li>Short decision logs (what we chose, why, constraints, rollback plan).</li>
-      <li>Sanitized screenshots only when they add value.</li>
+      <li><strong><a href="view/automation/006__CA0069C70E__railway-deployment-checklist.md.html">railway-deployment-checklist.md</a></strong> — Deployment checklist when the happy path fails. <span class="muted">(<a href="documentation/automation/006__CA0069C70E__railway-deployment-checklist.md">raw</a>)</span></li>
+      <li><strong><a href="view/automation/automation_ad_inventory.md.html">automation_ad_inventory.md</a></strong> — Inventory of published AD onboarding/maintenance artifacts (sanitized). <span class="muted">(<a href="documentation/automation/automation_ad_inventory.md">raw</a>)</span></li>
+      <li><strong><a href="view/automation/automation_ad_fingerprint.md.html">automation_ad_fingerprint.md</a></strong> — Public-safe fingerprint of how the AD automation script cluster was identified. <span class="muted">(<a href="documentation/automation/automation_ad_fingerprint.md">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <section class="card" id="migration">
+    <h2>Migration <span class="muted">· 4 docs</span></h2>
+    <ul>
+      <li><strong><a href="view/migration/016__89FBA6C19D__dev-testing-release-checklist.md.html">dev-testing-release-checklist.md</a></strong> — Release checklist focused on observable signals. <span class="muted">(<a href="documentation/migration/016__89FBA6C19D__dev-testing-release-checklist.md">raw</a>)</span></li>
+      <li><strong><a href="view/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md.html">BACKEND_ROOT_MIGRATION_CHECKLIST.md</a></strong> — “Backend root” migration checklist and gotchas. <span class="muted">(<a href="documentation/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md">raw</a>)</span></li>
+      <li><strong><a href="view/migration/019__2BA04B36DE__security.yml.html">security.yml</a></strong> — CI security workflow reference. <span class="muted">(<a href="documentation/migration/019__2BA04B36DE__security.yml">raw</a>)</span></li>
+      <li><strong><a href="view/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md.html">PORTFOLIO_CHECKLIST.md</a></strong> — Packaging checklist for publishing a repo. <span class="muted">(<a href="documentation/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <section class="card" id="cicd">
+    <h2>CI/CD <span class="muted">· 1 doc</span></h2>
+    <ul>
+      <li><strong><a href="view/cicd/020__27378A0EE7__ci.yml.html">ci.yml</a></strong> — GitHub Actions pipeline: restore → build → test → publish → upload artifact. <span class="muted">(<a href="documentation/cicd/020__27378A0EE7__ci.yml">raw</a>)</span></li>
     </ul>
   </section>
 </main>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Evidence • Endpoint</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../evidence.html">Evidence hub</a> · <a href="index.html">Viewer</a></div>
+    <h1>Endpoint evidence</h1>
+    <p class="muted">Health checks and preflight scripts I use to debug “works locally” vs “runs in prod”.</p>
+
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cicd.html">CI/CD</a>
+      <span class="muted">·</span>
+      <a href="scripts.html">Scripts index</a>
+      <a href="documentation.html">Docs index</a>
+      <a href="../notes.html#evidence-endpoint">KB notes</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card" id="scripts">
+    <h2>Scripts</h2>
+    <ul>
+      <li><strong><a href="view/endpoint/004__987AE18051__check-step5.ps1.html">check-step5.ps1</a></strong> — Preflight validation: Docker/Postgres, <code>/health</code>, and <code>/auth/register</code>; treats SMTP-only failures as warnings. <span class="muted">(<a href="scripts/endpoint/004__987AE18051__check-step5.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/endpoint/001__5427C6C7CC__services_check1.ps1.html">services_check1.ps1</a></strong> — Fast smoke test: API endpoints, Prisma DB pull, seed run, and SMTP connectivity. <span class="muted">(<a href="scripts/endpoint/001__5427C6C7CC__services_check1.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/endpoint/003__433FCD1DE3__setup-api-docs.ps1.html">setup-api-docs.ps1</a></strong> — Bootstraps API route cheatsheet tooling (deps + script + <code>pnpm run doc:routes</code>). <span class="muted">(<a href="scripts/endpoint/003__433FCD1DE3__setup-api-docs.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/endpoint/002__829F5BD9C9__generate-concept-primer.ps1.html">generate-concept-primer.ps1</a></strong> — Generates a short concept primer doc (OAuth2/PKCE + Postgres RLS). <span class="muted">(<a href="scripts/endpoint/002__829F5BD9C9__generate-concept-primer.ps1">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <section class="card" id="documentation">
+    <h2>Documentation</h2>
+    <p class="muted">No endpoint documentation artifacts published yet.</p>
+  </section>
+
+  <footer class="muted">
+    <div style="margin:1.2rem 0 2.2rem;">
+      Back to <a href="../evidence.html">Evidence hub</a> or <a href="../index.html">portfolio home</a>.
+    </div>
+  </footer>
+</main>
+</body>
+</html>
+

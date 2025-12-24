@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • automation • 028__A9DE623869__ad_update-descriptions_v2.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>028__A9DE623869__ad_update-descriptions_v2.ps1</h1>
+    <div class="meta">Category: <b>automation</b> • Last updated: <b>2025-12-23 17:48</b></div>
+    <div class="actions">
+      <a class="btn" href="../../scripts/automation/028__A9DE623869__ad_update-descriptions_v2.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (028)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+What it does
+- Normalizes user `Description` values across a broader directory scope and exports a before/after CSV report.
+
+When used
+- When Description values must be standardized (Full Time / Temp / Contractor / Vendor / Test) for downstream automation.
+
+Inputs
+- SearchBaseDn: DN where the search begins (default: domain root placeholder).
+- Apply: actually writes changes; otherwise produces a dry-run report.
+- OutputCsvPath: where to write the report CSV.
+
+Safety notes
+- Defaults to dry-run (no AD writes) unless `-Apply` (or `-WhatIf`).
+- Supports `-WhatIf` / `-Confirm`.
+
+Validation
+- Review report output for false positives.
+- Roll back strategy: restore from report CSV (or run a revert script) if needed.
+
+What was sanitized
+- Internal DC/domain identifiers and output paths removed.
+- Original local filename: `update descriptions v2.ps1`.
+#&gt;
+
+[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = &#x27;High&#x27;)]
+param(
+  [string]$DomainControllerFqdn,
+  [string]$SearchBaseDn = &#x27;DC=example,DC=org&#x27;,
+  [string]$OutputCsvPath = (Join-Path -Path (Get-Location) -ChildPath &#x27;description_changes_domain.csv&#x27;),
+  [switch]$Apply
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = &#x27;Stop&#x27;
+$ProgressPreference = &#x27;SilentlyContinue&#x27;
+
+Import-Module ActiveDirectory -ErrorAction Stop
+
+if ($DomainControllerFqdn) {
+  $PSDefaultParameterValues[&#x27;*-AD*:Server&#x27;] = $DomainControllerFqdn
+}
+
+function Get-NormalizedDescription([AllowEmptyString()][string]$Description) {
+  if (-not $Description) { return $null }
+  if ($Description -match &#x27;loa&#x27;) { return $Description } # preserve LOA-like markers
+  if ($Description -match &#x27;consultant&#x27;) { return &#x27;Consultant&#x27; }
+  if ($Description -match &#x27;contractor&#x27;) { return &#x27;Contractor&#x27; }
+  if ($Description -match &#x27;temp&#x27;) { return &#x27;Temp&#x27; }
+  if ($Description -match &#x27;vendor&#x27;) { return &#x27;Vendor&#x27; }
+  if ($Description -match &#x27;test|testing&#x27;) { return &#x27;Test Account&#x27; }
+  return &#x27;Full Time&#x27;
+}
+
+if (-not $Apply -and -not $WhatIfPreference) {
+  Write-Warning &quot;Dry run: no AD changes will be applied. Re-run with -Apply (or use -WhatIf to preview actions).&quot;
+}
+
+$users = Get-ADUser -Filter * -SearchBase $SearchBaseDn -Property Description,Title,SamAccountName
+$total = $users.Count
+$count = 0
+
+$report = foreach ($u in $users) {
+  $count++
+  Write-Progress -Activity &#x27;Normalizing user descriptions&#x27; -Status &quot;$count/$total&quot; -PercentComplete (($count / [Math]::Max(1,$total)) * 100)
+
+  $before = $u.Description
+  $after = Get-NormalizedDescription -Description $before
+  $changed = ($after -ne $null) -and ($after -ne $before)
+
+  if ($Apply -or $WhatIfPreference) {
+    if ($changed -and $PSCmdlet.ShouldProcess($u.SamAccountName, &quot;Set Description=&#x27;$after&#x27;&quot;)) {
+      Set-ADUser -Identity $u -Description $after
+    }
+  }
+
+  [pscustomobject]@{
+    Name = $u.Name
+    SamAccountName = $u.SamAccountName
+    Title = $u.Title
+    Before = $before
+    After = if ($changed) { $after } else { $before }
+    Changed = [bool]$changed
+  }
+}
+
+$report | Export-Csv -LiteralPath $OutputCsvPath -NoTypeInformation
+Write-Host &quot;Wrote: $OutputCsvPath&quot;
+
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

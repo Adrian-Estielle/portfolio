@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • automation • 021__A5A5D52F07__ad_new-user_from-title-mapping.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>021__A5A5D52F07__ad_new-user_from-title-mapping.ps1</h1>
+    <div class="meta">Category: <b>automation</b> • Last updated: <b>2025-12-23 17:48</b></div>
+    <div class="actions">
+      <a class="btn" href="../../scripts/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (021)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+What it does
+- Creates a new Active Directory user in a target OU.
+- Resolves a manager account (optional).
+- Adds group memberships based on a Title → Group mapping CSV.
+
+When used
+- AD-driven onboarding where role/title determines baseline group membership.
+
+Inputs
+- DomainControllerFqdn: DC hostname/FQDN (optional; auto-discovery fallback).
+- FirstName / LastName / Title: used to build the account and select groups.
+- GroupsMappingCsvPath: CSV with columns `Title` and `Group`.
+- UserOuDn OR (Office + Department + BaseDn): where the user is created.
+- ManagerIdentity: samAccountName/UPN/DN to set `manager` (optional).
+- InitialPassword: SecureString; never hard-code passwords.
+
+Safety notes
+- Supports `-WhatIf` / `-Confirm`.
+- Use delegated rights (least privilege), not Domain Admin.
+- Prefer `-ChangePasswordAtLogon $true` for new users.
+
+Validation
+- Confirm user exists, is enabled, and UPN/mail are correct.
+- Confirm group membership matches the mapping CSV for the title.
+- Confirm Manager/Title/Department/Office attributes are set as expected.
+
+What was sanitized
+- Internal domains replaced with `example.org`.
+- OU/DN structure replaced with placeholders/parameters.
+- Hard-coded password and local file paths removed.
+- Original local filename: `new user test 03.ps1`.
+#&gt;
+
+[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = &#x27;High&#x27;)]
+param(
+  [string]$DomainControllerFqdn,
+
+  [string]$FirstName,
+  [string]$LastName,
+  [string]$Title,
+  [string]$ManagerIdentity,
+
+  [string]$Office,
+  [string]$Department,
+  [string]$UserOuDn,
+  [string]$BaseDn = &#x27;DC=example,DC=org&#x27;,
+
+  [string]$UserPrincipalNameSuffix = &#x27;example.org&#x27;,
+  [string]$MailDomain = &#x27;example.org&#x27;,
+
+  [string]$GroupsMappingCsvPath = (Join-Path -Path $PSScriptRoot -ChildPath &#x27;groups-mapping.example.csv&#x27;),
+
+  [SecureString]$InitialPassword,
+  [bool]$ChangePasswordAtLogon = $true
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = &#x27;Stop&#x27;
+$ProgressPreference = &#x27;SilentlyContinue&#x27;
+
+Import-Module ActiveDirectory -ErrorAction Stop
+
+function Read-Optional([string]$Value, [string]$Prompt) {
+  if ($Value) { return $Value }
+  return (Read-Host -Prompt $Prompt)
+}
+
+if (-not $DomainControllerFqdn) {
+  $DomainControllerFqdn = Read-Host -Prompt &#x27;Domain controller FQDN (leave blank to auto-discover)&#x27;
+}
+if (-not $DomainControllerFqdn) {
+  $DomainControllerFqdn = (Get-ADDomainController -Discover -NextClosestSite).HostName
+}
+
+$FirstName = Read-Optional -Value $FirstName -Prompt &#x27;First name&#x27;
+$LastName  = Read-Optional -Value $LastName  -Prompt &#x27;Last name&#x27;
+$Title     = Read-Optional -Value $Title     -Prompt &#x27;Job title (used for title→group mapping)&#x27;
+
+if (-not $ManagerIdentity) {
+  $ManagerIdentity = Read-Host -Prompt &#x27;Manager identity (samAccountName/UPN/DN) (optional)&#x27;
+}
+
+if (-not $InitialPassword) {
+  $InitialPassword = Read-Host -Prompt &#x27;Initial password (SecureString)&#x27; -AsSecureString
+}
+
+if (-not (Test-Path -LiteralPath $GroupsMappingCsvPath)) {
+  throw &quot;Mapping CSV not found: $GroupsMappingCsvPath&quot;
+}
+
+if (-not $UserOuDn) {
+  if (-not $Office) { $Office = Read-Host -Prompt &#x27;Office (used to construct OU)&#x27; }
+  if (-not $Department) { $Department = Read-Host -Prompt &#x27;Department (used to construct OU)&#x27; }
+  if (-not $Office -or -not $Department) {
+    throw &#x27;Provide -UserOuDn OR provide both -Office and -Department to construct a DN.&#x27;
+  }
+  $UserOuDn = &quot;OU=$Department,OU=Users,OU=$Office,$BaseDn&quot;
+}
+
+$mapping = Import-Csv -LiteralPath $GroupsMappingCsvPath
+$rawGroups = $mapping | Where-Object { $_.Title -eq $Title } | Select-Object -ExpandProperty Group
+$groups = @(
+  $rawGroups |
+    Where-Object { $_ -and $_.ToString().Trim() } |
+    ForEach-Object { $_.ToString().Trim() } |
+    Sort-Object -Unique
+)
+
+if ($groups.Count -lt 1) {
+  throw &quot;No groups found for Title=&#x27;$Title&#x27; in $GroupsMappingCsvPath&quot;
+}
+
+$displayName = &quot;$FirstName $LastName&quot;
+$sam = (($FirstName.Substring(0, 1) + $LastName) -replace &#x27;[^A-Za-z0-9]&#x27;, &#x27;&#x27;).ToLowerInvariant()
+$upn = &quot;$sam@$UserPrincipalNameSuffix&quot;
+$mail = &quot;$sam@$MailDomain&quot;
+
+$managerDn = $null
+if ($ManagerIdentity) {
+  try {
+    $managerDn = (Get-ADUser -Identity $ManagerIdentity -Server $DomainControllerFqdn -ErrorAction Stop).DistinguishedName
+  } catch {
+    Write-Warning &quot;Manager lookup failed for &#x27;$ManagerIdentity&#x27; (continuing without -Manager): $($_.Exception.Message)&quot;
+  }
+}
+
+Write-Host &quot;Target OU: $UserOuDn&quot;
+Write-Host &quot;Groups for &#x27;$Title&#x27;:&quot;
+$groups | ForEach-Object { Write-Host &quot; - $_&quot; }
+
+if (-not $PSCmdlet.ShouldProcess($displayName, &quot;Create AD user ($sam)&quot;)) {
+  Write-Host &quot;WhatIf: would create &#x27;$displayName&#x27; and add $($groups.Count) group(s).&quot;
+  return
+}
+
+$newUserParams = @{
+  Name                  = $displayName
+  GivenName             = $FirstName
+  Surname               = $LastName
+  SamAccountName        = $sam
+  UserPrincipalName     = $upn
+  EmailAddress          = $mail
+  Title                 = $Title
+  Department            = $Department
+  Office                = $Office
+  Path                  = $UserOuDn
+  AccountPassword       = $InitialPassword
+  Enabled               = $true
+  ChangePasswordAtLogon = [bool]$ChangePasswordAtLogon
+  Server                = $DomainControllerFqdn
+  PassThru              = $true
+}
+if ($managerDn) { $newUserParams.Manager = $managerDn }
+
+$user = New-ADUser @newUserParams
+
+foreach ($g in $groups) {
+  if ($PSCmdlet.ShouldProcess($g, &quot;Add member $sam&quot;)) {
+    Add-ADGroupMember -Identity $g -Members $user -Server $DomainControllerFqdn
+  }
+}
+
+$created = Get-ADUser -Identity $user -Server $DomainControllerFqdn -Properties UserPrincipalName,Title,Department,Office,Enabled,Manager,mail
+$created | Select-Object Name,SamAccountName,UserPrincipalName,mail,Title,Department,Office,Enabled,Manager | Format-List
+
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

@@ -61,8 +61,8 @@
 <section class="card">
   <h2>Sanitized export skeleton (pattern)</h2>
   <pre><code># Export ACLs (pattern)
-Get-ChildItem "D:\ShareRoot" -Directory -Recurse |
-  ForEach-Object {
+	Get-ChildItem "&lt;SHARE_ROOT&gt;" -Directory -Recurse |
+	  ForEach-Object {
     &#36;acl = Get-Acl &#36;_.FullName
     [pscustomobject]@{
       Path   = &#36;_.FullName

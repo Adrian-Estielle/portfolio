@@ -21,11 +21,11 @@
 </head>
 <body>
   <header>
-    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
     <h1>015__EE68DC1D0E__4project_contents.ps1</h1>
-    <div class="meta">Category: <b>cicd</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="meta">Category: <b>cicd</b> • Last updated: <b>2025-12-24 06:08</b></div>
     <div class="actions">
-      <a class="btn" href="../../cicd/015__EE68DC1D0E__4project_contents.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn" href="../../scripts/cicd/015__EE68DC1D0E__4project_contents.ps1" target="_blank" rel="noopener">Open raw file</a>
       <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
     </div>
   </header>
@@ -37,24 +37,37 @@
 # project-contents.ps1
 # Reads contents of all relevant source files into one output file.
 
-$Root = &quot;C:\src\razzberry-backend&quot;
-$OutputFile = &quot;C:\Temp\razzberry\Scripts\assessment results\contents.txt&quot;
+[CmdletBinding()]
+param(
+  [string]$Root = (Get-Location).Path,
+  [string]$OutputFile = (Join-Path -Path (Get-Location) -ChildPath &#x27;contents.txt&#x27;)
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = &#x27;Stop&#x27;
+
+$Root = (Resolve-Path -LiteralPath $Root).Path
+$outDir = Split-Path -Parent $OutputFile
+if ($outDir -and -not (Test-Path -LiteralPath $outDir)) {
+  New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+}
 
 $includeExts = @(&quot;*.js&quot;, &quot;*.ts&quot;, &quot;*.tsx&quot;, &quot;*.jsx&quot;, &quot;*.json&quot;, &quot;*.toml&quot;, &quot;*.yml&quot;, &quot;*.yaml&quot;, &quot;*.env*&quot;, &quot;*.md&quot;, &quot;*.ps1&quot;, &quot;*.sh&quot;, &quot;*.html&quot;, &quot;*.css&quot;, &quot;*.prisma&quot;)
 $excludeDirs = @(&quot;node_modules&quot;, &quot;.git&quot;, &quot;.next&quot;, &quot;.output&quot;, &quot;dist&quot;, &quot;build&quot;, &quot;logs&quot;, &quot;__pycache__&quot;)
 
 $files = Get-ChildItem -Path $Root -Recurse -File -Include $includeExts | Where-Object {
   $rel = $_.FullName.Substring($Root.Length + 1)
-  $excludeDirs -notcontains ($rel.Split(&#39;\&#39;)[0])
+  $excludeDirs -notcontains ($rel.Split([IO.Path]::DirectorySeparatorChar)[0])
 }
 
-@() | Out-File $OutputFile  # clear file
+@() | Out-File -LiteralPath $OutputFile -Encoding UTF8  # clear file
 
 foreach ($file in $files) {
-  Add-Content $OutputFile &quot;`n===== FILE: $($file.FullName) =====`n&quot;
-  Get-Content $file.FullName -Raw | Add-Content $OutputFile
+  $rel = $file.FullName.Substring($Root.Length + 1)
+  Add-Content -LiteralPath $OutputFile -Value &quot;`n===== FILE: $rel =====`n&quot; -Encoding UTF8
+  Get-Content -LiteralPath $file.FullName -Raw | Add-Content -LiteralPath $OutputFile -Encoding UTF8
 }
-Write-Host &quot;✅ Full contents dump saved to $OutputFile&quot;
+Write-Host &quot;Full contents dump saved to: $OutputFile&quot;
 
 </code></pre>
   </main>

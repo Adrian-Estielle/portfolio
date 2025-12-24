@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • automation • 029__5933227B9A__ad_update-descriptions_v3-ou-subtree.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>029__5933227B9A__ad_update-descriptions_v3-ou-subtree.ps1</h1>
+    <div class="meta">Category: <b>automation</b> • Last updated: <b>2025-12-23 17:48</b></div>
+    <div class="actions">
+      <a class="btn" href="../../scripts/automation/029__5933227B9A__ad_update-descriptions_v3-ou-subtree.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (029)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+What it does
+- Normalizes user `Description` values within a target OU **including sub-OUs** (Subtree) and exports a before/after CSV report.
+- Preserves LOA-style markers (leave-of-absence) by default.
+
+When used
+- OU-scoped cleanup when a provisioning project spans multiple nested OUs.
+
+Inputs
+- TargetOuDn: DN of the OU to scan.
+- Apply: actually writes changes; otherwise produces a dry-run report.
+- OutputCsvPath: where to write the report CSV.
+
+Safety notes
+- Defaults to dry-run (no AD writes) unless `-Apply` (or `-WhatIf`).
+- Supports `-WhatIf` / `-Confirm`.
+- Subtree scans can be large; test in a small OU first.
+
+Validation
+- Confirm the number of affected users is expected for the OU subtree.
+- Confirm LOA accounts were preserved as intended.
+
+What was sanitized
+- Internal DC/OU identifiers and output paths removed.
+- Original local filename: `update descriptions V3 Only OU and sub OUs.ps1`.
+#&gt;
+
+[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = &#x27;High&#x27;)]
+param(
+  [string]$DomainControllerFqdn,
+  [Parameter(Mandatory = $true)]
+  [string]$TargetOuDn = &#x27;OU=&lt;TARGET_OU&gt;,DC=example,DC=org&#x27;,
+  [string]$OutputCsvPath = (Join-Path -Path (Get-Location) -ChildPath &#x27;description_changes_ou_subtree.csv&#x27;),
+  [switch]$Apply,
+  [switch]$PreserveLoa = $true
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = &#x27;Stop&#x27;
+$ProgressPreference = &#x27;SilentlyContinue&#x27;
+
+Import-Module ActiveDirectory -ErrorAction Stop
+
+if ($DomainControllerFqdn) {
+  $PSDefaultParameterValues[&#x27;*-AD*:Server&#x27;] = $DomainControllerFqdn
+}
+
+function Get-NormalizedDescription([AllowEmptyString()][string]$Description) {
+  if (-not $Description) { return $null }
+  if ($PreserveLoa -and ($Description -match &#x27;loa&#x27;)) { return $Description }
+
+  if ($Description -match &#x27;consultant&#x27;) { return &#x27;CONSULTANT&#x27; }
+  if ($Description -match &#x27;contractor&#x27;) { return &#x27;CONTRACTOR&#x27; }
+  if ($Description -match &#x27;temp&#x27;) { return &#x27;TEMP&#x27; }
+  if ($Description -match &#x27;vendor&#x27;) { return &#x27;VENDOR&#x27; }
+  if ($Description -match &#x27;test|testing&#x27;) { return &#x27;TEST ACCOUNT&#x27; }
+  return &#x27;FULL-TIME&#x27;
+}
+
+if (-not $Apply -and -not $WhatIfPreference) {
+  Write-Warning &quot;Dry run: no AD changes will be applied. Re-run with -Apply (or use -WhatIf to preview actions).&quot;
+}
+
+$users = Get-ADUser -Filter * -SearchBase $TargetOuDn -SearchScope Subtree -Property Description,Title,SamAccountName
+$total = $users.Count
+$count = 0
+
+$report = foreach ($u in $users) {
+  $count++
+  Write-Progress -Activity &#x27;Normalizing user descriptions (OU subtree)&#x27; -Status &quot;$count/$total&quot; -PercentComplete (($count / [Math]::Max(1,$total)) * 100)
+
+  $before = $u.Description
+  $after = Get-NormalizedDescription -Description $before
+  $changed = ($after -ne $null) -and ($after -ne $before)
+
+  if ($Apply -or $WhatIfPreference) {
+    if ($changed -and $PSCmdlet.ShouldProcess($u.SamAccountName, &quot;Set Description=&#x27;$after&#x27;&quot;)) {
+      Set-ADUser -Identity $u -Description $after
+    }
+  }
+
+  [pscustomobject]@{
+    Name = $u.Name
+    SamAccountName = $u.SamAccountName
+    Title = $u.Title
+    Before = $before
+    After = if ($changed) { $after } else { $before }
+    Changed = [bool]$changed
+  }
+}
+
+$report | Export-Csv -LiteralPath $OutputCsvPath -NoTypeInformation
+Write-Host &quot;Wrote: $OutputCsvPath&quot;
+
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>

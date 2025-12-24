@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • automation • automation_ad_fingerprint.md</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>automation_ad_fingerprint.md</h1>
+    <div class="meta">Category: <b>automation</b> • Last updated: <b>2025-12-24 05:45</b></div>
+    <div class="actions">
+      <a class="btn" href="../../documentation/automation/automation_ad_fingerprint.md" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Directory Services / AD onboarding automation — fingerprint (public-safe)
+
+This note describes the shared **behavioral fingerprints** I used to identify a cluster of “same-era” PowerShell scripts focused on Active Directory onboarding and maintenance.
+
+Public-safe note:
+- This document intentionally avoids org-specific identifiers (domains, OU paths, group names, server names, usernames, file shares, private URLs).
+- Published scripts are sanitized and replace identifiers with placeholders such as `&lt;REDACTED_*&gt;` and `example.org`.
+
+## Shared signals (what these scripts have in common)
+
+**Base signals (AD tooling):**
+- Active Directory cmdlet usage (ex: `Get-ADUser`, `New-ADUser`, `Set-ADUser`, group membership cmdlets).
+- Optional `-Server` / “target DC” handling for deterministic runs.
+
+**High-confidence behavior signals (workflow patterns):**
+- **OU-scoped operations** using `-SearchBase` and `-SearchScope` (OneLevel vs Subtree) to reduce blast radius.
+- **CSV-driven automation** (ex: role/title → group mapping, user export reports).
+- **Before/after evidence exports** to validate changes (snapshot → change → snapshot → compare).
+- **Dry-run safety rails** (ex: `SupportsShouldProcess`, `-WhatIf`, `-Confirm`, and explicit `-Apply` switches).
+
+**Normalization/cleanup patterns:**
+- Controlled normalization of attributes such as `Description` (with special-case handling like LOA/test/vendor/temp markers).
+- Repeatable reporting (CSV outputs) to catch false positives before applying changes broadly.
+
+## How I used this fingerprint (in recovery mode)
+
+I treated a small set of “anchor” scripts (clearly AD onboarding/maintenance) as the truth set, then searched for additional scripts that matched:
+- The same cmdlet combinations (ex: `Get-ADUser` + OU-scoped search + CSV export).
+- Similar safety patterns (dry-run by default, explicit apply, `ShouldProcess`).
+- Similar naming conventions and “export → update → export” workflows.
+
+## Related artifacts
+
+- Inventory: `docs/evidence/documentation/automation/automation_ad_inventory.md`
+
+</code></pre>
+  </main>
+
+  <footer>
+    Generated for readability; source artifacts remain in <code>docs/evidence/</code>.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      if (!el) return;
+      const text = el.innerText;
+      navigator.clipboard.writeText(text);
+    }
+  </script>
+</body>
+</html>

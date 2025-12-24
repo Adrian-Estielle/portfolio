@@ -43,8 +43,8 @@
 <section class="card">
   <h2>Starter command (dry-run first)</h2>
   <div class="callout warn"><strong>Warning:</strong> /MIR can delete on destination. Use /L (list-only) first.</div>
-  <pre><code>robocopy "D:\SourceShare" "E:\StagingShare" /MIR /ZB /R:2 /W:5 /MT:32 /DCOPY:DAT /COPY:DATSO 
-  /NP /TEE /LOG+:"C:\Logs\robocopy-seed.log"</code></pre>
+  <pre><code>robocopy "&lt;SOURCE_PATH&gt;" "&lt;DEST_PATH&gt;" /MIR /ZB /R:2 /W:5 /MT:32 /DCOPY:DAT /COPY:DATSO 
+  /NP /TEE /LOG+:"%TEMP%\robocopy-seed.log"</code></pre>
 </section>
 
 <section class="card">

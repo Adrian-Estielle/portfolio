@@ -21,11 +21,11 @@
 </head>
 <body>
   <header>
-    <div><a href="..\..\index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
     <h1>009__79B4317E98__create-location-migration-v2.ps1</h1>
-    <div class="meta">Category: <b>migration</b> • Last updated: <b>2025-12-23 03:10</b></div>
+    <div class="meta">Category: <b>migration</b> • Last updated: <b>2025-12-24 06:09</b></div>
     <div class="actions">
-      <a class="btn" href="../../migration/009__79B4317E98__create-location-migration-v2.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn" href="../../scripts/migration/009__79B4317E98__create-location-migration-v2.ps1" target="_blank" rel="noopener">Open raw file</a>
       <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
     </div>
   </header>
@@ -45,7 +45,7 @@
 #
 # Usage   :
 #   # Ensure $Env:DATABASE_URL is set to a *write‑able* Postgres connection.
-#   # Then run from the repo root (`C:\src\razzberry-backend`):
+#   # Then run from the repo root:
 #   pwsh ./scripts/create-location-migration.ps1 -Name add_location
 #
 #   You can omit `-Name` to use the default `add_location`.
@@ -54,12 +54,12 @@ param(
     [string]$Name = &quot;add_location&quot;
 )
 
-# Resolve paths relative to this script&#39;s location.  We assume this script
+# Resolve paths relative to this script&#x27;s location.  We assume this script
 # resides in the `scripts` folder at the root of the repository.
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
-$RepoRoot = Resolve-Path (Join-Path $ScriptDir &#39;..&#39;)
-$SchemaPath = Join-Path $RepoRoot &#39;backend/prisma/schema.prisma&#39;
-$MigrationsDir = Join-Path $RepoRoot &#39;backend/prisma/migrations&#39;
+$RepoRoot = Resolve-Path (Join-Path $ScriptDir &#x27;..&#x27;)
+$SchemaPath = Join-Path $RepoRoot &#x27;backend/prisma/schema.prisma&#x27;
+$MigrationsDir = Join-Path $RepoRoot &#x27;backend/prisma/migrations&#x27;
 
 # Check for the required DATABASE_URL environment variable.  Prisma uses
 # this variable to know where to apply migrations.  Without it, the
@@ -85,7 +85,7 @@ $ExistingMigration = Get-ChildItem -Path $MigrationsDir -Directory |
     Where-Object { $_.Name -like &quot;*_${Name}&quot; }
 
 if ($ExistingMigration) {
-    Write-Host &quot;Migration &#39;$Name&#39; already exists at &#39;$($ExistingMigration.FullName)&#39;. No action taken.&quot;
+    Write-Host &quot;Migration &#x27;$Name&#x27; already exists at &#x27;$($ExistingMigration.FullName)&#x27;. No action taken.&quot;
     exit 0
 }
 
@@ -102,7 +102,7 @@ try {
     if ($process.ExitCode -ne 0) {
         throw &quot;Prisma migrate command failed with exit code $($process.ExitCode).&quot;
     }
-    Write-Host &quot;Migration &#39;$Name&#39; created and applied successfully.&quot;
+    Write-Host &quot;Migration &#x27;$Name&#x27; created and applied successfully.&quot;
 } catch {
     Write-Error $_
     exit 1

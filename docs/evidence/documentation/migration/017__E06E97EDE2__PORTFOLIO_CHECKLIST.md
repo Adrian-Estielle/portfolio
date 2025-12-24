@@ -4,10 +4,10 @@
 # Portfolio Checklist & Review Notes
 
 Reviewed areas:
-- /mnt/c/src/razzberry-backend (backend: AI services, observability, Docker, tests, tools)
-- /mnt/c/src/razzberry-backend/frontend (React 19 + Vite + Tailwind UI)
-- /mnt/c/src/razzberry-api (Express API)
-- Resume/cover/doc artifacts under Temp/Organized/General/Resumes
+- src/razzberry-backend (backend: AI services, observability, Docker, tests, tools)
+- src/razzberry-backend/frontend (React 19 + Vite + Tailwind UI)
+- src/razzberry-api (Express API)
+- Resume/cover/doc artifacts from local drafts (sanitized)
 
 Included:
 - Core backend files (services/ai, observability, socket guard, middleware), Dockerfile, docker-compose

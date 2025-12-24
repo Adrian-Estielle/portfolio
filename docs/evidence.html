@@ -17,12 +17,14 @@
     </p>
 
     <div class="nav small">
-      <a href="#endpoint">Endpoint</a>
-      <a href="#automation">Automation</a>
-      <a href="#migration">Migration</a>
-      <a href="#cicd">CI/CD</a>
+      <a href="evidence/endpoint.html">Endpoint</a>
+      <a href="evidence/automation.html">Automation</a>
+      <a href="evidence/migration.html">Migration</a>
+      <a href="evidence/cicd.html">CI/CD</a>
       <span class="muted">·</span>
-      <a href="evidence/">viewer</a>
+      <a href="evidence/scripts.html">Scripts index</a>
+      <a href="evidence/documentation.html">Docs index</a>
+      <a href="evidence/">Viewer</a>
       <a href="kb/portfolio-build.html">How I build &amp; validate</a>
     </div>
 
@@ -33,56 +35,34 @@
 </header>
 
 <main class="container">
-  <section class="card" id="endpoint">
-    <h2>Endpoint</h2>
-    <p class="muted">Health checks and preflight scripts I use to debug “works locally” vs “runs in prod”.</p>
-    <div class="links"><a href="notes.html#evidence-endpoint">KB notes for Endpoint evidence</a></div>
+  <section class="card">
+    <h2>Browse by section</h2>
     <ul>
-      <li><strong><a href="evidence/view/endpoint/004__987AE18051__check-step5.ps1.html">check-step5.ps1</a></strong> — Preflight validation: Docker/Postgres, <code>/health</code>, and <code>/auth/register</code>; treats SMTP-only failures as warnings. <span class="muted">(<a href="evidence/endpoint/004__987AE18051__check-step5.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/endpoint/001__5427C6C7CC__services_check1.ps1.html">services_check1.ps1</a></strong> — Fast smoke test: API endpoints, Prisma DB pull, seed run, and SMTP connectivity. <span class="muted">(<a href="evidence/endpoint/001__5427C6C7CC__services_check1.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/endpoint/003__433FCD1DE3__setup-api-docs.ps1.html">setup-api-docs.ps1</a></strong> — Bootstraps API route cheatsheet tooling (deps + script + <code>pnpm run doc:routes</code>). <span class="muted">(<a href="evidence/endpoint/003__433FCD1DE3__setup-api-docs.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/endpoint/002__829F5BD9C9__generate-concept-primer.ps1.html">generate-concept-primer.ps1</a></strong> — Generates a short concept primer doc (OAuth2/PKCE + Postgres RLS). <span class="muted">(<a href="evidence/endpoint/002__829F5BD9C9__generate-concept-primer.ps1">raw</a>)</span></li>
+      <li><strong><a href="evidence/endpoint.html">Endpoint</a></strong> — Health checks and preflight scripts. <span class="muted">(<a href="notes.html#evidence-endpoint">KB notes</a>)</span></li>
+      <li><strong><a href="evidence/automation.html">Automation</a></strong> — Operational scripts + runbooks (includes AD onboarding automation). <span class="muted">(<a href="notes.html#evidence-automation">KB notes</a>)</span></li>
+      <li><strong><a href="evidence/migration.html">Migration</a></strong> — Cutover helpers, rollout checklists, and safety rails. <span class="muted">(<a href="notes.html#evidence-migration">KB notes</a>)</span></li>
+      <li><strong><a href="evidence/cicd.html">CI/CD</a></strong> — Build/test/package automation with visible logs. <span class="muted">(<a href="notes.html#evidence-cicd">KB notes</a>)</span></li>
     </ul>
+    <div class="links">
+      <a href="evidence/scripts.html">Scripts index</a> · <a href="evidence/documentation.html">Docs index</a> · <a href="evidence/">Viewer</a>
+    </div>
   </section>
 
-  <section class="card" id="automation">
-    <h2>Automation</h2>
-    <p class="muted">Operational glue: scripts and checklists that reduce “tribal knowledge” during deploys and recoveries.</p>
-    <div class="links"><a href="notes.html#evidence-automation">KB notes for Automation evidence</a></div>
+  <section class="card" id="featured-ad">
+    <h2>Featured: Directory Services / AD onboarding automation (sanitized)</h2>
+    <p class="muted">Evidence focused on OU-scoped onboarding and safe bulk updates: export → dry-run → apply → export → validate.</p>
     <ul>
-      <li><strong><a href="evidence/view/automation/006__CA0069C70E__railway-deployment-checklist.md.html">railway-deployment-checklist.md</a></strong> — Deployment checklist when the happy path fails (tokens, timeouts, where logs show the truth). <span class="muted">(<a href="evidence/automation/006__CA0069C70E__railway-deployment-checklist.md">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/automation/005__B95146D04D__ops.ps1.html">ops.ps1</a></strong> — Repeatable deploy helper: pnpm bootstrap + ignore files + token-based CLI flows. <span class="muted">(<a href="evidence/automation/005__B95146D04D__ops.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/automation/007__2687AA3246__run-all.ps1.html">run-all.ps1</a></strong> — Brings up multiple local components in a predictable order (and captures logs). <span class="muted">(<a href="evidence/automation/007__2687AA3246__run-all.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/automation/008__B99D8D2654__Map_Drive_Sanitized.ps1.html">Map_Drive_Sanitized.ps1</a></strong> — Example drive mapping for staging/migrations (credentials removed). <span class="muted">(<a href="evidence/automation/008__B99D8D2654__Map_Drive_Sanitized.ps1">raw</a>)</span></li>
+      <li><strong><a href="evidence/view/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1.html">New user + title→group mapping</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1">raw</a>)</span></li>
+      <li><strong><a href="evidence/view/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1.html">OU export: name/title/description</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1">raw</a>)</span></li>
+      <li><strong><a href="evidence/view/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1.html">OU-scoped description normalization</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1">raw</a>)</span></li>
+      <li><strong><a href="evidence/view/automation/025__F5A3E559D0__ad_create_test-users_30.ps1.html">Test user generator (edge cases)</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/025__F5A3E559D0__ad_create_test-users_30.ps1">raw</a>)</span></li>
+      <li><strong><a href="evidence/view/automation/030__B317E28762__ad_export_descriptions_before.ps1.html">Before/after snapshot exports</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/030__B317E28762__ad_export_descriptions_before.ps1">raw</a>)</span></li>
     </ul>
-  </section>
-
-  <section class="card" id="migration">
-    <h2>Migration</h2>
-    <p class="muted">Cutover and release helpers: idempotent migrations, rollout checklists, and safety rails.</p>
-    <div class="links"><a href="notes.html#evidence-migration">KB notes for Migration evidence</a></div>
-    <ul>
-      <li><strong><a href="evidence/view/migration/009__79B4317E98__create-location-migration-v2.ps1.html">create-location-migration-v2.ps1</a></strong> — Idempotent migration creator/applier (Prisma) gated by <code>DATABASE_URL</code>. <span class="muted">(<a href="evidence/migration/009__79B4317E98__create-location-migration-v2.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/migration/010__961A0003A8__apply-migration.ps1.html">apply-migration.ps1</a></strong> — Runs <code>prisma migrate deploy</code> safely (fails fast when env/schema is wrong). <span class="muted">(<a href="evidence/migration/010__961A0003A8__apply-migration.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/migration/011__48D54E6D45__setup-location_v2.ps1.html">setup-location_v2.ps1</a></strong> — Adds a location ingestion + analysis pipeline (routes, worker, Redis queue) in an idempotent way. <span class="muted">(<a href="evidence/migration/011__48D54E6D45__setup-location_v2.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/migration/016__89FBA6C19D__dev-testing-release-checklist.md.html">dev-testing-release-checklist.md</a></strong> — Release checklist focused on observable signals (health, logs, smoke tests) instead of vibes. <span class="muted">(<a href="evidence/migration/016__89FBA6C19D__dev-testing-release-checklist.md">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md.html">BACKEND_ROOT_MIGRATION_CHECKLIST.md</a></strong> — “Backend root” migration checklist and gotchas (what breaks, what to verify). <span class="muted">(<a href="evidence/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/migration/019__2BA04B36DE__security.yml.html">security.yml</a></strong> — CI security workflow reference (static analysis / dependency checks). <span class="muted">(<a href="evidence/migration/019__2BA04B36DE__security.yml">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md.html">PORTFOLIO_CHECKLIST.md</a></strong> — My packaging checklist when publishing a repo: what I include/exclude and why. <span class="muted">(<a href="evidence/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md">raw</a>)</span></li>
-    </ul>
-  </section>
-
-  <section class="card" id="cicd">
-    <h2>CI/CD</h2>
-    <p class="muted">Build/test/package automation with repeatable output and visible logs.</p>
-    <div class="links"><a href="notes.html#evidence-cicd">KB notes for CI/CD evidence</a></div>
-    <ul>
-      <li><strong><a href="evidence/view/cicd/020__27378A0EE7__ci.yml.html">ci.yml</a></strong> — GitHub Actions pipeline: restore → build → test → publish → upload artifact. <span class="muted">(<a href="evidence/cicd/020__27378A0EE7__ci.yml">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1.html">jenkins_bootstrap.ps1</a></strong> — Brings up a local Jenkins controller (Docker) so I can demo “real Jenkins” runs. <span class="muted">(<a href="evidence/cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/cicd/012__8DAB39C4D2__build.ps1.html">build.ps1</a></strong> — Local .NET build helper that mirrors CI steps (restore/build/test/publish). <span class="muted">(<a href="evidence/cicd/012__8DAB39C4D2__build.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/cicd/014__DF90BC2348__setup_branches_and_ci.ps1.html">setup_branches_and_ci.ps1</a></strong> — Repo bootstrap: branch scaffolding + starter CI workflow creation. <span class="muted">(<a href="evidence/cicd/014__DF90BC2348__setup_branches_and_ci.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/cicd/015__EE68DC1D0E__4project_contents.ps1.html">4project_contents.ps1</a></strong> — Dumps selected source files into a single review artifact (useful for audits/assessments). <span class="muted">(<a href="evidence/cicd/015__EE68DC1D0E__4project_contents.ps1">raw</a>)</span></li>
-    </ul>
+    <div class="links">
+      <a href="evidence/automation.html">Open Automation section</a> ·
+      <a href="evidence/view/automation/automation_ad_inventory.md.html">AD inventory</a> ·
+      <a href="evidence/view/automation/automation_ad_fingerprint.md.html">Fingerprint</a>
+    </div>
   </section>
 
   <footer class="muted">

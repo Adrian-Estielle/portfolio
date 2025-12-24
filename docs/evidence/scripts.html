@@ -3,32 +3,79 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Project scripts archive</title>
+  <title>Project scripts index</title>
   <link rel="stylesheet" href="../site.css"/>
 </head>
 <body>
 <header class="site-header">
   <div class="container">
-    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../notes.html">Field Notes hub</a></div>
-    <h1>Project scripts archive*</h1>
-    <p class="muted">Sanitized scripts from prior work (operational tooling, automation snippets, helpers). Keep this practical and evidence-first.</p>
-    <div class="callout"><strong>* Under active development:</strong> this archive grows over time as scripts are sanitized.</div>
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../evidence.html">Evidence hub</a> · <a href="index.html">Viewer</a></div>
+    <h1>Project scripts (index)</h1>
+    <p class="muted">Scripts only — operational tooling, automation helpers, and repeatable run steps. Documentation artifacts live in <a href="documentation.html">documentation.html</a>.</p>
+
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cicd.html">CI/CD</a>
+      <span class="muted">·</span>
+      <a href="documentation.html">Docs index</a>
+      <a href="../notes.html#evidence-index">Evidence notes</a>
+    </div>
   </div>
 </header>
 
 <main class="container">
-  <section class="card">
-    <h2>Files</h2>
-    <p class="muted"><strong>Main evidence archive:</strong> <a href="../evidence.html">evidence.html</a></p>
-    <p class="muted">Artifacts are organized by domain category (endpoint/automation/migration/cicd) under <code>docs/evidence/</code>.</p>
+  <section class="card" id="endpoint">
+    <h2>Endpoint <span class="muted">· 4 scripts</span></h2>
+    <ul>
+      <li><strong><a href="view/endpoint/004__987AE18051__check-step5.ps1.html">check-step5.ps1</a></strong> — Preflight validation for API/DB/SMTP. <span class="muted">(<a href="scripts/endpoint/004__987AE18051__check-step5.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/endpoint/001__5427C6C7CC__services_check1.ps1.html">services_check1.ps1</a></strong> — Fast smoke test: endpoints + Prisma + seed + SMTP connectivity. <span class="muted">(<a href="scripts/endpoint/001__5427C6C7CC__services_check1.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/endpoint/003__433FCD1DE3__setup-api-docs.ps1.html">setup-api-docs.ps1</a></strong> — Bootstraps API route cheatsheet tooling. <span class="muted">(<a href="scripts/endpoint/003__433FCD1DE3__setup-api-docs.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/endpoint/002__829F5BD9C9__generate-concept-primer.ps1.html">generate-concept-primer.ps1</a></strong> — Generates a short concept primer doc. <span class="muted">(<a href="scripts/endpoint/002__829F5BD9C9__generate-concept-primer.ps1">raw</a>)</span></li>
+    </ul>
   </section>
 
-  <section class="card">
-    <h2>Sanitization rules (quick)</h2>
+  <section class="card" id="automation">
+    <h2>Automation <span class="muted">· 14 scripts</span></h2>
+    <h3>Directory Services / AD onboarding automation (sanitized)</h3>
     <ul>
-      <li>Remove tenant IDs, customer names, internal hostnames, secrets, tokens, share paths, and email addresses.</li>
-      <li>Replace with placeholders and include a README header explaining inputs/outputs.</li>
-      <li>Prefer small, focused scripts with logs over giant “god scripts.”</li>
+      <li><strong><a href="view/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1.html">ad_new-user_from-title-mapping.ps1</a></strong> — Creates a new AD user + group assignment via title→groups mapping. <span class="muted">(<a href="scripts/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1.html">ad_ou_export_name-title-description.ps1</a></strong> — Exports Name/Title/Description for users under an OU (Subtree). <span class="muted">(<a href="scripts/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/022__2E5301CF47__ad_ou_export_user-groups_operations.ps1.html">ad_ou_export_user-groups_operations.ps1</a></strong> — Exports OU users + group memberships (Operations example). <span class="muted">(<a href="scripts/automation/022__2E5301CF47__ad_ou_export_user-groups_operations.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/023__8F6611C13C__ad_ou_export_user-groups_project-advisors.ps1.html">ad_ou_export_user-groups_project-advisors.ps1</a></strong> — Exports OU users + group memberships (Project Advisors example). <span class="muted">(<a href="scripts/automation/023__8F6611C13C__ad_ou_export_user-groups_project-advisors.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/026__6AB88E064D__ad_update-descriptions_temp-extra.ps1.html">ad_update-descriptions_temp-extra.ps1</a></strong> — Normalizes Description values + report (dry-run unless <code>-Apply</code>). <span class="muted">(<a href="scripts/automation/026__6AB88E064D__ad_update-descriptions_temp-extra.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1.html">ad_update-descriptions_v2-only-ou.ps1</a></strong> — OU-scoped normalization + report (dry-run unless <code>-Apply</code>). <span class="muted">(<a href="scripts/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/029__5933227B9A__ad_update-descriptions_v3-ou-subtree.ps1.html">ad_update-descriptions_v3-ou-subtree.ps1</a></strong> — OU subtree normalization (preserves LOA markers). <span class="muted">(<a href="scripts/automation/029__5933227B9A__ad_update-descriptions_v3-ou-subtree.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/025__F5A3E559D0__ad_create_test-users_30.ps1.html">ad_create_test-users_30.ps1</a></strong> — Creates test users for edge-case validation (dry-run unless <code>-Apply</code>). <span class="muted">(<a href="scripts/automation/025__F5A3E559D0__ad_create_test-users_30.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/030__B317E28762__ad_export_descriptions_before.ps1.html">ad_export_descriptions_before.ps1</a></strong> — Snapshot export (before). <span class="muted">(<a href="scripts/automation/030__B317E28762__ad_export_descriptions_before.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/031__2BC055E829__ad_export_descriptions_after.ps1.html">ad_export_descriptions_after.ps1</a></strong> — Snapshot export (after). <span class="muted">(<a href="scripts/automation/031__2BC055E829__ad_export_descriptions_after.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/028__A9DE623869__ad_update-descriptions_v2.ps1.html">ad_update-descriptions_v2.ps1</a></strong> — Broad-scope normalization + report (dry-run unless <code>-Apply</code>). <span class="muted">(<a href="scripts/automation/028__A9DE623869__ad_update-descriptions_v2.ps1">raw</a>)</span></li>
+    </ul>
+    <h3>Other automation</h3>
+    <ul>
+      <li><strong><a href="view/automation/005__B95146D04D__ops.ps1.html">ops.ps1</a></strong> — Repeatable deploy helper: pnpm bootstrap + token-based CLI flows. <span class="muted">(<a href="scripts/automation/005__B95146D04D__ops.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/007__2687AA3246__run-all.ps1.html">run-all.ps1</a></strong> — Brings up multiple local components in a predictable order. <span class="muted">(<a href="scripts/automation/007__2687AA3246__run-all.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/008__B99D8D2654__Map_Drive_Sanitized.ps1.html">Map_Drive_Sanitized.ps1</a></strong> — Example drive mapping for staging/migrations (credentials removed). <span class="muted">(<a href="scripts/automation/008__B99D8D2654__Map_Drive_Sanitized.ps1">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <section class="card" id="migration">
+    <h2>Migration <span class="muted">· 3 scripts</span></h2>
+    <ul>
+      <li><strong><a href="view/migration/009__79B4317E98__create-location-migration-v2.ps1.html">create-location-migration-v2.ps1</a></strong> — Idempotent migration creator/applier (Prisma). <span class="muted">(<a href="scripts/migration/009__79B4317E98__create-location-migration-v2.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/migration/010__961A0003A8__apply-migration.ps1.html">apply-migration.ps1</a></strong> — Runs <code>prisma migrate deploy</code> safely. <span class="muted">(<a href="scripts/migration/010__961A0003A8__apply-migration.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/migration/011__48D54E6D45__setup-location_v2.ps1.html">setup-location_v2.ps1</a></strong> — Adds a location ingestion + analysis pipeline. <span class="muted">(<a href="scripts/migration/011__48D54E6D45__setup-location_v2.ps1">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <section class="card" id="cicd">
+    <h2>CI/CD <span class="muted">· 4 scripts</span></h2>
+    <ul>
+      <li><strong><a href="view/cicd/012__8DAB39C4D2__build.ps1.html">build.ps1</a></strong> — Local build helper that mirrors CI steps. <span class="muted">(<a href="scripts/cicd/012__8DAB39C4D2__build.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1.html">jenkins_bootstrap.ps1</a></strong> — Runs Jenkins locally (Docker) for demos. <span class="muted">(<a href="scripts/cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/cicd/014__DF90BC2348__setup_branches_and_ci.ps1.html">setup_branches_and_ci.ps1</a></strong> — Repo bootstrap: branch scaffolding + starter CI workflow creation. <span class="muted">(<a href="scripts/cicd/014__DF90BC2348__setup_branches_and_ci.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/cicd/015__EE68DC1D0E__4project_contents.ps1.html">4project_contents.ps1</a></strong> — Dumps selected source files into a single review artifact. <span class="muted">(<a href="scripts/cicd/015__EE68DC1D0E__4project_contents.ps1">raw</a>)</span></li>
     </ul>
   </section>
 </main>

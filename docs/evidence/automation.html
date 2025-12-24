@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Evidence • Automation</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../evidence.html">Evidence hub</a> · <a href="index.html">Viewer</a></div>
+    <h1>Automation evidence</h1>
+    <p class="muted">Operational glue: onboarding/maintenance scripts, export helpers, and runbooks that reduce “tribal knowledge”.</p>
+
+    <div class="nav small">
+      <a href="endpoint.html">Endpoint</a>
+      <a href="automation.html">Automation</a>
+      <a href="migration.html">Migration</a>
+      <a href="cicd.html">CI/CD</a>
+      <span class="muted">·</span>
+      <a href="scripts.html">Scripts index</a>
+      <a href="documentation.html">Docs index</a>
+      <a href="../notes.html#evidence-automation">KB notes</a>
+    </div>
+
+    <div class="callout note">
+      <strong>AD onboarding pattern:</strong> export baseline → apply scoped changes (OU-first) → export after → validate edge cases (test accounts, LOA markers, vendor/temp flags).
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card" id="scripts">
+    <h2>Scripts</h2>
+    <h3>Directory Services / AD onboarding automation (sanitized)</h3>
+    <h4 style="margin:.65rem 0 .35rem;">Featured</h4>
+    <ul>
+      <li><strong><a href="view/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1.html">ad_new-user_from-title-mapping.ps1</a></strong> — Creates a new AD user and assigns groups via a title→groups CSV mapping. <span class="muted">(<a href="scripts/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1.html">ad_ou_export_name-title-description.ps1</a></strong> — Exports Name/Title/Description for users under an OU (Subtree) to CSV. <span class="muted">(<a href="scripts/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/022__2E5301CF47__ad_ou_export_user-groups_operations.ps1.html">ad_ou_export_user-groups_operations.ps1</a></strong> — Exports OU users + group memberships (Operations example). <span class="muted">(<a href="scripts/automation/022__2E5301CF47__ad_ou_export_user-groups_operations.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1.html">ad_update-descriptions_v2-only-ou.ps1</a></strong> — OU-scoped Description normalization + report (dry-run unless <code>-Apply</code>). <span class="muted">(<a href="scripts/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/030__B317E28762__ad_export_descriptions_before.ps1.html">ad_export_descriptions_before.ps1</a></strong> — Exports enabled users’ Title/Description snapshot (before). <span class="muted">(<a href="scripts/automation/030__B317E28762__ad_export_descriptions_before.ps1">raw</a>)</span></li>
+    </ul>
+
+    <h4 style="margin:1rem 0 .35rem;">More artifacts</h4>
+    <ul>
+      <li><strong><a href="view/automation/023__8F6611C13C__ad_ou_export_user-groups_project-advisors.ps1.html">ad_ou_export_user-groups_project-advisors.ps1</a></strong> — Exports OU users + group memberships (Project Advisors example). <span class="muted">(<a href="scripts/automation/023__8F6611C13C__ad_ou_export_user-groups_project-advisors.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/025__F5A3E559D0__ad_create_test-users_30.ps1.html">ad_create_test-users_30.ps1</a></strong> — Creates test users with varied Description values for edge-case validation (dry-run unless <code>-Apply</code>). <span class="muted">(<a href="scripts/automation/025__F5A3E559D0__ad_create_test-users_30.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/026__6AB88E064D__ad_update-descriptions_temp-extra.ps1.html">ad_update-descriptions_temp-extra.ps1</a></strong> — Normalizes Description values and exports a before/after report (dry-run unless <code>-Apply</code>). <span class="muted">(<a href="scripts/automation/026__6AB88E064D__ad_update-descriptions_temp-extra.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/028__A9DE623869__ad_update-descriptions_v2.ps1.html">ad_update-descriptions_v2.ps1</a></strong> — Broad-scope Description normalization (dry-run unless <code>-Apply</code>). <span class="muted">(<a href="scripts/automation/028__A9DE623869__ad_update-descriptions_v2.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/029__5933227B9A__ad_update-descriptions_v3-ou-subtree.ps1.html">ad_update-descriptions_v3-ou-subtree.ps1</a></strong> — OU subtree normalization that preserves LOA markers (dry-run unless <code>-Apply</code>). <span class="muted">(<a href="scripts/automation/029__5933227B9A__ad_update-descriptions_v3-ou-subtree.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/031__2BC055E829__ad_export_descriptions_after.ps1.html">ad_export_descriptions_after.ps1</a></strong> — Exports enabled users’ Title/Description/Office snapshot (after). <span class="muted">(<a href="scripts/automation/031__2BC055E829__ad_export_descriptions_after.ps1">raw</a>)</span></li>
+    </ul>
+
+    <h3>Other automation</h3>
+    <ul>
+      <li><strong><a href="view/automation/005__B95146D04D__ops.ps1.html">ops.ps1</a></strong> — Repeatable deploy helper: pnpm bootstrap + ignore files + token-based CLI flows. <span class="muted">(<a href="scripts/automation/005__B95146D04D__ops.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/007__2687AA3246__run-all.ps1.html">run-all.ps1</a></strong> — Brings up multiple local components in a predictable order (and captures logs). <span class="muted">(<a href="scripts/automation/007__2687AA3246__run-all.ps1">raw</a>)</span></li>
+      <li><strong><a href="view/automation/008__B99D8D2654__Map_Drive_Sanitized.ps1.html">Map_Drive_Sanitized.ps1</a></strong> — Example drive mapping for staging/migrations (credentials removed). <span class="muted">(<a href="scripts/automation/008__B99D8D2654__Map_Drive_Sanitized.ps1">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <section class="card" id="documentation">
+    <h2>Documentation</h2>
+    <ul>
+      <li><strong><a href="view/automation/006__CA0069C70E__railway-deployment-checklist.md.html">railway-deployment-checklist.md</a></strong> — Deployment checklist when the happy path fails (tokens, timeouts, where logs show the truth). <span class="muted">(<a href="documentation/automation/006__CA0069C70E__railway-deployment-checklist.md">raw</a>)</span></li>
+      <li><strong><a href="view/automation/automation_ad_inventory.md.html">automation_ad_inventory.md</a></strong> — Inventory of published AD onboarding/maintenance artifacts (sanitized). <span class="muted">(<a href="documentation/automation/automation_ad_inventory.md">raw</a>)</span></li>
+      <li><strong><a href="view/automation/automation_ad_fingerprint.md.html">automation_ad_fingerprint.md</a></strong> — Public-safe fingerprint of how the AD automation script cluster was identified. <span class="muted">(<a href="documentation/automation/automation_ad_fingerprint.md">raw</a>)</span></li>
+    </ul>
+  </section>
+
+  <footer class="muted">
+    <div style="margin:1.2rem 0 2.2rem;">
+      Back to <a href="../evidence.html">Evidence hub</a> or <a href="../index.html">portfolio home</a>.
+    </div>
+  </footer>
+</main>
+</body>
+</html>

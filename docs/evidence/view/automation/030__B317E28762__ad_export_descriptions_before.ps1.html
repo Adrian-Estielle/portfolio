@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Evidence • automation • 030__B317E28762__ad_export_descriptions_before.ps1</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 18px 22px; border-bottom: 1px solid #e5e5e5; }
+    h1 { margin: 0 0 6px 0; font-size: 18px; }
+    .meta { color: #555; font-size: 13px; }
+    .actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    a.btn { display: inline-block; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #111; font-size: 13px; }
+    a.btn:hover { background: #f6f6f6; }
+    main { padding: 16px 22px; }
+    pre { background: #0b0f19; color: #e6e6e6; padding: 14px; border-radius: 12px; overflow: auto; line-height: 1.35; font-size: 13px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .copy { cursor: pointer; }
+    footer { padding: 14px 22px; border-top: 1px solid #e5e5e5; color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><a href="../../index.html" style="text-decoration:none;">← Evidence home</a></div>
+    <h1>030__B317E28762__ad_export_descriptions_before.ps1</h1>
+    <div class="meta">Category: <b>automation</b> • Last updated: <b>2025-12-23 17:48</b></div>
+    <div class="actions">
+      <a class="btn" href="../../scripts/automation/030__B317E28762__ad_export_descriptions_before.ps1" target="_blank" rel="noopener">Open raw file</a>
+      <a class="btn copy" href="#" onclick="copyCode(); return false;">Copy contents</a>
+    </div>
+  </header>
+
+  <main>
+    <pre><code id="code"># Sanitized artifact (030)
+# Notes: identifiers/secrets replaced with &lt;REDACTED_*&gt; placeholders.
+# Source: &lt;REDACTED_PATH&gt;
+&lt;#
+What it does
+- Exports a snapshot of enabled users with Title + Description (baseline before a cleanup pass).
+
+When used
+- Before running a bulk normalization script to establish a “before” dataset.
+
+Inputs
+- SearchBaseDn: DN where the search begins (default: domain root placeholder).
+- OutputCsvPath: where to write the CSV.
+
+Safety notes
+- Read-only against AD; writes a local CSV output.
+
+Validation
+- Confirm the CSV has expected columns and a reasonable row count.
+- Spot-check a few users for accurate Title/Description values.
+
+What was sanitized
+- Internal DC/domain identifiers and output paths removed.
+- Original local filename: `Descriptions.ps1`.
+#&gt;
+
+[CmdletBinding()]
+param(
+  [string]$DomainControllerFqdn,
+  [string]$SearchBaseDn = &#x27;DC=example,DC=org&#x27;,
+  [string]$OutputCsvPath = (Join-Path -Path (Get-Location) -ChildPath &#x27;ad_descriptions_before.csv&#x27;)
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = &#x27;Stop&#x27;
+$ProgressPreference = &#x27;SilentlyContinue&#x27;
+
+Import-Module ActiveDirectory -ErrorAction Stop
+
+if ($DomainControllerFqdn) {
+  $PSDefaultParameterValues[&#x27;*-AD*:Server&#x27;] = $DomainControllerFqdn
+}
+
+$users = Get-ADUser -Filter { Enabled -eq $true } -SearchBase $SearchBaseDn -Property Title,Description,SamAccountName,ObjectGUID
+$users |
+  Select-Object Name,SamAccountName,ObjectGUID,Title,Description |
+  Export-Csv -LiteralPath $OutputCsvPath -NoTypeInformation
+
+Write-Host &quot;Wrote: $OutputCsvPath&quot;
+
+
+</code></pre>
+  </main>
+
+  <footer>
+    Sanitized evidence. No tenant IDs, internal domains, user identifiers, private URLs, or secrets.
+  </footer>
+
+  <script>
+    function copyCode() {
+      const el = document.getElementById('code');
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Copied to clipboard'))
+        .catch(() => alert('Copy failed (clipboard blocked). You can still select text in the box.'));
+    }
+  </script>
+</body>
+</html>
