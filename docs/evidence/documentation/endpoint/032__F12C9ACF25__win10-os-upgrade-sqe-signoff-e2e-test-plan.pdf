@@ -1,0 +1,447 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R /F3 5 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/Contents 10 0 R /MediaBox [ 0 0 612 792 ] /Parent 9 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+5 0 obj
+<<
+/BaseFont /Symbol /Name /F3 /Subtype /Type1 /Type /Font
+>>
+endobj
+6 0 obj
+<<
+/Contents 11 0 R /MediaBox [ 0 0 612 792 ] /Parent 9 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+7 0 obj
+<<
+/PageMode /UseNone /Pages 9 0 R /Type /Catalog
+>>
+endobj
+8 0 obj
+<<
+/Author (\(anonymous\)) /CreationDate (D:20251224183559+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20251224183559+00'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title (Windows 10 OS upgrade package \204 SQE sign-off \(E2E test plan\)) /Trapped /False
+>>
+endobj
+9 0 obj
+<<
+/Count 2 /Kids [ 4 0 R 6 0 R ] /Type /Pages
+>>
+endobj
+10 0 obj
+<<
+/Length 5943
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 684.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F2 18 Tf 22 TL 3.738 0 Td (Windows 10 OS upgrade package \227 SQE sign-off \(E2E) Tj T* 195.057 0 Td (test plan\)) Tj T* -198.795 0 Td ET
+Q
+Q
+q
+1 0 0 1 67.2 666.4 cm
+Q
+q
+1 0 0 1 67.2 640.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Context) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 578.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 45.5 Tm /F1 10.5 Tf 14 TL (I used this document to drive an end-to-end SQE validation cycle for a Windows 10 in-place upgrade) Tj T* (package deployed to Windows-based medication dispensing endpoints \(virtual and physical\). The goal) Tj T* (was to prove upgrade and restore paths were safe across multiple supported application versions and) Tj T* (connectivity modes.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 552.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Scope) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 532.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 532.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Validate two deployment modes: cloud-connected \(HTTPS\) and on-prem queue-based delivery.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 512.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 512.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Verify OS and database upgrade steps complete without breaking core workflows.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 492.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 492.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Confirm peripheral and security/OS baselines remain stable after the upgrade.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 472.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 472.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Capture sign-off expectations across engineering, product, and program roles.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 460.4 cm
+Q
+q
+1 0 0 1 67.2 434.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Validation plan \(matrix summary\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 -162.905 348.4 cm
+q
+.960784 .960784 .960784 rg
+n 0 80 937.81 -20 re f*
+0 0 0 rg
+BT /F2 10 Tf 12 TL ET
+BT 1 0 0 1 6 66 Tm (Target) Tj T* ET
+BT 1 0 0 1 166.39 66 Tm (Connectivity) Tj T* ET
+BT 1 0 0 1 296.2 66 Tm (Coverage) Tj T* ET
+BT 1 0 0 1 526.64 66 Tm (Validated) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 6 46 Tm (Lab VMs and lab consoles) Tj T* ET
+BT 1 0 0 1 166.39 46 Tm (Cloud-connected \(HTTPS\)) Tj T* ET
+BT 1 0 0 1 296.2 46 Tm (Representative spread of supported app versions) Tj T* ET
+BT 1 0 0 1 526.64 46 Tm (Preflight checks, upgrade execution, service health, workflow regression) Tj T* ET
+BT 1 0 0 1 6 26 Tm (Physical endpoints \(\223cabinets\224\)) Tj T* ET
+BT 1 0 0 1 166.39 26 Tm (Queue-based delivery) Tj T* ET
+BT 1 0 0 1 296.2 26 Tm (Representative spread of supported app versions) Tj T* ET
+BT 1 0 0 1 526.64 26 Tm (Upgrade + post-upgrade peripherals, lock/drawer behavior, restore + post-restore validation) Tj T* ET
+BT 1 0 0 1 6 6 Tm (Mixed endpoints \(final build pass\)) Tj T* ET
+BT 1 0 0 1 166.39 6 Tm (Both) Tj T* ET
+BT 1 0 0 1 296.2 6 Tm (Final-build verification set) Tj T* ET
+BT 1 0 0 1 526.64 6 Tm (Repeatability, \223no new defects\224 signal, release readiness) Tj T* ET
+q
+1 J
+1 j
+.827451 .827451 .827451 RG
+.5 w
+n 0 80 m 937.81 80 l S
+n 0 0 m 937.81 0 l S
+n 0 0 m 0 80 l S
+n 937.81 0 m 937.81 80 l S
+n 0 60 m 937.81 60 l S
+n 0 40 m 937.81 40 l S
+n 0 20 m 937.81 20 l S
+n 160.39 0 m 160.39 80 l S
+n 290.2 0 m 290.2 80 l S
+n 520.64 0 m 520.64 80 l S
+Q
+Q
+Q
+q
+1 0 0 1 67.2 338.4 cm
+Q
+q
+1 0 0 1 67.2 312.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Acceptance criteria) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 292.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 292.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Upgrade completes successfully on all representative targets without new Sev 1/2 defects.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 272.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 272.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Restore/downgrade path returns the device to a functional baseline.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 252.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 252.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Core workflows and peripherals remain operational \(scan/print/lock inputs, etc.\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 232.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 232.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Key OS/security settings remain in the expected state \(where applicable\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 220.4 cm
+Q
+q
+1 0 0 1 67.2 194.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Rollback / contingency) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 174.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 174.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Use the restore mechanism to return the device to its prior baseline if any acceptance criterion fails.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 140.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 140.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (After restore, re-run a targeted post-restore smoke test \(services, workflows, and peripherals\)) Tj T* (before returning the device to service.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 128.4 cm
+Q
+q
+1 0 0 1 67.2 102.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Outcomes / sign-off notes \(sanitized\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 82.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 82.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Used as a shared definition of \223done\224 for upgrade validation across stakeholders.) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+11 0 obj
+<<
+/Length 1944
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 700.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 700.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (Downstream execution logs and raw sign-off artifacts are intentionally excluded from this portfolio) Tj T* (edition.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 688.4 cm
+Q
+q
+1 0 0 1 67.2 662.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (What this demonstrates) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 642.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 642.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Release gating via a repeatable validation plan \(scope ) Tj /F3 10.5 Tf 14 TL (\256) Tj /F1 10.5 Tf 14 TL ( matrix ) Tj /F3 10.5 Tf 14 TL (\256) Tj /F1 10.5 Tf 14 TL ( execution ) Tj /F3 10.5 Tf 14 TL (\256) Tj /F1 10.5 Tf 14 TL ( sign-off\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 622.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 622.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Risk management across multiple deployment paths \(cloud vs local delivery\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 602.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 602.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Focus on observable outcomes \(workflows/peripherals/services\) instead of \223it installed\224.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 590.4 cm
+Q
+q
+1 0 0 1 67.2 564.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Redactions performed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 530.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 530.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (Removed/replaced: names/signatures, internal IPs/hostnames, internal share/URL locations,) Tj T* (internal ticket/test-case IDs, and internal tool paths.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 518.4 cm
+Q
+ 
+endstream
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000073 00000 n 
+0000000124 00000 n 
+0000000231 00000 n 
+0000000343 00000 n 
+0000000537 00000 n 
+0000000614 00000 n 
+0000000808 00000 n 
+0000000876 00000 n 
+0000001211 00000 n 
+0000001276 00000 n 
+0000007271 00000 n 
+trailer
+<<
+/ID 
+[<dd8a67d50615864a5acae01f4bb945ef><dd8a67d50615864a5acae01f4bb945ef>]
+% ReportLab generated PDF document -- digest (http://www.reportlab.com)
+
+/Info 8 0 R
+/Root 7 0 R
+/Size 12
+>>
+startxref
+9267
+%%EOF

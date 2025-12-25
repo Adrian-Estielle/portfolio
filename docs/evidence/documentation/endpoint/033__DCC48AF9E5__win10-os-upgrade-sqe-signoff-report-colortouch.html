@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Evidence • Endpoint • Win10 OS upgrade SQE sign-off (execution summary)</title>
+  <link rel="stylesheet" href="../../../site.css"/>
+  <style>
+    .actions{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+    .btn{display:inline-block;padding:.45rem .7rem;border:1px solid var(--border);border-radius:999px;background:#fff;color:var(--fg);font-size:.95rem}
+    .btn:hover{background:#f9fafb;text-decoration:none}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid var(--border);padding:.55rem .6rem;vertical-align:top}
+    th{background:#f9fafb;text-align:left}
+    @media print{
+      .actions,.crumbs,.nav{display:none !important}
+      a{color:inherit;text-decoration:none}
+      body{background:#fff}
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs">
+      <a href="../../../index.html">← portfolio home</a> ·
+      <a href="../../../evidence.html">Evidence hub</a> ·
+      <a href="../../documentation.html#endpoint">Docs index</a> ·
+      <a href="../../endpoint.html#documentation">Endpoint docs</a>
+    </div>
+    <h1>Windows 10 OS upgrade package — SQE sign-off (execution summary)</h1>
+    <p class="muted">Portfolio edition (sanitized): results-focused summary used as a go/no-go artifact for release readiness.</p>
+    <div class="actions">
+      <a class="btn" href="033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.pdf">Download PDF</a>
+      <a class="btn" href="../../documentation.html#endpoint">Documentation index</a>
+      <a class="btn" href="../../../evidence.html">Evidence hub</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Context</h2>
+    <p>This sign-off report summarizes validation of a Windows 10 upgrade package for Windows-based dispensing endpoints, including upgrade + post-upgrade stability checks and restore verification. I used it as a go/no-go artifact when coordinating release readiness across stakeholders.</p>
+
+    <h2>Scope</h2>
+    <ul>
+      <li>Validate upgrade package deployment and post-upgrade stability on representative endpoint types.</li>
+      <li>Verify restore behavior (rollback) and post-restore device readiness.</li>
+      <li>Validate peripherals and workflow regression items commonly impacted by OS upgrades.</li>
+    </ul>
+
+    <h2>Validation plan (matrix summary)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Target class</th>
+          <th>Connectivity</th>
+          <th>Coverage</th>
+          <th>Validated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Virtualized endpoints and consoles</td>
+          <td>Cloud-connected and queue-based</td>
+          <td>Supported version band for the release</td>
+          <td>Upgrade completion, service health, workflow regression</td>
+        </tr>
+        <tr>
+          <td>Physical endpoints</td>
+          <td>Queue-based</td>
+          <td>Supported version band for the release</td>
+          <td>Peripherals (printers/scanners/readers), drawer/lock behavior, restore + post-restore</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Acceptance criteria</h2>
+    <ul>
+      <li>Upgrade success across all targets in the matrix.</li>
+      <li>Full pass on the executed regression suite (workflows + peripherals) for the chosen coverage set.</li>
+      <li>Restore completes successfully where exercised, followed by a clean post-restore validation pass.</li>
+      <li>No new high-severity defects introduced by the build.</li>
+    </ul>
+
+    <h2>Rollback / contingency</h2>
+    <ul>
+      <li>If an upgrade fails or creates a regression, execute restore and validate baseline functionality before returning the device to service.</li>
+      <li>If restore requires driver/peripheral remediation, re-apply the validated baseline and re-run the peripheral checks.</li>
+    </ul>
+
+    <h2>Outcomes / sign-off notes (sanitized)</h2>
+    <ul>
+      <li>Used to capture the release-readiness signal (coverage executed + acceptance criteria met).</li>
+      <li>Specific device identifiers, internal paths, and raw sign-off signatures are intentionally removed.</li>
+    </ul>
+
+    <h2>What this demonstrates</h2>
+    <ul>
+      <li>Practical SQE gating: define coverage, run the matrix, document outcomes, and capture sign-off.</li>
+      <li>OS upgrade risk controls: restore-first thinking, plus explicit peripheral/workflow validation.</li>
+    </ul>
+
+    <h2>Redactions performed</h2>
+    <ul>
+      <li>Removed/replaced: names, signatures, internal network identifiers (IPs/hosts), internal file shares, internal comments, and internal ticket/test IDs.</li>
+    </ul>
+  </section>
+
+  <footer class="muted">
+    Back to <a href="../../../evidence.html">Evidence hub</a> · <a href="../../documentation.html#endpoint">Documentation index</a>.
+  </footer>
+</main>
+</body>
+</html>
+

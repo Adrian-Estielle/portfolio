@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Evidence • Endpoint • Cloud-connected OS upgrade SQE sign-off (E2E plan)</title>
+  <link rel="stylesheet" href="../../../site.css"/>
+  <style>
+    .actions{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+    .btn{display:inline-block;padding:.45rem .7rem;border:1px solid var(--border);border-radius:999px;background:#fff;color:var(--fg);font-size:.95rem}
+    .btn:hover{background:#f9fafb;text-decoration:none}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid var(--border);padding:.55rem .6rem;vertical-align:top}
+    th{background:#f9fafb;text-align:left}
+    @media print{
+      .actions,.crumbs,.nav{display:none !important}
+      a{color:inherit;text-decoration:none}
+      body{background:#fff}
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs">
+      <a href="../../../index.html">← portfolio home</a> ·
+      <a href="../../../evidence.html">Evidence hub</a> ·
+      <a href="../../documentation.html#endpoint">Docs index</a> ·
+      <a href="../../endpoint.html#documentation">Endpoint docs</a>
+    </div>
+    <h1>Cloud-connected OS upgrade — SQE sign-off (E2E test plan)</h1>
+    <p class="muted">Portfolio edition (sanitized): validation plan for an HTTPS-delivered upgrade flow with restore-first safety rails.</p>
+    <div class="actions">
+      <a class="btn" href="034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.pdf">Download PDF</a>
+      <a class="btn" href="../../documentation.html#endpoint">Documentation index</a>
+      <a class="btn" href="../../../evidence.html">Evidence hub</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Context</h2>
+    <p>This document is the E2E test plan I used to validate a cloud-connected (HTTPS delivery) upgrade flow for Windows-based endpoints. The emphasis was stability after install and a repeatable restore path when needed.</p>
+
+    <h2>Scope</h2>
+    <ul>
+      <li>Validate cloud-delivered installation workflow and post-install stability.</li>
+      <li>Exercise both preflight/download checks and the OS/database upgrade steps.</li>
+      <li>Confirm core workflows and key peripherals remain stable.</li>
+      <li>Validate restore operations return endpoints to a functional baseline.</li>
+    </ul>
+
+    <h2>Validation plan (matrix summary)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Target</th>
+          <th>Connectivity</th>
+          <th>Coverage</th>
+          <th>Validated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cloud-connected lab endpoints (VMs and consoles)</td>
+          <td>HTTPS</td>
+          <td>Representative spread of supported app versions</td>
+          <td>End-to-end install, service startup, logs/traceability, workflow regression</td>
+        </tr>
+        <tr>
+          <td>Final build verification set</td>
+          <td>HTTPS</td>
+          <td>Repeated passes on the final build</td>
+          <td>Repeatability and “no new defects” confidence signal</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Acceptance criteria</h2>
+    <ul>
+      <li>Preflight checks succeed and required artifacts download reliably.</li>
+      <li>Upgrade completes without unexpected service failures or workflow regressions.</li>
+      <li>Restore can be executed cleanly, followed by a post-restore validation pass.</li>
+      <li>No high-severity new defects introduced within the tested coverage set.</li>
+    </ul>
+
+    <h2>Rollback / contingency</h2>
+    <ul>
+      <li>Treat restore as the primary rollback mechanism; if any step fails, restore and re-validate baseline.</li>
+      <li>If an endpoint is not eligible (unsupported version/config), fail closed and do not proceed with upgrade.</li>
+    </ul>
+
+    <h2>Outcomes / sign-off notes (sanitized)</h2>
+    <ul>
+      <li>Used to coordinate validation coverage and define what “good” looks like before release.</li>
+      <li>Raw logs and internal artifact locations are intentionally excluded from this portfolio edition.</li>
+    </ul>
+
+    <h2>What this demonstrates</h2>
+    <ul>
+      <li>A structured validation approach for remote upgrades (repeatable steps, clear gates, measurable outcomes).</li>
+      <li>Eligibility checks and restore verification as core safety rails.</li>
+    </ul>
+
+    <h2>Redactions performed</h2>
+    <ul>
+      <li>Removed/replaced: names, internal share/URL paths, internal environment identifiers, and internal test-case identifiers.</li>
+    </ul>
+  </section>
+
+  <footer class="muted">
+    Back to <a href="../../../evidence.html">Evidence hub</a> · <a href="../../documentation.html#endpoint">Documentation index</a>.
+  </footer>
+</main>
+</body>
+</html>
+

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Evidence • Endpoint • Win10 OS upgrade (final build validation plan)</title>
+  <link rel="stylesheet" href="../../../site.css"/>
+  <style>
+    .actions{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+    .btn{display:inline-block;padding:.45rem .7rem;border:1px solid var(--border);border-radius:999px;background:#fff;color:var(--fg);font-size:.95rem}
+    .btn:hover{background:#f9fafb;text-decoration:none}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid var(--border);padding:.55rem .6rem;vertical-align:top}
+    th{background:#f9fafb;text-align:left}
+    @media print{
+      .actions,.crumbs,.nav{display:none !important}
+      a{color:inherit;text-decoration:none}
+      body{background:#fff}
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs">
+      <a href="../../../index.html">← portfolio home</a> ·
+      <a href="../../../evidence.html">Evidence hub</a> ·
+      <a href="../../documentation.html#endpoint">Docs index</a> ·
+      <a href="../../endpoint.html#documentation">Endpoint docs</a>
+    </div>
+    <h1>Windows 10 OS upgrade package — final E2E validation plan</h1>
+    <p class="muted">Portfolio edition (sanitized): “final build” validation plan covering matrix breadth, restore, and edge cases.</p>
+    <div class="actions">
+      <a class="btn" href="035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.pdf">Download PDF</a>
+      <a class="btn" href="../../documentation.html#endpoint">Documentation index</a>
+      <a class="btn" href="../../../evidence.html">Evidence hub</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Context</h2>
+    <p>This is a final build E2E validation plan used to verify a late-stage upgrade package revision after multiple iterations. It captures version deltas, environment coverage, and the safety rails used to prove the upgrade preserved baseline functionality (including domain/peripheral considerations).</p>
+
+    <h2>Scope</h2>
+    <ul>
+      <li>Validate server-side deployment prerequisites and the endpoint upgrade workflow.</li>
+      <li>Cover both pre-staged and on-the-spot upgrade initiation patterns.</li>
+      <li>Validate restore behavior and post-restore readiness checks.</li>
+      <li>Include targeted internationalization/localization coverage (representative configurations).</li>
+    </ul>
+
+    <h2>Validation plan (matrix summary)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Area</th>
+          <th>Coverage</th>
+          <th>Validation focus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Upgrade package versions</td>
+          <td>Multiple iterative builds leading to the final revision</td>
+          <td>Confirm regression fixes and new behavior; verify no new high-severity defects</td>
+        </tr>
+        <tr>
+          <td>Endpoint coverage</td>
+          <td>Multiple supported endpoint/app versions and endpoint types</td>
+          <td>Upgrade success, workflow regression, peripheral baseline, OS/service stability</td>
+        </tr>
+        <tr>
+          <td>Restore coverage</td>
+          <td>Executed on a representative subset</td>
+          <td>Restore correctness + post-restore validation</td>
+        </tr>
+        <tr>
+          <td>International configurations</td>
+          <td>Representative non-default locales (plus targeted retest)</td>
+          <td>UI/layout correctness, workflow integrity under localization</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Acceptance criteria</h2>
+    <ul>
+      <li>Upgrade completes successfully across representative coverage set.</li>
+      <li>Baseline features remain operational post-upgrade (workflows + peripherals).</li>
+      <li>Restore + post-restore validation succeeds on the exercised subset.</li>
+      <li>International configuration checks pass without localization regressions.</li>
+    </ul>
+
+    <h2>Rollback / contingency</h2>
+    <ul>
+      <li>If upgrade introduces instability or regression, restore immediately and verify baseline functionality.</li>
+      <li>If a dependency mismatch is detected (unsupported config/version), block the upgrade and remediate prerequisites before retry.</li>
+    </ul>
+
+    <h2>Outcomes / sign-off notes (sanitized)</h2>
+    <ul>
+      <li>Used to describe “final build” scope and ensure re-validation covered changed areas.</li>
+      <li>Internal release locations, device identifiers, and stakeholder approvals are removed.</li>
+    </ul>
+
+    <h2>What this demonstrates</h2>
+    <ul>
+      <li>Managing validation across iterative build changes (explicit version deltas + re-validation scope).</li>
+      <li>Building confidence with a matrix that includes restore and localization edge cases.</li>
+    </ul>
+
+    <h2>Redactions performed</h2>
+    <ul>
+      <li>Removed/replaced: names, internal domains/shares, internal device identifiers, and internal references to email/ticketing/ALM systems.</li>
+    </ul>
+  </section>
+
+  <footer class="muted">
+    Back to <a href="../../../evidence.html">Evidence hub</a> · <a href="../../documentation.html#endpoint">Documentation index</a>.
+  </footer>
+</main>
+</body>
+</html>
+

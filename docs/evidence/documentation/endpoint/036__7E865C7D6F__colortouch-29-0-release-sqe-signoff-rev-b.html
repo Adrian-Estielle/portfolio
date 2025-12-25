@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Evidence • Endpoint • Application release SQE sign-off</title>
+  <link rel="stylesheet" href="../../../site.css"/>
+  <style>
+    .actions{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+    .btn{display:inline-block;padding:.45rem .7rem;border:1px solid var(--border);border-radius:999px;background:#fff;color:var(--fg);font-size:.95rem}
+    .btn:hover{background:#f9fafb;text-decoration:none}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid var(--border);padding:.55rem .6rem;vertical-align:top}
+    th{background:#f9fafb;text-align:left}
+    @media print{
+      .actions,.crumbs,.nav{display:none !important}
+      a{color:inherit;text-decoration:none}
+      body{background:#fff}
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs">
+      <a href="../../../index.html">← portfolio home</a> ·
+      <a href="../../../evidence.html">Evidence hub</a> ·
+      <a href="../../documentation.html#endpoint">Docs index</a> ·
+      <a href="../../endpoint.html#documentation">Endpoint docs</a>
+    </div>
+    <h1>Application release sign-off — endpoint regression &amp; readiness</h1>
+    <p class="muted">Portfolio edition (sanitized): release readiness artifact capturing scope, criteria, and evidence expectations.</p>
+    <div class="actions">
+      <a class="btn" href="036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.pdf">Download PDF</a>
+      <a class="btn" href="../../documentation.html#endpoint">Documentation index</a>
+      <a class="btn" href="../../../evidence.html">Evidence hub</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Context</h2>
+    <p>This is a release sign-off artifact used to capture scope, coverage, and release criteria for an endpoint-facing application release (feature set + regression expectations). I used it to align engineering, product, and quality stakeholders on what was tested, what was deferred, and what gates were required for release.</p>
+
+    <h2>Scope</h2>
+    <ul>
+      <li>Define the feature set covered by the sign-off revision.</li>
+      <li>Document release criteria (defect thresholds, regression expectations, and approval requirements).</li>
+      <li>Capture where evidence lives (test suites, regression runs, and known issue lists).</li>
+    </ul>
+
+    <h2>Validation plan (matrix summary)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Coverage</th>
+          <th>Evidence captured</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Feature validation</td>
+          <td>New/revised features for the release</td>
+          <td>Manual and automated test execution results</td>
+        </tr>
+        <tr>
+          <td>Regression</td>
+          <td>Theme/workflow-based regression packs</td>
+          <td>Pass-rate and defect signal (severity thresholds)</td>
+        </tr>
+        <tr>
+          <td>Endpoint variants</td>
+          <td>Representative device types and supported versions</td>
+          <td>Targeted compatibility validation</td>
+        </tr>
+        <tr>
+          <td>Hardware/firmware baseline</td>
+          <td>Representative peripherals/modules</td>
+          <td>Post-upgrade / post-release stability checks</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Acceptance criteria</h2>
+    <ul>
+      <li>No open showstopper issues at release time; severity thresholds met.</li>
+      <li>Planned qualification strategy executed; regression runs at a clean signal threshold.</li>
+      <li>Known issue list reviewed and documented with clear exclusions/deferrals.</li>
+    </ul>
+
+    <h2>Rollback / contingency</h2>
+    <ul>
+      <li>If post-release monitoring shows a critical regression, pause rollout and revert to the prior stable package/version per the standard release mechanism.</li>
+    </ul>
+
+    <h2>Outcomes / sign-off notes (sanitized)</h2>
+    <ul>
+      <li>Used as the release-readiness wrapper around test evidence and criteria.</li>
+      <li>Work item IDs, internal test-management paths, and internal release locations are removed.</li>
+    </ul>
+
+    <h2>What this demonstrates</h2>
+    <ul>
+      <li>Structured release readiness documentation: criteria, coverage, and traceable evidence expectations.</li>
+      <li>Clear communication of what’s in-scope vs deferred to prevent ambiguity in go/no-go decisions.</li>
+    </ul>
+
+    <h2>Redactions performed</h2>
+    <ul>
+      <li>Removed/replaced: names/signatures, internal ticket/work-item IDs, internal test-management paths, and internal file-share locations.</li>
+    </ul>
+  </section>
+
+  <footer class="muted">
+    Back to <a href="../../../evidence.html">Evidence hub</a> · <a href="../../documentation.html#endpoint">Documentation index</a>.
+  </footer>
+</main>
+</body>
+</html>
+

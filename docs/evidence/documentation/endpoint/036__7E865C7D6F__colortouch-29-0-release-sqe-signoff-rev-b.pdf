@@ -1,0 +1,387 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/Contents 9 0 R /MediaBox [ 0 0 612 792 ] /Parent 8 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+5 0 obj
+<<
+/Contents 10 0 R /MediaBox [ 0 0 612 792 ] /Parent 8 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+6 0 obj
+<<
+/PageMode /UseNone /Pages 8 0 R /Type /Catalog
+>>
+endobj
+7 0 obj
+<<
+/Author (\(anonymous\)) /CreationDate (D:20251224183600+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20251224183600+00'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title (Application release sign-off \204 endpoint regression & readiness) /Trapped /False
+>>
+endobj
+8 0 obj
+<<
+/Count 2 /Kids [ 4 0 R 5 0 R ] /Type /Pages
+>>
+endobj
+9 0 obj
+<<
+/Length 5396
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 684.4 cm
+q
+BT 1 0 0 1 0 26 Tm 11.253 0 Td 22 TL /F2 18 Tf 0 0 0 rg (Application release sign-off \227 endpoint regression &) Tj T* 185.526 0 Td (readiness) Tj T* -196.779 0 Td ET
+Q
+Q
+q
+1 0 0 1 67.2 666.4 cm
+Q
+q
+1 0 0 1 67.2 640.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Context) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 578.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 45.5 Tm /F1 10.5 Tf 14 TL (This is a release sign-off artifact used to capture scope, coverage, and release criteria for an) Tj T* (endpoint-facing application release \(feature set + regression expectations\). I used it to align) Tj T* (engineering, product, and quality stakeholders on what was tested, what was deferred, and what gates) Tj T* (were required for release.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 552.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Scope) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 532.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 532.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Define the feature set covered by the sign-off revision.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 512.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 512.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Document release criteria \(defect thresholds, regression expectations, and approval requirements\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 492.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 492.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Capture where evidence lives \(test suites, regression runs, and known issue lists\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 480.4 cm
+Q
+q
+1 0 0 1 67.2 454.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Validation plan \(matrix summary\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 2.615 348.4 cm
+q
+.960784 .960784 .960784 rg
+n 0 100 606.77 -20 re f*
+0 0 0 rg
+BT /F2 10 Tf 12 TL ET
+BT 1 0 0 1 6 86 Tm (Category) Tj T* ET
+BT 1 0 0 1 142.47 86 Tm (Coverage) Tj T* ET
+BT 1 0 0 1 386.8 86 Tm (Evidence captured) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 6 66 Tm (Feature validation) Tj T* ET
+BT 1 0 0 1 142.47 66 Tm (New/revised features for the release) Tj T* ET
+BT 1 0 0 1 386.8 66 Tm (Manual and automated test execution results) Tj T* ET
+BT 1 0 0 1 6 46 Tm (Regression) Tj T* ET
+BT 1 0 0 1 142.47 46 Tm (Theme/workflow-based regression packs) Tj T* ET
+BT 1 0 0 1 386.8 46 Tm (Pass-rate and defect signal \(severity thresholds\)) Tj T* ET
+BT 1 0 0 1 6 26 Tm (Endpoint variants) Tj T* ET
+BT 1 0 0 1 142.47 26 Tm (Representative device types and supported versions) Tj T* ET
+BT 1 0 0 1 386.8 26 Tm (Targeted compatibility validation) Tj T* ET
+BT 1 0 0 1 6 6 Tm (Hardware/firmware baseline) Tj T* ET
+BT 1 0 0 1 142.47 6 Tm (Representative peripherals/modules) Tj T* ET
+BT 1 0 0 1 386.8 6 Tm (Post-upgrade / post-release stability checks) Tj T* ET
+q
+1 J
+1 j
+.827451 .827451 .827451 RG
+.5 w
+n 0 100 m 606.77 100 l S
+n 0 0 m 606.77 0 l S
+n 0 0 m 0 100 l S
+n 606.77 0 m 606.77 100 l S
+n 0 80 m 606.77 80 l S
+n 0 60 m 606.77 60 l S
+n 0 40 m 606.77 40 l S
+n 0 20 m 606.77 20 l S
+n 136.47 0 m 136.47 100 l S
+n 380.8 0 m 380.8 100 l S
+Q
+Q
+Q
+q
+1 0 0 1 67.2 338.4 cm
+Q
+q
+1 0 0 1 67.2 312.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Acceptance criteria) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 292.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 292.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (No open showstopper issues at release time; severity thresholds met.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 272.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 272.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Planned qualification strategy executed; regression runs at a clean signal threshold.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 252.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 252.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Known issue list reviewed and documented with clear exclusions/deferrals.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 240.4 cm
+Q
+q
+1 0 0 1 67.2 214.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Rollback / contingency) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 180.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 180.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (If post-release monitoring shows a critical regression, pause rollout and revert to the prior stable) Tj T* (package/version per the standard release mechanism.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 168.4 cm
+Q
+q
+1 0 0 1 67.2 142.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Outcomes / sign-off notes \(sanitized\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 122.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 122.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Used as the release-readiness wrapper around test evidence and criteria.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 102.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 102.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Work item IDs, internal test-management paths, and internal release locations are removed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 90.4 cm
+Q
+q
+1 0 0 1 67.2 64.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (What this demonstrates) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+10 0 obj
+<<
+/Length 1102
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 700.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 700.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (Structured release readiness documentation: criteria, coverage, and traceable evidence) Tj T* (expectations.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 680.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 680.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Clear communication of what\222s in-scope vs deferred to prevent ambiguity in go/no-go decisions.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 668.4 cm
+Q
+q
+1 0 0 1 67.2 642.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Redactions performed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 608.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 608.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (Removed/replaced: names/signatures, internal ticket/work-item IDs, internal test-management) Tj T* (paths, and internal file-share locations.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 596.4 cm
+Q
+ 
+endstream
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000073 00000 n 
+0000000114 00000 n 
+0000000221 00000 n 
+0000000333 00000 n 
+0000000526 00000 n 
+0000000720 00000 n 
+0000000788 00000 n 
+0000001123 00000 n 
+0000001188 00000 n 
+0000006635 00000 n 
+trailer
+<<
+/ID 
+[<c1e91c34e4d39410547c7df52dcc3bc2><c1e91c34e4d39410547c7df52dcc3bc2>]
+% ReportLab generated PDF document -- digest (http://www.reportlab.com)
+
+/Info 7 0 R
+/Root 6 0 R
+/Size 11
+>>
+startxref
+7789
+%%EOF

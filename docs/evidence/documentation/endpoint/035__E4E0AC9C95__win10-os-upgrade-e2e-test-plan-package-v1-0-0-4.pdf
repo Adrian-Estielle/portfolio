@@ -1,0 +1,427 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/Contents 9 0 R /MediaBox [ 0 0 612 792 ] /Parent 8 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+5 0 obj
+<<
+/Contents 10 0 R /MediaBox [ 0 0 612 792 ] /Parent 8 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+6 0 obj
+<<
+/PageMode /UseNone /Pages 8 0 R /Type /Catalog
+>>
+endobj
+7 0 obj
+<<
+/Author (\(anonymous\)) /CreationDate (D:20251224183600+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20251224183600+00'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title (Windows 10 OS upgrade package \204 final E2E validation plan) /Trapped /False
+>>
+endobj
+8 0 obj
+<<
+/Count 2 /Kids [ 4 0 R 5 0 R ] /Type /Pages
+>>
+endobj
+9 0 obj
+<<
+/Length 5872
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 684.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F2 18 Tf 22 TL 42.735 0 Td (Windows 10 OS upgrade package \227 final E2E) Tj T* 133.047 0 Td (validation plan) Tj T* -175.782 0 Td ET
+Q
+Q
+q
+1 0 0 1 67.2 666.4 cm
+Q
+q
+1 0 0 1 67.2 640.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Context) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 592.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 31.5 Tm /F1 10.5 Tf 14 TL (This is a final build E2E validation plan used to verify a late-stage upgrade package revision after) Tj T* (multiple iterations. It captures version deltas, environment coverage, and the safety rails used to prove) Tj T* (the upgrade preserved baseline functionality \(including domain/peripheral considerations\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 566.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Scope) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 546.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 546.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Validate server-side deployment prerequisites and the endpoint upgrade workflow.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 526.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 526.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Cover both pre-staged and on-the-spot upgrade initiation patterns.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 506.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 506.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Validate restore behavior and post-restore readiness checks.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 486.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 486.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Include targeted internationalization/localization coverage \(representative configurations\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 474.4 cm
+Q
+q
+1 0 0 1 67.2 448.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Validation plan \(matrix summary\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 -82.715 342.4 cm
+q
+.960784 .960784 .960784 rg
+n 0 100 777.43 -20 re f*
+0 0 0 rg
+BT /F2 10 Tf 12 TL ET
+BT 1 0 0 1 6 86 Tm (Area) Tj T* ET
+BT 1 0 0 1 138.06 86 Tm (Coverage) Tj T* ET
+BT 1 0 0 1 419.65 86 Tm (Validation focus) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 6 66 Tm (Upgrade package versions) Tj T* ET
+BT 1 0 0 1 138.06 66 Tm (Multiple iterative builds leading to the final revision) Tj T* ET
+BT 1 0 0 1 419.65 66 Tm (Confirm regression fixes and new behavior; verify no new high-severity defects) Tj T* ET
+BT 1 0 0 1 6 46 Tm (Endpoint coverage) Tj T* ET
+BT 1 0 0 1 138.06 46 Tm (Multiple supported endpoint/app versions and endpoint types) Tj T* ET
+BT 1 0 0 1 419.65 46 Tm (Upgrade success, workflow regression, peripheral baseline, OS/service stability) Tj T* ET
+BT 1 0 0 1 6 26 Tm (Restore coverage) Tj T* ET
+BT 1 0 0 1 138.06 26 Tm (Executed on a representative subset) Tj T* ET
+BT 1 0 0 1 419.65 26 Tm (Restore correctness + post-restore validation) Tj T* ET
+BT 1 0 0 1 6 6 Tm (International configurations) Tj T* ET
+BT 1 0 0 1 138.06 6 Tm (Representative non-default locales \(plus targeted retest\)) Tj T* ET
+BT 1 0 0 1 419.65 6 Tm (UI/layout correctness, workflow integrity under localization) Tj T* ET
+q
+1 J
+1 j
+.827451 .827451 .827451 RG
+.5 w
+n 0 100 m 777.43 100 l S
+n 0 0 m 777.43 0 l S
+n 0 0 m 0 100 l S
+n 777.43 0 m 777.43 100 l S
+n 0 80 m 777.43 80 l S
+n 0 60 m 777.43 60 l S
+n 0 40 m 777.43 40 l S
+n 0 20 m 777.43 20 l S
+n 132.06 0 m 132.06 100 l S
+n 413.65 0 m 413.65 100 l S
+Q
+Q
+Q
+q
+1 0 0 1 67.2 332.4 cm
+Q
+q
+1 0 0 1 67.2 306.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Acceptance criteria) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 286.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 286.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Upgrade completes successfully across representative coverage set.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 266.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 266.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Baseline features remain operational post-upgrade \(workflows + peripherals\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 246.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 246.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Restore + post-restore validation succeeds on the exercised subset.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 226.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 226.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (International configuration checks pass without localization regressions.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 214.4 cm
+Q
+q
+1 0 0 1 67.2 188.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Rollback / contingency) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 168.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 168.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (If upgrade introduces instability or regression, restore immediately and verify baseline functionality.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 134.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 134.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (If a dependency mismatch is detected \(unsupported config/version\), block the upgrade and) Tj T* (remediate prerequisites before retry.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 122.4 cm
+Q
+q
+1 0 0 1 67.2 96.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Outcomes / sign-off notes \(sanitized\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 76.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 76.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Used to describe \223final build\224 scope and ensure re-validation covered changed areas.) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+10 0 obj
+<<
+/Length 1487
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 714.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 714.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Internal release locations, device identifiers, and stakeholder approvals are removed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 702.4 cm
+Q
+q
+1 0 0 1 67.2 676.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (What this demonstrates) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 656.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 656.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Managing validation across iterative build changes \(explicit version deltas + re-validation scope\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 636.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 636.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Building confidence with a matrix that includes restore and localization edge cases.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 624.4 cm
+Q
+q
+1 0 0 1 67.2 598.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Redactions performed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 564.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 564.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (Removed/replaced: names, internal domains/shares, internal device identifiers, and internal) Tj T* (references to email/ticketing/ALM systems.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 552.4 cm
+Q
+ 
+endstream
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000073 00000 n 
+0000000114 00000 n 
+0000000221 00000 n 
+0000000333 00000 n 
+0000000526 00000 n 
+0000000720 00000 n 
+0000000788 00000 n 
+0000001118 00000 n 
+0000001183 00000 n 
+0000007106 00000 n 
+trailer
+<<
+/ID 
+[<10aaa4735838860436f43e3b9c4b9545><10aaa4735838860436f43e3b9c4b9545>]
+% ReportLab generated PDF document -- digest (http://www.reportlab.com)
+
+/Info 7 0 R
+/Root 6 0 R
+/Size 11
+>>
+startxref
+8645
+%%EOF

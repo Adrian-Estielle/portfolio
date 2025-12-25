@@ -1,0 +1,410 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/Contents 9 0 R /MediaBox [ 0 0 612 792 ] /Parent 8 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+5 0 obj
+<<
+/Contents 10 0 R /MediaBox [ 0 0 612 792 ] /Parent 8 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+6 0 obj
+<<
+/PageMode /UseNone /Pages 8 0 R /Type /Catalog
+>>
+endobj
+7 0 obj
+<<
+/Author (\(anonymous\)) /CreationDate (D:20251224183559+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20251224183559+00'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title (Windows 10 OS upgrade package \204 SQE sign-off \(execution summary\)) /Trapped /False
+>>
+endobj
+8 0 obj
+<<
+/Count 2 /Kids [ 4 0 R 5 0 R ] /Type /Pages
+>>
+endobj
+9 0 obj
+<<
+/Length 5779
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 684.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F2 18 Tf 22 TL 26.247 0 Td (Windows 10 OS upgrade package \227 SQE sign-off) Tj T* 122.031 0 Td (\(execution summary\)) Tj T* -148.278 0 Td ET
+Q
+Q
+q
+1 0 0 1 67.2 666.4 cm
+Q
+q
+1 0 0 1 67.2 640.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Context) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 592.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 31.5 Tm /F1 10.5 Tf 14 TL (This sign-off report summarizes validation of a Windows 10 upgrade package for Windows-based) Tj T* -0.05625 Tw (dispensing endpoints, including upgrade + post-upgrade stability checks and restore verification. I used) Tj T* 0 Tw (it as a go/no-go artifact when coordinating release readiness across stakeholders.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 566.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Scope) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 546.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 546.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Validate upgrade package deployment and post-upgrade stability on representative endpoint types.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 526.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 526.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Verify restore behavior \(rollback\) and post-restore device readiness.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 506.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 506.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Validate peripherals and workflow regression items commonly impacted by OS upgrades.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 494.4 cm
+Q
+q
+1 0 0 1 67.2 468.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Validation plan \(matrix summary\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 -146.105 402.4 cm
+q
+.960784 .960784 .960784 rg
+n 0 60 904.21 -20 re f*
+0 0 0 rg
+BT /F2 10 Tf 12 TL ET
+BT 1 0 0 1 6 46 Tm (Target class) Tj T* ET
+BT 1 0 0 1 172.52 46 Tm (Connectivity) Tj T* ET
+BT 1 0 0 1 340.72 46 Tm (Coverage) Tj T* ET
+BT 1 0 0 1 525.59 46 Tm (Validated) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 6 26 Tm (Virtualized endpoints and consoles) Tj T* ET
+BT 1 0 0 1 172.52 26 Tm (Cloud-connected and queue-based) Tj T* ET
+BT 1 0 0 1 340.72 26 Tm (Supported version band for the release) Tj T* ET
+BT 1 0 0 1 525.59 26 Tm (Upgrade completion, service health, workflow regression) Tj T* ET
+BT 1 0 0 1 6 6 Tm (Physical endpoints) Tj T* ET
+BT 1 0 0 1 172.52 6 Tm (Queue-based) Tj T* ET
+BT 1 0 0 1 340.72 6 Tm (Supported version band for the release) Tj T* ET
+BT 1 0 0 1 525.59 6 Tm (Peripherals \(printers/scanners/readers\), drawer/lock behavior, restore + post-restore) Tj T* ET
+q
+1 J
+1 j
+.827451 .827451 .827451 RG
+.5 w
+n 0 60 m 904.21 60 l S
+n 0 0 m 904.21 0 l S
+n 0 0 m 0 60 l S
+n 904.21 0 m 904.21 60 l S
+n 0 40 m 904.21 40 l S
+n 0 20 m 904.21 20 l S
+n 166.52 0 m 166.52 60 l S
+n 334.72 0 m 334.72 60 l S
+n 519.59 0 m 519.59 60 l S
+Q
+Q
+Q
+q
+1 0 0 1 67.2 392.4 cm
+Q
+q
+1 0 0 1 67.2 366.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Acceptance criteria) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 346.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 346.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Upgrade success across all targets in the matrix.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 326.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 326.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Full pass on the executed regression suite \(workflows + peripherals\) for the chosen coverage set.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 306.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 306.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Restore completes successfully where exercised, followed by a clean post-restore validation pass.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 286.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 286.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (No new high-severity defects introduced by the build.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 274.4 cm
+Q
+q
+1 0 0 1 67.2 248.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Rollback / contingency) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 214.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 214.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL -0.068714 Tw (If an upgrade fails or creates a regression, execute restore and validate baseline functionality before) Tj T* 0 Tw (returning the device to service.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 180.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 180.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (If restore requires driver/peripheral remediation, re-apply the validated baseline and re-run the) Tj T* (peripheral checks.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 168.4 cm
+Q
+q
+1 0 0 1 67.2 142.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Outcomes / sign-off notes \(sanitized\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 122.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 122.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Used to capture the release-readiness signal \(coverage executed + acceptance criteria met\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 102.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 102.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Specific device identifiers, internal paths, and raw sign-off signatures are intentionally removed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 90.4 cm
+Q
+q
+1 0 0 1 67.2 64.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (What this demonstrates) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+10 0 obj
+<<
+/Length 1103
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 67.2 714.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 714.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (Practical SQE gating: define coverage, run the matrix, document outcomes, and capture sign-off.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 694.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 2 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 694.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.5 Tm /F1 10.5 Tf 14 TL (OS upgrade risk controls: restore-first thinking, plus explicit peripheral/workflow validation.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 682.4 cm
+Q
+q
+1 0 0 1 67.2 656.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.2 Tm /F2 12.8 Tf 16 TL (Redactions performed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 622.4 cm
+BT /F1 12 Tf 14.4 TL ET
+0 0 0 rg
+BT 1 0 0 1 -4 16 Tm (\177) Tj T* ET
+Q
+q
+1 0 0 1 81.2 622.4 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17.5 Tm /F1 10.5 Tf 14 TL (Removed/replaced: names, signatures, internal network identifiers \(IPs/hosts\), internal file shares,) Tj T* (internal comments, and internal ticket/test IDs.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 67.2 610.4 cm
+Q
+ 
+endstream
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000073 00000 n 
+0000000114 00000 n 
+0000000221 00000 n 
+0000000333 00000 n 
+0000000526 00000 n 
+0000000720 00000 n 
+0000000788 00000 n 
+0000001127 00000 n 
+0000001192 00000 n 
+0000007022 00000 n 
+trailer
+<<
+/ID 
+[<740f832cba1d7aa3a37ad7a653d63a08><740f832cba1d7aa3a37ad7a653d63a08>]
+% ReportLab generated PDF document -- digest (http://www.reportlab.com)
+
+/Info 7 0 R
+/Root 6 0 R
+/Size 11
+>>
+startxref
+8177
+%%EOF

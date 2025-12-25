@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Evidence • Endpoint • Win10 OS upgrade SQE sign-off (E2E plan)</title>
+  <link rel="stylesheet" href="../../../site.css"/>
+  <style>
+    .actions{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+    .btn{display:inline-block;padding:.45rem .7rem;border:1px solid var(--border);border-radius:999px;background:#fff;color:var(--fg);font-size:.95rem}
+    .btn:hover{background:#f9fafb;text-decoration:none}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid var(--border);padding:.55rem .6rem;vertical-align:top}
+    th{background:#f9fafb;text-align:left}
+    @media print{
+      .actions,.crumbs,.nav{display:none !important}
+      a{color:inherit;text-decoration:none}
+      body{background:#fff}
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs">
+      <a href="../../../index.html">← portfolio home</a> ·
+      <a href="../../../evidence.html">Evidence hub</a> ·
+      <a href="../../documentation.html#endpoint">Docs index</a> ·
+      <a href="../../endpoint.html#documentation">Endpoint docs</a>
+    </div>
+    <h1>Windows 10 OS upgrade package — SQE sign-off (E2E test plan)</h1>
+    <p class="muted">Portfolio edition (sanitized): planning artifact used to define coverage, gates, and restore-first safety rails.</p>
+    <div class="actions">
+      <a class="btn" href="032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">Download PDF</a>
+      <a class="btn" href="../../documentation.html#endpoint">Documentation index</a>
+      <a class="btn" href="../../../evidence.html">Evidence hub</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>Context</h2>
+    <p>I used this document to drive an end-to-end SQE validation cycle for a Windows 10 in-place upgrade package deployed to Windows-based medication dispensing endpoints (virtual and physical). The goal was to prove upgrade and restore paths were safe across multiple supported application versions and connectivity modes.</p>
+
+    <h2>Scope</h2>
+    <ul>
+      <li>Validate two deployment modes: cloud-connected (HTTPS) and on-prem queue-based delivery.</li>
+      <li>Verify OS and database upgrade steps complete without breaking core workflows.</li>
+      <li>Confirm peripheral and security/OS baselines remain stable after the upgrade.</li>
+      <li>Capture sign-off expectations across engineering, product, and program roles.</li>
+    </ul>
+
+    <h2>Validation plan (matrix summary)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Target</th>
+          <th>Connectivity</th>
+          <th>Coverage</th>
+          <th>Validated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lab VMs and lab consoles</td>
+          <td>Cloud-connected (HTTPS)</td>
+          <td>Representative spread of supported app versions</td>
+          <td>Preflight checks, upgrade execution, service health, workflow regression</td>
+        </tr>
+        <tr>
+          <td>Physical endpoints (“cabinets”)</td>
+          <td>Queue-based delivery</td>
+          <td>Representative spread of supported app versions</td>
+          <td>Upgrade + post-upgrade peripherals, lock/drawer behavior, restore + post-restore validation</td>
+        </tr>
+        <tr>
+          <td>Mixed endpoints (final build pass)</td>
+          <td>Both</td>
+          <td>Final-build verification set</td>
+          <td>Repeatability, “no new defects” signal, release readiness</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Acceptance criteria</h2>
+    <ul>
+      <li>Upgrade completes successfully on all representative targets without new Sev 1/2 defects.</li>
+      <li>Restore/downgrade path returns the device to a functional baseline.</li>
+      <li>Core workflows and peripherals remain operational (scan/print/lock inputs, etc.).</li>
+      <li>Key OS/security settings remain in the expected state (where applicable).</li>
+    </ul>
+
+    <h2>Rollback / contingency</h2>
+    <ul>
+      <li>Use the restore mechanism to return the device to its prior baseline if any acceptance criterion fails.</li>
+      <li>After restore, re-run a targeted post-restore smoke test (services, workflows, and peripherals) before returning the device to service.</li>
+    </ul>
+
+    <h2>Outcomes / sign-off notes (sanitized)</h2>
+    <ul>
+      <li>Used as a shared definition of “done” for upgrade validation across stakeholders.</li>
+      <li>Downstream execution logs and raw sign-off artifacts are intentionally excluded from this portfolio edition.</li>
+    </ul>
+
+    <h2>What this demonstrates</h2>
+    <ul>
+      <li>Release gating via a repeatable validation plan (scope → matrix → execution → sign-off).</li>
+      <li>Risk management across multiple deployment paths (cloud vs local delivery).</li>
+      <li>Focus on observable outcomes (workflows/peripherals/services) instead of “it installed”.</li>
+    </ul>
+
+    <h2>Redactions performed</h2>
+    <ul>
+      <li>Removed/replaced: names/signatures, internal IPs/hostnames, internal share/URL locations, internal ticket/test-case IDs, and internal tool paths.</li>
+    </ul>
+  </section>
+
+  <footer class="muted">
+    Back to <a href="../../../evidence.html">Evidence hub</a> · <a href="../../documentation.html#endpoint">Documentation index</a>.
+  </footer>
+</main>
+</body>
+</html>
+
