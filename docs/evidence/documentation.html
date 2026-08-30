@@ -3,66 +3,94 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Project documentation index</title>
+  <meta name="description" content="Original technical documents and supporting engineering documentation from Adrian Estielle's portfolio."/>
+  <title>Technical Documentation — Adrian Estielle</title>
   <link rel="stylesheet" href="../site.css"/>
 </head>
 <body>
 <header class="site-header">
   <div class="container">
-    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../evidence.html">Evidence hub</a> · <a href="index.html">Viewer</a></div>
-    <h1>Project documentation (index)</h1>
-    <p class="muted">Documentation artifacts only — checklists, configs, notes. Scripts live in <a href="scripts.html">scripts.html</a>.</p>
-
+    <div class="crumbs"><a href="../index.html">← Portfolio home</a> · <a href="../evidence.html">Work samples</a></div>
+    <div class="eyebrow">Documentation archive</div>
+    <h1>Technical Documentation</h1>
+    <p class="lead muted">Original-format documents are the primary links. Searchable HTML/Markdown renditions are retained as secondary views when useful.</p>
     <div class="nav small">
-      <a href="endpoint.html">Endpoint</a>
-      <a href="automation.html">Automation</a>
-      <a href="migration.html">Migration</a>
-      <a href="cicd.html">CI/CD</a>
-      <span class="muted">·</span>
+      <a href="#endpoint">Endpoint &amp; validation</a>
+      <a href="#automation">Automation</a>
+      <a href="#migration">Migration</a>
+      <a href="#cicd">CI/CD</a>
       <a href="scripts.html">Scripts index</a>
-      <a href="../notes.html#evidence-index">Evidence notes</a>
     </div>
   </div>
 </header>
 
 <main class="container">
-  <section class="card" id="endpoint">
-    <h2>Endpoint <span class="muted">· 5 docs</span></h2>
-    <p class="muted">Inventory: <a href="documentation/endpoint/000__doc_inventory.md">000__doc_inventory.md</a></p>
-    <ul>
-      <li><strong><a href="documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.html">Win10 OS upgrade — SQE sign-off (E2E plan)</a></strong> — E2E SQE validation plan for OS upgrade delivery, coverage, and restore. <span class="muted">[<a href="documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">PDF</a>]</span></li>
-      <li><strong><a href="documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.html">Win10 OS upgrade — SQE sign-off (execution summary)</a></strong> — Results-focused sign-off summary with rollback readiness. <span class="muted">[<a href="documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.pdf">PDF</a>]</span></li>
-      <li><strong><a href="documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.html">Cloud-connected upgrade — SQE sign-off (E2E plan)</a></strong> — Eligibility checks, install validation, and restore safety rails. <span class="muted">[<a href="documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.pdf">PDF</a>]</span></li>
-      <li><strong><a href="documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.html">Win10 OS upgrade — final build validation plan</a></strong> — Version deltas, matrix coverage, and edge-case validation (including localization). <span class="muted">[<a href="documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.pdf">PDF</a>]</span></li>
-      <li><strong><a href="documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.html">Endpoint app release — SQE sign-off</a></strong> — Release criteria, coverage expectations, and regression signal. <span class="muted">[<a href="documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.pdf">PDF</a>]</span></li>
-    </ul>
+  <section class="section" id="endpoint">
+    <div class="eyebrow">Endpoint &amp; validation</div>
+    <h2>Original SQE and upgrade-validation documents</h2>
+    <p class="section-intro muted">These five artifacts open as their original PDFs. The alternate HTML versions are available only for quick text browsing.</p>
+    <div class="card">
+      <ul class="artifact-list">
+        <li>
+          <strong><a href="documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">Windows 10 OS Upgrade — SQE Sign-off E2E Test Plan</a> <span class="original">Original PDF</span></strong>
+          <span class="meta">End-to-end validation plan for upgrade delivery, coverage, and restore. <a href="documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.html">HTML transcription</a> · <a href="documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.md">Markdown transcription</a></span>
+        </li>
+        <li>
+          <strong><a href="documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.pdf">Windows 10 OS Upgrade — SQE Sign-off Execution Summary</a> <span class="original">Original PDF</span></strong>
+          <span class="meta">Results-focused sign-off summary with rollback readiness. <a href="documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.html">HTML transcription</a> · <a href="documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.md">Markdown transcription</a></span>
+        </li>
+        <li>
+          <strong><a href="documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.pdf">Cloud-connected Windows 10 Upgrade — SQE Sign-off E2E Plan</a> <span class="original">Original PDF</span></strong>
+          <span class="meta">Eligibility, install validation, and restore checks. <a href="documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.html">HTML transcription</a> · <a href="documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.md">Markdown transcription</a></span>
+        </li>
+        <li>
+          <strong><a href="documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.pdf">Windows 10 Upgrade — Final Build Validation Plan</a> <span class="original">Original PDF</span></strong>
+          <span class="meta">Version deltas, matrix coverage, and edge-case validation. <a href="documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.html">HTML transcription</a> · <a href="documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.md">Markdown transcription</a></span>
+        </li>
+        <li>
+          <strong><a href="documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.pdf">Endpoint Application Release — SQE Sign-off</a> <span class="original">Original PDF</span></strong>
+          <span class="meta">Release criteria, coverage expectations, and regression signal. <a href="documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.html">HTML transcription</a> · <a href="documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.md">Markdown transcription</a></span>
+        </li>
+      </ul>
+    </div>
   </section>
 
-  <section class="card" id="automation">
-    <h2>Automation <span class="muted">· 3 docs</span></h2>
-    <ul>
-      <li><strong><a href="view/automation/006__CA0069C70E__railway-deployment-checklist.md.html">railway-deployment-checklist.md</a></strong> — Deployment checklist when the happy path fails. <span class="muted">(<a href="documentation/automation/006__CA0069C70E__railway-deployment-checklist.md">raw</a>)</span></li>
-      <li><strong><a href="view/automation/automation_ad_inventory.md.html">automation_ad_inventory.md</a></strong> — Inventory of published AD onboarding/maintenance artifacts (sanitized). <span class="muted">(<a href="documentation/automation/automation_ad_inventory.md">raw</a>)</span></li>
-      <li><strong><a href="view/automation/automation_ad_fingerprint.md.html">automation_ad_fingerprint.md</a></strong> — Public-safe fingerprint of how the AD automation script cluster was identified. <span class="muted">(<a href="documentation/automation/automation_ad_fingerprint.md">raw</a>)</span></li>
-    </ul>
+  <section class="section" id="automation">
+    <div class="eyebrow">Automation</div>
+    <h2>Runbooks and inventory material</h2>
+    <div class="card">
+      <ul class="artifact-list">
+        <li><strong><a href="documentation/automation/006__CA0069C70E__railway-deployment-checklist.md">Railway deployment checklist</a></strong><span class="meta">Raw Markdown checklist for deployment troubleshooting. <a href="view/automation/006__CA0069C70E__railway-deployment-checklist.md.html">Rendered view</a></span></li>
+        <li><strong><a href="documentation/automation/automation_ad_inventory.md">Active Directory automation inventory</a></strong><span class="meta">Inventory of the published AD automation sample set. <a href="view/automation/automation_ad_inventory.md.html">Rendered view</a></span></li>
+        <li><strong><a href="documentation/automation/automation_ad_fingerprint.md">Active Directory automation fingerprint</a></strong><span class="meta">Public-safe notes describing the script cluster and provenance. <a href="view/automation/automation_ad_fingerprint.md.html">Rendered view</a></span></li>
+      </ul>
+    </div>
   </section>
 
-  <section class="card" id="migration">
-    <h2>Migration <span class="muted">· 4 docs</span></h2>
-    <ul>
-      <li><strong><a href="view/migration/016__89FBA6C19D__dev-testing-release-checklist.md.html">dev-testing-release-checklist.md</a></strong> — Release checklist focused on observable signals. <span class="muted">(<a href="documentation/migration/016__89FBA6C19D__dev-testing-release-checklist.md">raw</a>)</span></li>
-      <li><strong><a href="view/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md.html">BACKEND_ROOT_MIGRATION_CHECKLIST.md</a></strong> — “Backend root” migration checklist and gotchas. <span class="muted">(<a href="documentation/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md">raw</a>)</span></li>
-      <li><strong><a href="view/migration/019__2BA04B36DE__security.yml.html">security.yml</a></strong> — CI security workflow reference. <span class="muted">(<a href="documentation/migration/019__2BA04B36DE__security.yml">raw</a>)</span></li>
-      <li><strong><a href="view/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md.html">PORTFOLIO_CHECKLIST.md</a></strong> — Packaging checklist for publishing a repo. <span class="muted">(<a href="documentation/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md">raw</a>)</span></li>
-    </ul>
+  <section class="section" id="migration">
+    <div class="eyebrow">Migration</div>
+    <h2>Release and migration documentation</h2>
+    <div class="card">
+      <ul class="artifact-list">
+        <li><strong><a href="documentation/migration/016__89FBA6C19D__dev-testing-release-checklist.md">Development / testing release checklist</a></strong><span class="meta">Raw Markdown checklist focused on observable release signals. <a href="view/migration/016__89FBA6C19D__dev-testing-release-checklist.md.html">Rendered view</a></span></li>
+        <li><strong><a href="documentation/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md">Backend-root migration checklist</a></strong><span class="meta">Migration sequence and operational gotchas. <a href="view/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md.html">Rendered view</a></span></li>
+        <li><strong><a href="documentation/migration/019__2BA04B36DE__security.yml">Security workflow configuration</a></strong><span class="meta">Raw YAML reference. <a href="view/migration/019__2BA04B36DE__security.yml.html">Rendered view</a></span></li>
+        <li><strong><a href="documentation/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md">Repository publishing checklist</a></strong><span class="meta">Raw Markdown checklist retained as supporting project documentation. <a href="view/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md.html">Rendered view</a></span></li>
+      </ul>
+    </div>
   </section>
 
-  <section class="card" id="cicd">
-    <h2>CI/CD <span class="muted">· 1 doc</span></h2>
-    <ul>
-      <li><strong><a href="view/cicd/020__27378A0EE7__ci.yml.html">ci.yml</a></strong> — GitHub Actions pipeline: restore → build → test → publish → upload artifact. <span class="muted">(<a href="documentation/cicd/020__27378A0EE7__ci.yml">raw</a>)</span></li>
-    </ul>
+  <section class="section" id="cicd">
+    <div class="eyebrow">CI/CD</div>
+    <h2>Pipeline configuration</h2>
+    <div class="card">
+      <ul class="artifact-list">
+        <li><strong><a href="documentation/cicd/020__27378A0EE7__ci.yml">GitHub Actions pipeline</a></strong><span class="meta">Raw workflow YAML covering restore → build → test → publish → artifact upload. <a href="view/cicd/020__27378A0EE7__ci.yml.html">Rendered view</a></span></li>
+      </ul>
+    </div>
   </section>
+
+  <footer>Back to <a href="../evidence.html">work samples</a> or <a href="../index.html">portfolio home</a>.</footer>
 </main>
 </body>
 </html>
