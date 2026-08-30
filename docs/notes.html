@@ -3,140 +3,159 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Field Notes / KB</title>
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;color:#111;background:#fff;}
-    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
-    header{padding:2rem 0 1rem;}
-    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
-    .muted{color:#555}
-    h1{margin:.15rem 0 .25rem;font-size:2rem}
-    h2{margin:1.35rem 0 .55rem;font-size:1.35rem}
-    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
-    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
-    footer{padding:2rem 0 3rem}
-  </style>
+  <meta name="description" content="Engineering runbooks and field notes for identity, endpoint, migration, CI/CD, and operational troubleshooting."/>
+  <title>Engineering Runbooks — Adrian Estielle</title>
+  <link rel="stylesheet" href="site.css"/>
 </head>
 <body>
-<header>
-  <a href="index.html">← portfolio home</a>
-  <h1>Field Notes / KB</h1>
-  <div class="muted">Runbooks and scenario notes (sanitized). Structure: separate pages per runbook, grouped here by category.</div>
-  <div class="callout"><strong>* Under active development:</strong> content is being expanded with sanitized artifacts, log excerpts, and script snippets.</div>
+<header class="site-header">
+  <div class="container">
+    <div class="crumbs"><a href="index.html">← Portfolio home</a> · <a href="evidence.html">Work samples</a></div>
+    <div class="eyebrow">Operational knowledge</div>
+    <h1>Engineering Runbooks</h1>
+    <p class="lead muted">Practical notes for recurring engineering work: what to check first, the sequence I use, where to validate results, and which failure modes tend to matter.</p>
+    <div class="nav small">
+      <a href="#identity">Identity &amp; Automation</a>
+      <a href="#endpoint">Endpoint</a>
+      <a href="#migration">Migration</a>
+      <a href="#reference">Reference</a>
+      <a href="kb/ci.html">CI/CD</a>
+    </div>
+  </div>
 </header>
 
-<main>
-  <section class="card" id="evidence-index">
-    <h2>Evidence Index</h2>
-    <div class="muted">I publish sanitized evidence artifacts (scripts, checklists, CI configs) alongside short notes on how I run and validate them.</div>
-    <ul>
-      <li><a href="evidence.html">Evidence hub</a> <span class="muted">(viewer: <a href="evidence/">/evidence/</a>)</span></li>
-      <li>Endpoint: <a href="evidence/endpoint.html">archive</a> · <a href="#evidence-endpoint">notes</a></li>
-      <li>Automation: <a href="evidence/automation.html">archive</a> · <a href="#evidence-automation">notes</a></li>
-      <li>Migration: <a href="evidence/migration.html">archive</a> · <a href="#evidence-migration">notes</a></li>
-      <li>CI/CD: <a href="evidence/cicd.html">archive</a> · <a href="#evidence-cicd">notes</a></li>
-      <li>Indexes: <a href="evidence/scripts.html">scripts</a> · <a href="evidence/documentation.html">documentation</a></li>
-    </ul>
-    <div class="callout"><strong>How I build &amp; validate this portfolio:</strong> <a href="kb/portfolio-build.html">portfolio-build.html</a> (proof rules, sanitization, validation, and how I document failures).</div>
+<main class="container">
+  <section class="section" id="identity">
+    <div class="eyebrow">Identity &amp; Automation</div>
+    <h2>Provisioning, directory services, and lifecycle automation</h2>
+    <p class="section-intro muted">Runbooks centered on predictable identity changes, narrow scoping, validation, and recoverability.</p>
+    <div class="grid">
+      <article class="card featured">
+        <h3>Workday → Active Directory provisioning</h3>
+        <p class="muted">Hybrid flow covering Workday permissions, the Entra provisioning service, on-prem agent considerations, OU scope, on-demand tests, and logs.</p>
+        <a href="kb/automation_workday_to_active_directory_provisioning.html">Open runbook →</a>
+      </article>
+      <article class="card featured">
+        <h3>Workday → Microsoft Entra ID provisioning</h3>
+        <p class="muted">Source permissions, mappings, stable match keys, pilot scoping, on-demand provisioning, and log review.</p>
+        <a href="kb/automation_workday_to_entra_id_provisioning.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Active Directory replication preflight</h3>
+        <p class="muted">Checks to run before HR-driven provisioning or other directory automation depends on replication health.</p>
+        <a href="kb/automation_ad_replication_preflight.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Onboarding automation</h3>
+        <p class="muted">Role/region matrix, account provisioning, and licensing logic.</p>
+        <a href="kb/automation_onboarding.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Offboarding / termination automation</h3>
+        <p class="muted">Lifecycle cleanup and access-revocation workflow.</p>
+        <a href="kb/automation_offboarding.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Teams chatbot triage</h3>
+        <p class="muted">Automation pattern for guided triage, driver reset, and ticket documentation.</p>
+        <a href="kb/automation_teams_chatbot_triage.html">Open runbook →</a>
+      </article>
+    </div>
+    <div class="actions"><a class="button secondary" href="kb/automation.html">Browse all automation runbooks</a><a class="button secondary" href="evidence/automation.html">Related work samples</a></div>
   </section>
 
-  <section class="card" id="kb-ad-onboarding-automation">
-    <h2>KB: AD onboarding automation pattern (sanitized)</h2>
-    <div class="muted">A safe pattern I use for Directory Services onboarding/maintenance: export baseline → run scoped changes (OU-first) → export after → validate edge cases.</div>
-    <ul>
-      <li><strong>Safety rails:</strong> dry-run by default, explicit apply switch, and <code>-WhatIf</code>/<code>-Confirm</code> support.</li>
-      <li><strong>Validation:</strong> before/after CSV exports and a small test-user harness to catch false positives.</li>
-      <li><strong>Common edge cases:</strong> leave-of-absence markers, vendor/temp/test accounts, and OU subtree scope surprises.</li>
-    </ul>
-    <div class="muted" style="margin-top:.35rem;">
-      Links: <a href="evidence/automation.html">Automation section</a> ·
-      <a href="evidence/view/automation/automation_ad_inventory.md.html">inventory</a> ·
-      <a href="evidence/view/automation/automation_ad_fingerprint.md.html">fingerprint</a> ·
-      featured scripts:
-      <a href="evidence/view/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1.html">021</a>,
-      <a href="evidence/view/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1.html">027</a>,
-      <a href="evidence/view/automation/025__F5A3E559D0__ad_create_test-users_30.ps1.html">025</a>,
-      <a href="evidence/view/automation/030__B317E28762__ad_export_descriptions_before.ps1.html">030</a>.
+  <section class="section" id="endpoint">
+    <div class="eyebrow">Endpoint &amp; Windows</div>
+    <h2>Enrollment, compliance, recovery, and upgrade validation</h2>
+    <div class="grid">
+      <article class="card featured">
+        <h3>Windows Autopilot enrollment &amp; recovery</h3>
+        <p class="muted">Enrollment and recovery checklist for getting an endpoint back to a known managed state.</p>
+        <a href="kb/endpoint_autopilot.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Autopilot: offline / unmanaged recovery</h3>
+        <p class="muted">Recovery path for devices that do not land in the expected managed state.</p>
+        <a href="kb/endpoint_autopilot_offline_unmanaged_recovery.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Intune compliance triage</h3>
+        <p class="muted">Operational checks for determining why policy or compliance state is not converging as expected.</p>
+        <a href="kb/endpoint_intune_compliance.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>SharePoint library auto-sync</h3>
+        <p class="muted">Intune + OneDrive pattern for exposing SharePoint libraries in File Explorer.</p>
+        <a href="kb/endpoint_onedrive_autosync.html">Open runbook →</a>
+      </article>
+    </div>
+    <div class="actions"><a class="button secondary" href="kb/endpoint.html">Browse all endpoint runbooks</a><a class="button secondary" href="evidence/endpoint.html">Related work samples</a></div>
+  </section>
+
+  <section class="section" id="migration">
+    <div class="eyebrow">Microsoft 365 &amp; Migration</div>
+    <h2>Source preparation, execution, permissions, and cutover</h2>
+    <div class="grid">
+      <article class="card featured">
+        <h3>Google Workspace → Microsoft 365</h3>
+        <p class="muted">High-level sequence for planning, staging, migrating, validating, and cutting over.</p>
+        <a href="kb/migration_google_to_m365.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>SPMT + Migration Manager</h3>
+        <p class="muted">Agents, templates, job execution, and the logs to review when a migration does not behave as expected.</p>
+        <a href="kb/migration_spmt_migration_manager.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Pre-seed + delta sync</h3>
+        <p class="muted">Robocopy pattern for moving bulk data early and minimizing the final cutover delta.</p>
+        <a href="kb/migration_robocopy.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Permissions mapping</h3>
+        <p class="muted">Export the source permission model, decide what should survive, and recreate it intentionally in Microsoft 365.</p>
+        <a href="kb/migration_permissions_mapping.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Tenant-to-tenant migration</h3>
+        <p class="muted">High-level Microsoft 365 tenant-to-tenant planning and cutover considerations.</p>
+        <a href="kb/migration_tenant_to_tenant.html">Open runbook →</a>
+      </article>
+      <article class="card">
+        <h3>Wave strategy &amp; performance validation</h3>
+        <p class="muted">Phased migration approach that uses measured results to keep later waves from repeating early mistakes.</p>
+        <a href="kb/migration_wave_strategy.html">Open runbook →</a>
+      </article>
+    </div>
+    <div class="actions"><a class="button secondary" href="kb/migration.html">Browse all migration runbooks</a><a class="button secondary" href="evidence/migration.html">Related work samples</a></div>
+  </section>
+
+  <section class="section" id="reference">
+    <div class="eyebrow">Reference material</div>
+    <h2>Cheat sheets and quick-reference notes</h2>
+    <div class="grid">
+      <article class="card"><h3>Permissions precedence</h3><p class="muted">Mental model for evaluating effective access and common precedence traps.</p><a href="kb/cheatsheet_permissions_precedence.html">Open cheat sheet →</a></article>
+      <article class="card"><h3>System time &amp; security</h3><p class="muted">Why clock drift breaks authentication, certificates, MFA, and logging — plus verification and recovery checks.</p><a href="kb/cheatsheet_system_time_security.html">Open cheat sheet →</a></article>
+      <article class="card"><h3>Workday XPath</h3><p class="muted">XPath notes for Entra provisioning mappings, including versioning and troubleshooting considerations.</p><a href="kb/cheatsheet_workday_xpath.html">Open cheat sheet →</a></article>
+    </div>
+    <div class="actions"><a class="button secondary" href="kb/cheatsheets.html">Browse all reference notes</a><a class="button secondary" href="kb/ci.html">CI/CD runbook</a></div>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Related artifacts</div>
+    <h2>Original validation documents</h2>
+    <p class="section-intro muted">For endpoint upgrade and release validation, the portfolio links the native PDF documents directly rather than making generated renditions the default.</p>
+    <div class="card">
+      <ul class="artifact-list">
+        <li><strong><a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">Windows 10 OS Upgrade — SQE Sign-off E2E Test Plan</a> <span class="original">Original PDF</span></strong></li>
+        <li><strong><a href="evidence/documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.pdf">Windows 10 OS Upgrade — SQE Sign-off Execution Summary</a> <span class="original">Original PDF</span></strong></li>
+        <li><strong><a href="evidence/documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.pdf">Cloud-connected Windows 10 Upgrade — SQE Sign-off E2E Plan</a> <span class="original">Original PDF</span></strong></li>
+      </ul>
+      <a href="evidence/documentation.html#endpoint">Open full documentation index →</a>
     </div>
   </section>
 
-  <section class="card" id="kb-upgrade-validation-sqe-signoff">
-    <h2>KB: Upgrade validation &amp; SQE signoff (sanitized)</h2>
-    <div class="muted">A repeatable pattern I use for endpoint OS/app upgrade validation: define the coverage matrix → run upgrades → verify workflows/peripherals → verify restore/rollback → capture go/no-go criteria.</div>
-    <ul>
-      <li><strong>Coverage matrix:</strong> representative endpoint types (virtual + physical), supported app/version bands, and delivery modes (cloud-connected vs local delivery).</li>
-      <li><strong>Validation focus:</strong> post-upgrade service health, core workflows, and “high-risk peripherals” (scan/print/readers/locks).</li>
-      <li><strong>Rollback:</strong> restore-first mindset; always verify post-restore baseline before returning a device to service.</li>
-      <li><strong>Edge cases:</strong> eligibility/version gating, driver/peripheral drift after restore, and localization/international configuration checks where applicable.</li>
-    </ul>
-    <div class="muted" style="margin-top:.35rem;">
-      Evidence:
-      <a href="evidence/endpoint.html#documentation">Endpoint documentation</a> ·
-      <a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.html">032</a> (<a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">PDF</a>),
-      <a href="evidence/documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.html">033</a> (<a href="evidence/documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.pdf">PDF</a>),
-      <a href="evidence/documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.html">034</a> (<a href="evidence/documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.pdf">PDF</a>),
-      <a href="evidence/documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.html">035</a> (<a href="evidence/documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.pdf">PDF</a>),
-      <a href="evidence/documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.html">036</a> (<a href="evidence/documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.pdf">PDF</a>).
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>Endpoint runbooks*</h2>
-    <ul><li><a href="kb/endpoint_autopilot_offline_unmanaged_recovery.html">Autopilot recovery: offline/unmanaged outcome</a></li><li><a href="kb/endpoint_autopilot.html">Windows Autopilot enrollment + recovery checklist</a></li><li><a href="kb/endpoint_intune_compliance.html">Intune</a></li><li><a href="kb/endpoint_onedrive_autosync.html">Auto-sync SharePoint libraries to File Explorer (Intune + OneDrive)</a></li></ul>
-  </section>
-
-  <section class="card">
-    <h2>Automation runbooks*</h2>
-    <ul><li><a href="kb/automation_ad_replication_preflight.html">Active Directory replication preflight (for provisioning projects)</a> <span class="muted">— Practical checks before HR-driven identity provisioning: repadmin/dcdiag + what failures look like.</span></li><li><a href="kb/automation_offboarding.html">Offboarding / termination automation</a></li><li><a href="kb/automation_onboarding.html">Onboarding automation (role/region matrix + licensing rules)</a></li><li><a href="kb/automation_teams_chatbot_triage.html">Teams chatbot triage (driver reset + auto ticket documentation)</a></li><li><a href="kb/automation_workday_to_active_directory_provisioning.html">Workday → Active Directory inbound provisioning (runbook)</a> <span class="muted">— Hybrid runbook: Workday ISU/domains → Entra provisioning app → install on-prem agent → OU scoping → on-demand tests → portal + agent logs.</span></li><li><a href="kb/automation_workday_to_entra_id_provisioning.html">Workday → Microsoft Entra ID inbound provisioning (runbook)</a> <span class="muted">— Click-by-click runbook: Workday ISU + domains → Entra Enterprise App → mappings/scope → on-demand tests → logs.</span></li><li><a href="kb/automation_workday_writeback.html">Workday writeback (runbook notes)</a> <span class="muted">— Optional phase 2: write select identity attributes back into Workday. High value when controlled, high risk when sloppy.</span></li></ul>
-  </section>
-
-  <section class="card">
-    <h2>Migration runbooks*</h2>
-    <ul><li><a href="kb/migration_excel_hyperlink_prep.html">Excel hyperlink remediation (pre-migration, bulk)</a></li><li><a href="kb/migration_google_to_m365.html">Google Workspace → Microsoft 365 migration (high-level)</a></li><li><a href="kb/migration_permissions_mapping.html">Export on-prem permissions → recreate cleanly in Microsoft 365</a></li><li><a href="kb/migration_robocopy.html">Robocopy pre-seed + delta sync (and log review)</a></li><li><a href="kb/migration_sources_dropbox_box_citrix.html">Dropbox / Box / Citrix-style sources — migration notes</a></li><li><a href="kb/migration_spmt_migration_manager.html">SPMT + Migration Manager (agents, templates, logs)</a></li><li><a href="kb/migration_tenant_to_tenant.html">Microsoft 365 tenant-to-tenant migration (high-level runbook)</a></li><li><a href="kb/migration_wave_strategy.html">Wave strategy + performance validation (avoid migration rework)</a></li></ul>
-  </section>
-
-  <section class="card">
-    <h2>Cheat sheets*</h2>
-    <ul><li><a href="kb/cheatsheet_permissions_precedence.html">Permissions precedence cheat sheet</a></li><li><a href="kb/cheatsheet_system_time_security.html">System time + security cheat sheet (why clocks matter)</a> <span class="muted">— Why time drift breaks auth/certs/MFA/logs, what symptoms look like, how to verify + fix on Windows/domain/Linux, and how to harden time integrity.</span></li><li><a href="kb/cheatsheet_workday_xpath.html">Workday XPath cheat sheet (for Entra provisioning mappings)</a> <span class="muted">— Why XPath shows up in Workday provisioning, what breaks when API versions change, and how to fix safely.</span></li></ul>
-  </section>
-
-  <section class="card">
-    <h2>Other</h2>
-    <ul><li><a href="kb/automation.html">Automation runbooks*</a></li><li><a href="kb/cheatsheets.html">Cheat sheets*</a></li><li><a href="kb/ci.html">CI runbook*</a></li><li><a href="kb/endpoint.html">Endpoint runbooks*</a></li><li><a href="kb/migration.html">Migration runbooks*</a></li></ul>
-  </section>
-
-  <footer class="muted">
-    <div>Tip: new pages go in <code>docs/kb/</code>. Prefix filenames with <code>endpoint_</code>, <code>automation_</code>, <code>migration_</code>, or <code>cheatsheet_</code> to auto-group.</div>
-  </footer>
-
-<!-- BEGIN SANITIZED_EVIDENCE (auto) -->
-<section class="card" id="evidence-entries"><h2>Evidence entries (sanitized artifacts)</h2><div class="muted">Auto-published sanitized artifacts with short KB notes (steps, validation, edge cases). If anything looks incomplete, it is labeled NEEDS MANUAL REVIEW and should be refined before reuse.</div><div class="muted" style="margin-top:.35rem;">Browse the evidence archive: <a href="evidence.html">evidence.html</a> (viewer: <a href="evidence/">/evidence/</a>)</div></section>
-<section class="card" id="evidence-endpoint"><h2 style="margin:.1rem 0 .5rem;">Endpoint — evidence</h2></section>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">001 — services check1.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">Sanitized PowerShell script.</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/endpoint/001__5427C6C7CC__services_check1.ps1">Download/view evidence file</a> <span class="muted">(001__5427C6C7CC__services_check1.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">002 — generate-concept-primer.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">Generates docs/concept-primer.md containing the same content that used to live in the “Concept Primer – OAuth &amp; RLS” PDF.</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/endpoint/002__829F5BD9C9__generate-concept-primer.ps1">Download/view evidence file</a> <span class="muted">(002__829F5BD9C9__generate-concept-primer.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">003 — setup-api-docs.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">Automates API cheatsheet tooling for the flattened backend. • Installs dev deps (express-list-endpoints, ts-node) in the active backend package • Creates scripts/generate-api-cheatsheet.ts if absent • Adds &quot;doc:routes&quot; to package.json so `p</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/endpoint/003__433FCD1DE3__setup-api-docs.ps1">Download/view evidence file</a> <span class="muted">(003__433FCD1DE3__setup-api-docs.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">004 — check-step5.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">check-step5.ps1 Validates Docker, Postgres, /health, and /auth/register. If /auth/register fails only because the app can’t reach SMTP (timeout, ECONNREFUSED, ETIMEDOUT, etc.), we emit a warning but still mark the step as passed so you can </div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/endpoint/004__987AE18051__check-step5.ps1">Download/view evidence file</a> <span class="muted">(004__987AE18051__check-step5.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<section class="card" id="evidence-automation"><h2 style="margin:.1rem 0 .5rem;">Automation — evidence</h2></section>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">005 — ops.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">Corepack / pnpm</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/automation/005__B95146D04D__ops.ps1">Download/view evidence file</a> <span class="muted">(005__B95146D04D__ops.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">006 — Railway Deployment Checklist (API + Workers)</h3><div class="muted" style="margin:.15rem 0 .65rem;">Use this when backend updates are ready but `railway up` keeps timing out or tokens have expired. It captures the playbook the support agents have been following during the current blitz.</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/documentation/automation/006__CA0069C70E__railway-deployment-checklist.md">Download/view evidence file</a> <span class="muted">(006__CA0069C70E__railway-deployment-checklist.md)</span></div><div><strong>Steps</strong><ul><li>Use this as the operational checklist/runbook during the task.</li><li>Treat any `&lt;REDACTED_*&gt;` values as placeholders to be filled per environment.</li></ul></div><div><strong>Validation</strong><ul><li>Confirm each checklist checkpoint has an observable signal (log, UI state, CLI output).</li></ul></div><div><strong>Edge cases</strong><ul><li>If a step is ambiguous, mark it NEEDS MANUAL REVIEW before reusing it.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">007 — run-all.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">run-all.ps1 ────────────────────────────────────────────────────────────────────────── • Runs the Step‑5 validation (check-step5.ps1). • Aborts on failure. • Runs sync‑secrets.ps1 (if present). • Prints a friendly “🏁 All tasks finished” ban</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/automation/007__2687AA3246__run-all.ps1">Download/view evidence file</a> <span class="muted">(007__2687AA3246__run-all.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">008 — Map_Drive_Sanitized.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">Convert the password to a secure string</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/automation/008__B99D8D2654__Map_Drive_Sanitized.ps1">Download/view evidence file</a> <span class="muted">(008__B99D8D2654__Map_Drive_Sanitized.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<section class="card" id="evidence-migration"><h2 style="margin:.1rem 0 .5rem;">Migration — evidence</h2></section>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">009 — create-location-migration-v2.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">Resolve paths relative to this script&#x27;s location. We assume this script resides in the `scripts` folder at the root of the repository.</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/migration/009__79B4317E98__create-location-migration-v2.ps1">Download/view evidence file</a> <span class="muted">(009__79B4317E98__create-location-migration-v2.ps1)</span></div><div><strong>Steps</strong><ul><li>Set required env vars (ex: `DATABASE_URL`).</li><li>Run from the repo root of the original project.</li><li>Review console output and generated migration/log artifacts.</li></ul></div><div><strong>Validation</strong><ul><li>Confirm expected schema/state change (or no-op when idempotent).</li><li>Verify the target environment matches the intended database/service.</li></ul></div><div><strong>Edge cases</strong><ul><li>Fails fast when env vars are missing or schema paths are wrong.</li><li>Permissions/role issues show up as API/DB errors — don’t ignore them.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">010 — apply-migration.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">apply-migration.ps1 ------------------- Runs `prisma migrate deploy` against the production database using your Prisma schema. This script assumes you’re in the project root and that `pnpm` is installed. It checks for a `DATABASE_URL` in th</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/migration/010__961A0003A8__apply-migration.ps1">Download/view evidence file</a> <span class="muted">(010__961A0003A8__apply-migration.ps1)</span></div><div><strong>Steps</strong><ul><li>Set required env vars (ex: `DATABASE_URL`).</li><li>Run from the repo root of the original project.</li><li>Review console output and generated migration/log artifacts.</li></ul></div><div><strong>Validation</strong><ul><li>Confirm expected schema/state change (or no-op when idempotent).</li><li>Verify the target environment matches the intended database/service.</li></ul></div><div><strong>Edge cases</strong><ul><li>Fails fast when env vars are missing or schema paths are wrong.</li><li>Permissions/role issues show up as API/DB errors — don’t ignore them.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">011 — setup-location v2.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">.SYNOPSIS Configure location capture and hourly analysis for the Razzberry backend. .DESCRIPTION This idempotent script adds a complete location ingestion pipeline to the existing Razzberry monorepo. It installs required packages, updates t</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/migration/011__48D54E6D45__setup-location_v2.ps1">Download/view evidence file</a> <span class="muted">(011__48D54E6D45__setup-location_v2.ps1)</span></div><div><strong>Steps</strong><ul><li>Set required env vars (ex: `DATABASE_URL`).</li><li>Run from the repo root of the original project.</li><li>Review console output and generated migration/log artifacts.</li></ul></div><div><strong>Validation</strong><ul><li>Confirm expected schema/state change (or no-op when idempotent).</li><li>Verify the target environment matches the intended database/service.</li></ul></div><div><strong>Edge cases</strong><ul><li>Fails fast when env vars are missing or schema paths are wrong.</li><li>Permissions/role issues show up as API/DB errors — don’t ignore them.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">016 — Development Testing Release Checklist</h3><div class="muted" style="margin:.15rem 0 .65rem;">This runbook prepares the backend, workers, and frontend for a coordinated development testing release. Follow each section in order and record outcomes in `COLLAB_BOARD.md` or the relevant project tracker.</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/documentation/migration/016__89FBA6C19D__dev-testing-release-checklist.md">Download/view evidence file</a> <span class="muted">(016__89FBA6C19D__dev-testing-release-checklist.md)</span></div><div><strong>Steps</strong><ul><li>Use this as the operational checklist/runbook during the task.</li><li>Treat any `&lt;REDACTED_*&gt;` values as placeholders to be filled per environment.</li></ul></div><div><strong>Validation</strong><ul><li>Confirm each checklist checkpoint has an observable signal (log, UI state, CLI output).</li></ul></div><div><strong>Edge cases</strong><ul><li>If a step is ambiguous, mark it NEEDS MANUAL REVIEW before reusing it.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">017 — Portfolio Checklist &amp; Review Notes</h3><div class="muted" style="margin:.15rem 0 .65rem;">Reviewed areas:</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/documentation/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md">Download/view evidence file</a> <span class="muted">(017__E06E97EDE2__PORTFOLIO_CHECKLIST.md)</span></div><div><strong>Steps</strong><ul><li>Use this as the operational checklist/runbook during the task.</li><li>Treat any `&lt;REDACTED_*&gt;` values as placeholders to be filled per environment.</li></ul></div><div><strong>Validation</strong><ul><li>Confirm each checklist checkpoint has an observable signal (log, UI state, CLI output).</li></ul></div><div><strong>Edge cases</strong><ul><li>If a step is ambiguous, mark it NEEDS MANUAL REVIEW before reusing it.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">018 — Backend Root Migration Checklist</h3><div class="muted" style="margin:.15rem 0 .65rem;">Primary goal</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/documentation/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md">Download/view evidence file</a> <span class="muted">(018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md)</span></div><div><strong>Steps</strong><ul><li>Use this as the operational checklist/runbook during the task.</li><li>Treat any `&lt;REDACTED_*&gt;` values as placeholders to be filled per environment.</li></ul></div><div><strong>Validation</strong><ul><li>Confirm each checklist checkpoint has an observable signal (log, UI state, CLI output).</li></ul></div><div><strong>Edge cases</strong><ul><li>If a step is ambiguous, mark it NEEDS MANUAL REVIEW before reusing it.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">019 — security.yml</h3><div class="muted" style="margin:.15rem 0 .65rem;">CI workflow: security</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/documentation/migration/019__2BA04B36DE__security.yml">Download/view evidence file</a> <span class="muted">(019__2BA04B36DE__security.yml)</span></div><div><strong>Steps</strong><ul><li>Treat as reference CI config; run in a fork first.</li><li>Confirm triggers/permissions are scoped correctly for the target org.</li></ul></div><div><strong>Validation</strong><ul><li>Check workflow run logs and artifact outputs.</li><li>Confirm security scanning (CodeQL/Dependency review) is enabled as intended.</li></ul></div><div><strong>Edge cases</strong><ul><li>Secrets/permissions are the common failure mode; use least-privilege tokens.</li><li>Path filters can silently skip runs — verify expected triggers.</li></ul></div></div>
-<section class="card" id="evidence-cicd"><h2 style="margin:.1rem 0 .5rem;">CI/CD — evidence</h2></section>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">012 — build.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">Local build helper (Windows PowerShell or PowerShell 7). This is intentionally simple + readable. Usage: pwsh -File .\scripts\build.ps1</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/cicd/012__8DAB39C4D2__build.ps1">Download/view evidence file</a> <span class="muted">(012__8DAB39C4D2__build.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">013 — jenkins_bootstrap.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">Run Jenkins locally (Docker) so you can demo &quot;real Jenkins&quot; to yourself and others. Requirements: - Docker Desktop installed and running Usage: pwsh -File .\scripts\jenkins_bootstrap.ps1 Notes: - This uses the official Jenkins LTS image - I</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1">Download/view evidence file</a> <span class="muted">(013__C0ABE3EBF8__jenkins_bootstrap.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">014 — setup branches and ci.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">.SYNOPSIS Initializes branch structure and CI pipeline for the repository. .DESCRIPTION - Creates &quot;frontend-dev&quot; and &quot;backend-dev&quot; branches off current main. - Creates a &quot;snapshot-&lt;date&gt;&quot; branch tagging the current main state. - Adds a GitH</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/cicd/014__DF90BC2348__setup_branches_and_ci.ps1">Download/view evidence file</a> <span class="muted">(014__DF90BC2348__setup_branches_and_ci.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">015 — 4project contents.ps1</h3><div class="muted" style="margin:.15rem 0 .65rem;">Sanitized PowerShell script.</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/scripts/cicd/015__EE68DC1D0E__4project_contents.ps1">Download/view evidence file</a> <span class="muted">(015__EE68DC1D0E__4project_contents.ps1)</span></div><div><strong>Steps</strong><ul><li>NEEDS MANUAL REVIEW: add the run steps and context.</li></ul></div><div><strong>Validation</strong><ul><li>NEEDS MANUAL REVIEW: add what you verify after execution.</li></ul></div><div><strong>Edge cases</strong><ul><li>NEEDS MANUAL REVIEW: add known failure modes and mitigations.</li></ul></div></div>
-<div class="card"><h3 style="margin:.1rem 0 .35rem;">020 — ci.yml</h3><div class="muted" style="margin:.15rem 0 .65rem;">CI workflow: CI</div><div style="margin:.25rem 0 .65rem;"><a href="evidence/documentation/cicd/020__27378A0EE7__ci.yml">Download/view evidence file</a> <span class="muted">(020__27378A0EE7__ci.yml)</span></div><div><strong>Steps</strong><ul><li>Treat as reference CI config; run in a fork first.</li><li>Confirm triggers/permissions are scoped correctly for the target org.</li></ul></div><div><strong>Validation</strong><ul><li>Check workflow run logs and artifact outputs.</li><li>Confirm security scanning (CodeQL/Dependency review) is enabled as intended.</li></ul></div><div><strong>Edge cases</strong><ul><li>Secrets/permissions are the common failure mode; use least-privilege tokens.</li><li>Path filters can silently skip runs — verify expected triggers.</li></ul></div></div>
-<!-- END SANITIZED_EVIDENCE (auto) -->
-
+  <footer>Back to <a href="index.html">portfolio home</a> or browse the <a href="evidence.html">full work-sample archive</a>.</footer>
 </main>
 </body>
 </html>
