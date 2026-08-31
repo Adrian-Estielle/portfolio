@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="Enterprise Google Workspace to Microsoft 365 migration case study: approximately 7,200 users, phased cutovers, identity and permissions mapping, automation, validation and support."/>
+  <title>Google Workspace → Microsoft 365 Migration | Adrian Charbonneau</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header"><div class="container">
+  <nav class="topnav"><a class="brand" href="../index.html">Adrian Charbonneau</a><div class="navlinks"><a href="../case-studies.html">Case Studies</a><a href="../notes.html">Runbooks / KB</a><a href="../evidence.html">Evidence</a></div></nav>
+  <div class="hero"><p class="eyebrow">MICROSOFT 365 · MIGRATION · AUTOMATION</p><h1>Google Workspace → Microsoft 365 migration for approximately 7,200 users.</h1><p class="lede">A multi-wave migration spanning mail, files, permissions, user profiles, validation, automation, status reporting, cutover coordination, and post-migration stabilization.</p></div>
+</div></header>
+
+<main class="container">
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">SCOPE</p><h2>A migration that had to work as both a technical change and an operating transition.</h2><p class="muted wide">The work involved approximately 7,200 users moving from Google Workspace into Microsoft 365. The technical scope included identity mapping, mail and file migration, permissions, profile/user-state considerations, and the support processes needed around each wave.</p></div>
+    <div class="capability-grid">
+      <article class="capability"><h3>Identity</h3><p>Map users, groups and target Microsoft 365 identities so migrated content and permissions land on the intended objects.</p></article>
+      <article class="capability"><h3>Mail & data</h3><p>Move user mail and files while maintaining expected ownership, metadata and access behavior.</p></article>
+      <article class="capability"><h3>Cutover</h3><p>Use pilots and phased migration waves instead of treating thousands of users as one undifferentiated event.</p></article>
+      <article class="capability"><h3>Support</h3><p>Coordinate user communication, post-migration stabilization, documentation and escalation paths around each wave.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">VALIDATION</p><h2>Test the workload and migration mechanics before production scale.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Test environments</h3><p>Built Azure- and AWS-based validation environments for proprietary applications, drivers and network configurations where migration or endpoint changes needed to be tested before rollout.</p></article>
+      <article class="project"><h3>Pilot migrations</h3><p>Used pilot groups and iterative testing to identify issues before expanding the process into larger production waves.</p></article>
+      <article class="project"><h3>Post-migration checks</h3><p>Validated migrated systems and data after each transition rather than treating a completed transfer job as proof that the end-user workflow was correct.</p></article>
+      <article class="project"><h3>Operational feedback</h3><p>Recurring issues were fed back into the process, documentation and support guidance so later waves did not repeat the same failures.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">AUTOMATION</p><h2>Use scripting where scale makes manual handling unreliable.</h2></div>
+    <div class="project-grid">
+      <article class="project featured"><h3>Bulk migration tooling</h3><p>Developed PowerShell, C# and Python automation for migration tasks involving content, accounts and permissions, with attention to preserving metadata and access controls.</p></article>
+      <article class="project"><h3>Tracking & reporting</h3><p>Used SharePoint and Power Automate to expose migration progress and operational status to project leadership instead of relying on manually assembled status updates.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">CUTOVER & STABILIZATION</p><h2>Phased execution kept failures bounded and supportable.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Wave coordination</h3><p>Coordinated migration schedules with technical teams and business stakeholders so each group had a defined migration window and support path.</p></article>
+      <article class="project"><h3>User transition</h3><p>Supported users through profile, mail, file, permissions and application changes associated with the new Microsoft 365 environment.</p></article>
+      <article class="project"><h3>Documentation</h3><p>Authored migration SOPs, technical manuals, knowledge-base material and quick-reference guidance used by multiple support teams.</p></article>
+      <article class="project"><h3>Outcome</h3><p>The organization completed the approximately 7,200-user transition through phased cutovers and post-migration stabilization without a major organization-wide outage.</p></article>
+    </div>
+  </section>
+
+  <section class="section evidence-callout">
+    <div><p class="eyebrow">RELATED RUNBOOKS</p><h2>The public notes focus on reusable migration patterns.</h2><div class="links"><a href="../kb/migration_google_to_m365.html">Google Workspace → M365 runbook</a><a href="../kb/migration_permissions_mapping.html">Permissions mapping</a><a href="../kb/migration_wave_strategy.html">Wave strategy</a><a href="../evidence/migration.html">Migration evidence hub</a></div></div><a class="button primary" href="../notes.html#migration">Migration runbooks</a>
+  </section>
+
+  <section class="section"><div class="section-heading"><p class="eyebrow">WHAT THIS DEMONSTRATES</p><h2>Enterprise migration is a systems problem, not a file-transfer problem.</h2><p class="muted wide">The difficult part was coordinating identity, data, permissions, application behavior, migration throughput, user communication and support capacity at the same time. Automation reduced repetitive handling; pilots and phased cutovers kept technical and organizational risk bounded.</p></div></section>
+</main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="../case-studies.html" style="color:#eaf3fb">All case studies</a></span></div></footer>
+</body>
+</html>
