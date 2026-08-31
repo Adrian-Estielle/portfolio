@@ -3,57 +3,50 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Evidence • Endpoint</title>
+  <meta name="description" content="Windows endpoint engineering evidence: upgrade validation plans, execution sign-off documents, rollback validation, and supporting endpoint runbooks."/>
+  <title>Windows & Endpoint Evidence | Adrian Charbonneau</title>
   <link rel="stylesheet" href="../site.css"/>
 </head>
 <body>
 <header class="site-header">
   <div class="container">
-    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../evidence.html">Evidence hub</a> · <a href="index.html">Viewer</a></div>
-    <h1>Endpoint evidence</h1>
-    <p class="muted">Health checks and preflight scripts I use to debug “works locally” vs “runs in prod”.</p>
-
-    <div class="nav small">
-      <a href="endpoint.html">Endpoint</a>
-      <a href="automation.html">Automation</a>
-      <a href="migration.html">Migration</a>
-      <a href="cicd.html">CI/CD</a>
-      <span class="muted">·</span>
-      <a href="scripts.html">Scripts index</a>
-      <a href="documentation.html">Docs index</a>
-      <a href="../notes.html#evidence-endpoint">KB notes</a>
+    <nav class="topnav" aria-label="Primary navigation">
+      <a class="brand" href="../index.html">Adrian Charbonneau</a>
+      <div class="navlinks"><a href="../case-studies.html">Case Studies</a><a href="../notes.html">Runbooks / KB</a><a href="../evidence.html">Evidence</a><a href="../index.html">Home</a></div>
+    </nav>
+    <div class="hero">
+      <p class="eyebrow">WINDOWS · ENDPOINT · VALIDATION</p>
+      <h1>Endpoint evidence centered on Windows upgrade engineering and operational validation.</h1>
+      <p class="lede">The strongest endpoint artifacts in this portfolio are sanitized validation documents that show how upgrade risk was defined, tested, recovered, and signed off across representative virtual and physical systems.</p>
     </div>
   </div>
 </header>
 
 <main class="container">
-  <section class="card" id="scripts">
-    <h2>Scripts</h2>
-    <ul>
-      <li><strong><a href="view/endpoint/004__987AE18051__check-step5.ps1.html">check-step5.ps1</a></strong> — Preflight validation: Docker/Postgres, <code>/health</code>, and <code>/auth/register</code>; treats SMTP-only failures as warnings. <span class="muted">(<a href="scripts/endpoint/004__987AE18051__check-step5.ps1">raw</a>)</span></li>
-      <li><strong><a href="view/endpoint/001__5427C6C7CC__services_check1.ps1.html">services_check1.ps1</a></strong> — Fast smoke test: API endpoints, Prisma DB pull, seed run, and SMTP connectivity. <span class="muted">(<a href="scripts/endpoint/001__5427C6C7CC__services_check1.ps1">raw</a>)</span></li>
-      <li><strong><a href="view/endpoint/003__433FCD1DE3__setup-api-docs.ps1.html">setup-api-docs.ps1</a></strong> — Bootstraps API route cheatsheet tooling (deps + script + <code>pnpm run doc:routes</code>). <span class="muted">(<a href="scripts/endpoint/003__433FCD1DE3__setup-api-docs.ps1">raw</a>)</span></li>
-      <li><strong><a href="view/endpoint/002__829F5BD9C9__generate-concept-primer.ps1.html">generate-concept-primer.ps1</a></strong> — Generates a short concept primer doc (OAuth2/PKCE + Postgres RLS). <span class="muted">(<a href="scripts/endpoint/002__829F5BD9C9__generate-concept-primer.ps1">raw</a>)</span></li>
-    </ul>
-  </section>
-
-  <section class="card" id="documentation">
-    <h2>Documentation</h2>
-    <p class="muted">Inventory: <a href="documentation/endpoint/000__doc_inventory.md">000__doc_inventory.md</a></p>
-    <ul>
-      <li><strong><a href="documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.html">Win10 OS upgrade — SQE sign-off (E2E plan)</a></strong> — Validation scope/matrix for upgrade + restore across representative endpoints. <span class="muted">[<a href="documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">PDF</a>]</span></li>
-      <li><strong><a href="documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.html">Win10 OS upgrade — SQE sign-off (execution summary)</a></strong> — Results-focused sign-off summary with rollback readiness. <span class="muted">[<a href="documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.pdf">PDF</a>]</span></li>
-      <li><strong><a href="documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.html">Cloud-connected upgrade — SQE sign-off (E2E plan)</a></strong> — Eligibility checks, install validation, and restore safety rails. <span class="muted">[<a href="documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.pdf">PDF</a>]</span></li>
-      <li><strong><a href="documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.html">Win10 OS upgrade — final build validation plan</a></strong> — Version deltas, matrix coverage, and edge-case validation (including localization). <span class="muted">[<a href="documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.pdf">PDF</a>]</span></li>
-      <li><strong><a href="documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.html">Endpoint app release — SQE sign-off</a></strong> — Release criteria, regression expectations, and evidence traceability. <span class="muted">[<a href="documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.pdf">PDF</a>]</span></li>
-    </ul>
-  </section>
-
-  <footer class="muted">
-    <div style="margin:1.2rem 0 2.2rem;">
-      Back to <a href="../evidence.html">Evidence hub</a> or <a href="../index.html">portfolio home</a>.
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">ORIGINAL-FORMAT DOCUMENTS</p><h2>Windows upgrade validation and release readiness.</h2><p class="muted wide">PDF links open the sanitized original-format documents. HTML links are browser-readable transcripts. Internal names, systems, addresses, IDs, signatures and private paths have been removed or replaced.</p></div>
+    <div class="project-grid">
+      <article class="project featured"><h3>Windows OS upgrade — E2E SQE validation plan</h3><p>Representative coverage matrix, cloud/local delivery paths, service and workflow checks, peripheral validation, acceptance criteria, and restore behavior.</p><div class="links"><a href="documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">Open PDF</a><a href="documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.html">Readable transcript</a></div></article>
+      <article class="project"><h3>Windows OS upgrade — execution / sign-off summary</h3><p>Execution-oriented sign-off material emphasizing outcome, regression signal and rollback readiness.</p><div class="links"><a href="documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.pdf">Open PDF</a><a href="documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.html">Readable transcript</a></div></article>
+      <article class="project"><h3>Cloud-connected upgrade — E2E validation</h3><p>Eligibility, remote delivery, installation, post-upgrade and restore checks for the cloud-connected path.</p><div class="links"><a href="documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.pdf">Open PDF</a><a href="documentation/endpoint/034__A657E27353__cloud-connect-win10-os-upgrade-sqe-signoff-e2e.html">Readable transcript</a></div></article>
+      <article class="project"><h3>Windows OS upgrade — final-build validation plan</h3><p>Final-build regression coverage and edge-case validation across supported configurations.</p><div class="links"><a href="documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.pdf">Open PDF</a><a href="documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.html">Readable transcript</a></div></article>
+      <article class="project"><h3>Endpoint application release — SQE sign-off</h3><p>Release criteria, coverage expectations and regression signal for an endpoint application release.</p><div class="links"><a href="documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.pdf">Open PDF</a><a href="documentation/endpoint/036__7E865C7D6F__colortouch-29-0-release-sqe-signoff-rev-b.html">Readable transcript</a></div></article>
+      <article class="project"><h3>Case-study context</h3><p>The case study explains the production-mirroring lab approach, automation, acceptance model and rollback philosophy behind the document set.</p><div class="links"><a href="../case-studies/windows-upgrade-validation.html">Read case study</a></div></article>
     </div>
-  </footer>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">ENDPOINT OPERATIONS</p><h2>Related Intune and Windows runbooks.</h2></div>
+    <div class="kbgrid">
+      <a class="kbcard" href="../kb/endpoint_autopilot.html"><strong>Autopilot enrollment & recovery</strong><span>Enrollment and recovery checklist for Windows provisioning.</span></a>
+      <a class="kbcard" href="../kb/endpoint_autopilot_offline_unmanaged_recovery.html"><strong>Offline / unmanaged Autopilot recovery</strong><span>Focused troubleshooting for a device that reaches Windows without the expected managed state.</span></a>
+      <a class="kbcard" href="../kb/endpoint_intune_compliance.html"><strong>Intune compliance troubleshooting</strong><span>Separate enrollment, policy, identity and device-state causes.</span></a>
+      <a class="kbcard" href="../kb/endpoint_onedrive_autosync.html"><strong>Managed SharePoint library sync</strong><span>OneDrive / Intune configuration pattern for managed File Explorer presentation.</span></a>
+    </div>
+  </section>
+
+  <section class="section evidence-callout"><div><p class="eyebrow">DOCUMENT INDEX</p><h2>All published technical documents in one view.</h2><p class="muted">Use the documentation index when you specifically want original-format files rather than case-study summaries.</p></div><a class="button primary" href="documentation.html#endpoint">Technical documentation</a></section>
 </main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="../evidence.html" style="color:#eaf3fb">Evidence hub</a></span></div></footer>
 </body>
 </html>

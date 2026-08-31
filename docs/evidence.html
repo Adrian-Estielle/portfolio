@@ -3,88 +3,71 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Evidence archive</title>
+  <meta name="description" content="Sanitized scripts, runbooks, validation documents and engineering artifacts from Adrian Charbonneau's systems and infrastructure portfolio."/>
+  <title>Technical Evidence | Adrian Charbonneau</title>
   <link rel="stylesheet" href="site.css"/>
 </head>
 <body>
 <header class="site-header">
   <div class="container">
-    <div class="crumbs"><a href="index.html">← portfolio home</a> · <a href="notes.html#evidence-index">Evidence notes</a></div>
-    <h1>Evidence archive</h1>
-    <p class="muted">
-      These are sanitized artifacts I’ve pulled from real work: scripts, checklists, and CI configs.
-      Placeholders like <code>&lt;REDACTED_*&gt;</code> indicate removed identifiers/secrets.
-    </p>
-
-    <div class="nav small">
-      <a href="evidence/endpoint.html">Endpoint</a>
-      <a href="evidence/automation.html">Automation</a>
-      <a href="evidence/migration.html">Migration</a>
-      <a href="evidence/cicd.html">CI/CD</a>
-      <span class="muted">·</span>
-      <a href="evidence/scripts.html">Scripts index</a>
-      <a href="evidence/documentation.html">Docs index</a>
-      <a href="evidence/">Viewer</a>
-      <a href="kb/portfolio-build.html">How I build &amp; validate</a>
-    </div>
-
-    <div class="callout note">
-      <strong>Proof-first:</strong> I treat the artifact + a short runbook (steps/validation/failure modes) as the proof — not a paragraph of claims. The additional guides and KB's are meant to pass along processes and tasks that are either very common, include information from multiple systems or services as a part of the guide, and/or warrant mention for any steps or tasks that were either tricky or I've seen others have trouble with.
+    <nav class="topnav" aria-label="Primary navigation">
+      <a class="brand" href="index.html">Adrian Charbonneau</a>
+      <div class="navlinks">
+        <a href="case-studies.html">Case Studies</a>
+        <a href="notes.html">Runbooks / KB</a>
+        <a href="index.html">Home</a>
+        <a href="https://github.com/Adrian-Estielle/portfolio">GitHub</a>
+      </div>
+    </nav>
+    <div class="hero">
+      <p class="eyebrow">TECHNICAL EVIDENCE</p>
+      <h1>Sanitized artifacts behind the case studies and runbooks.</h1>
+      <p class="lede">Scripts, validation documents, checklists, configuration notes and CI artifacts are available here for technical reviewers who want implementation-level detail. Identifiers and proprietary context are removed where necessary.</p>
     </div>
   </div>
 </header>
 
 <main class="container">
-  <section class="card">
-    <h2>Browse by section</h2>
-    <ul>
-      <li><strong><a href="evidence/endpoint.html">Endpoint</a></strong> — Health checks and preflight scripts. <span class="muted">(<a href="notes.html#evidence-endpoint">KB notes</a>)</span></li>
-      <li><strong><a href="evidence/automation.html">Automation</a></strong> — Operational scripts + runbooks (includes AD onboarding automation). <span class="muted">(<a href="notes.html#evidence-automation">KB notes</a>)</span></li>
-      <li><strong><a href="evidence/migration.html">Migration</a></strong> — Cutover helpers, rollout checklists, and safety rails. <span class="muted">(<a href="notes.html#evidence-migration">KB notes</a>)</span></li>
-      <li><strong><a href="evidence/cicd.html">CI/CD</a></strong> — Build/test/package automation with visible logs. <span class="muted">(<a href="notes.html#evidence-cicd">KB notes</a>)</span></li>
-    </ul>
-    <div class="links">
-      <a href="evidence/scripts.html">Scripts index</a> · <a href="evidence/documentation.html">Docs index</a> · <a href="evidence/">Viewer</a>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">BROWSE BY DOMAIN</p>
+      <h2>Start with the area relevant to the role.</h2>
+      <p class="muted wide">The case studies provide context first. This section intentionally exposes the lower-level material: scripts, source-like artifacts, validation plans and operational notes.</p>
+    </div>
+    <div class="kbgrid">
+      <a class="kbcard" href="evidence/automation.html"><strong>Identity & Automation</strong><span>AD lifecycle scripts, safe bulk-update patterns, provisioning support and deployment tooling.</span></a>
+      <a class="kbcard" href="evidence/endpoint.html"><strong>Endpoint & Windows</strong><span>Preflight/health checks, Windows upgrade validation and endpoint-oriented documentation.</span></a>
+      <a class="kbcard" href="evidence/migration.html"><strong>Migration & Cutover</strong><span>Migration helpers, validation steps, rollout checklists and safety rails.</span></a>
+      <a class="kbcard" href="evidence/cicd.html"><strong>CI/CD</strong><span>Build/test/package automation, Jenkins and GitHub Actions artifacts.</span></a>
+    </div>
+    <div class="links"><a href="evidence/scripts.html">Scripts index</a><a href="evidence/documentation.html">Documentation index</a><a href="evidence/">Artifact viewer</a></div>
+  </section>
+
+  <section class="section" id="featured-ad">
+    <div class="section-heading"><p class="eyebrow">FEATURED · DIRECTORY SERVICES</p><h2>AD onboarding and maintenance automation</h2><p class="muted wide">A safety-oriented pattern for OU-scoped identity work: inventory/export → dry-run → apply → export again → validate edge cases.</p></div>
+    <div class="project-grid">
+      <article class="project"><h3>New user + title mapping</h3><p>PowerShell example for creating users and applying title-based group mapping logic.</p><div class="links"><a href="evidence/view/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1.html">Readable view</a><a href="evidence/scripts/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1">Raw script</a></div></article>
+      <article class="project"><h3>OU-scoped normalization</h3><p>Bulk update pattern constrained to a directory scope rather than an unrestricted tenant/domain-wide action.</p><div class="links"><a href="evidence/view/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1.html">Readable view</a><a href="evidence/scripts/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1">Raw script</a></div></article>
+      <article class="project"><h3>Before/after inventory</h3><p>Export patterns used to create a baseline for comparison and rollback analysis.</p><div class="links"><a href="evidence/view/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1.html">OU export</a><a href="evidence/view/automation/030__B317E28762__ad_export_descriptions_before.ps1.html">Snapshot export</a></div></article>
+      <article class="project"><h3>Edge-case test users</h3><p>Test-user generation used to validate logic against representative naming, account-type and scope conditions.</p><div class="links"><a href="evidence/view/automation/025__F5A3E559D0__ad_create_test-users_30.ps1.html">Readable view</a><a href="notes.html#kb-ad-onboarding-automation">Field notes</a></div></article>
     </div>
   </section>
 
-  <section class="card" id="featured-ad">
-    <h2>Featured: Directory Services / AD onboarding automation (sanitized)</h2>
-    <p class="muted">Evidence focused on OU-scoped onboarding and safe bulk updates: export → dry-run → apply → export → validate.</p>
-    <ul>
-      <li><strong><a href="evidence/view/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1.html">New user + title→group mapping</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1.html">OU export: name/title/description</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/024__DBBA2C29CD__ad_ou_export_name-title-description.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1.html">OU-scoped description normalization</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/automation/025__F5A3E559D0__ad_create_test-users_30.ps1.html">Test user generator (edge cases)</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/025__F5A3E559D0__ad_create_test-users_30.ps1">raw</a>)</span></li>
-      <li><strong><a href="evidence/view/automation/030__B317E28762__ad_export_descriptions_before.ps1.html">Before/after snapshot exports</a></strong> — <span class="muted">(<a href="evidence/scripts/automation/030__B317E28762__ad_export_descriptions_before.ps1">raw</a>)</span></li>
-    </ul>
-    <div class="links">
-      <a href="evidence/automation.html">Open Automation section</a> ·
-      <a href="evidence/view/automation/automation_ad_inventory.md.html">AD inventory</a> ·
-      <a href="evidence/view/automation/automation_ad_fingerprint.md.html">Fingerprint</a>
+  <section class="section" id="featured-sqe">
+    <div class="section-heading"><p class="eyebrow">FEATURED · WINDOWS VALIDATION</p><h2>Upgrade validation and release-readiness documents</h2><p class="muted wide">The published versions preserve coverage, acceptance criteria, restore behavior and validation structure while removing internal names, hostnames, IPs, signatures, ticket/test IDs and internal paths.</p></div>
+    <div class="project-grid">
+      <article class="project featured"><h3>Windows upgrade E2E test plan</h3><p>Representative target matrix, multiple delivery paths, workflow/peripheral checks, acceptance criteria and rollback validation.</p><div class="links"><a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.html">Readable HTML</a><a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">Sanitized PDF</a></div></article>
+      <article class="project"><h3>Execution / sign-off summary</h3><p>Example execution-oriented sign-off material supporting a repeatable release decision.</p><div class="links"><a href="evidence/documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.html">Readable HTML</a><a href="evidence/documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.pdf">Sanitized PDF</a></div></article>
+      <article class="project"><h3>Final-build validation plan</h3><p>Additional release-build coverage retained as a separate artifact rather than collapsed into a narrative summary.</p><div class="links"><a href="evidence/documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.html">Readable HTML</a><a href="evidence/documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.pdf">Sanitized PDF</a></div></article>
+      <article class="project"><h3>Case-study context</h3><p>The case-study layer explains why these checks existed and how the validation model was used.</p><div class="links"><a href="case-studies/windows-upgrade-validation.html">Read case study</a><a href="notes.html#kb-upgrade-validation-sqe-signoff">Field notes</a></div></article>
     </div>
   </section>
 
-  <section class="card" id="featured-sqe">
-    <h2>Featured: Validation / SQE signoff docs (sanitized)</h2>
-    <p class="muted">Portfolio-safe upgrade validation and release readiness artifacts (readable HTML + downloadable PDFs).</p>
-    <ul>
-      <li><strong><a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.html">Win10 OS upgrade — SQE sign-off (E2E plan)</a></strong> <span class="muted">[<a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">PDF</a>]</span></li>
-      <li><strong><a href="evidence/documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.html">Win10 OS upgrade — SQE sign-off (execution summary)</a></strong> <span class="muted">[<a href="evidence/documentation/endpoint/033__DCC48AF9E5__win10-os-upgrade-sqe-signoff-report-colortouch.pdf">PDF</a>]</span></li>
-      <li><strong><a href="evidence/documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.html">Win10 OS upgrade — final build validation plan</a></strong> <span class="muted">[<a href="evidence/documentation/endpoint/035__E4E0AC9C95__win10-os-upgrade-e2e-test-plan-package-v1-0-0-4.pdf">PDF</a>]</span></li>
-    </ul>
-    <div class="links">
-      <a href="evidence/endpoint.html#documentation">Open Endpoint documentation</a> ·
-      <a href="evidence/documentation.html#endpoint">Docs index</a> ·
-      <a href="notes.html#kb-upgrade-validation-sqe-signoff">KB notes</a>
-    </div>
+  <section class="section evidence-callout">
+    <div><p class="eyebrow">SANITIZATION</p><h2>Public artifacts are intentionally incomplete representations of private environments.</h2><p class="muted">Customer/employer data, secrets, tenant IDs, internal hostnames, private URLs, proprietary screenshots and other identifying implementation details are excluded or replaced. The objective is to preserve the engineering method without exposing confidential infrastructure.</p></div>
+    <a class="button primary" href="case-studies.html">Read case studies</a>
   </section>
-
-  <footer class="muted">
-    <div style="margin:1.2rem 0 2.2rem;">
-      Back to <a href="index.html">portfolio home</a>. Evidence notes live in <a href="notes.html#evidence-index">notes.html</a>.
-    </div>
-  </footer>
 </main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="index.html" style="color:#eaf3fb">Portfolio home</a></span></div></footer>
 </body>
 </html>

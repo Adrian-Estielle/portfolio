@@ -3,244 +3,107 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Workday → Microsoft Entra ID inbound provisioning (runbook)</title>
-  <meta name="description" content="Click-by-click runbook: Workday ISU + domains → Entra Enterprise App → mappings/scope → on-demand tests → logs."/>
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.55;margin:0;color:#111;background:#fff;}
-    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
-    header{padding:2rem 0 1rem;}
-    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
-    .muted{color:#555}
-    .nav{margin-top:.7rem}
-    .nav a{margin-right:.75rem}
-    h1{margin:.15rem 0 .25rem;font-size:2rem}
-    h2{margin:1.35rem 0 .55rem;font-size:1.35rem}
-    h3{margin:1.05rem 0 .45rem;font-size:1.1rem}
-    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
-    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
-    .callout.warn{border-left-color:#b91c1c;background:#fef2f2}
-    .callout.note{border-left-color:#0f766e;background:#ecfdf5}
-    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
-    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.95em}
-    ul,ol{padding-left:1.25rem}
-    .k{display:inline-block;padding:.15rem .5rem;border:1px solid #e8e8e8;border-radius:999px;color:#444;margin-right:.35rem;font-size:.9rem}
-    footer{padding:2rem 0 3rem}
-    .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}
-    .small{font-size:.95em}
-  </style>
+  <meta name="description" content="Workday to Microsoft Entra ID inbound provisioning runbook: identity anchors, scoping, Workday security, mappings, testing, provisioning logs and common failure modes."/>
+  <title>Workday → Entra ID Provisioning | Adrian Charbonneau</title>
+  <link rel="stylesheet" href="../site.css"/>
 </head>
 <body>
-<header>
-  <a href="../index.html">← portfolio home</a>
-  <div class="nav">
-    <a href="../notes.html">Field Notes / KB hub</a>
+<header class="site-header">
+  <div class="container">
+    <nav class="topnav" aria-label="Primary navigation">
+      <a class="brand" href="../index.html">Adrian Charbonneau</a>
+      <div class="navlinks"><a href="../case-studies.html">Case Studies</a><a href="../notes.html">Runbooks / KB</a><a href="../evidence.html">Evidence</a></div>
+    </nav>
+    <div class="hero">
+      <p class="eyebrow">WORKDAY · MICROSOFT ENTRA ID · IDENTITY</p>
+      <h1>Workday → Microsoft Entra ID inbound provisioning.</h1>
+      <p class="lede">A practical runbook for the Workday-to-Entra provisioning pattern: source permissions, stable identity matching, scope, attribute mapping, pilot testing, logs, and the failure modes worth checking first.</p>
+    </div>
   </div>
-  <h1>Workday → Microsoft Entra ID inbound provisioning (runbook)</h1>
-  <div class="muted">Click-by-click runbook: Workday ISU + domains → Entra Enterprise App → mappings/scope → on-demand tests → logs.</div>
-  <div class="callout"><strong>* Under active development:</strong> this runbook is being expanded with sanitized artifacts, log excerpts, and script snippets.</div>
 </header>
-<main>
-<section class="card">
-  <h2>What this runbook is</h2>
-  <p>
-    Workday is the HR system-of-record. Microsoft Entra ID is the identity target. This runbook covers the
-    <strong>inbound provisioning</strong> pattern where the Entra provisioning service pulls worker data from Workday
-    and creates/updates Entra users using your mapping rules.
-  </p>
-  <div>
-    <span class="k">HR-driven onboarding</span>
-    <span class="k">Mapping + scoping</span>
-    <span class="k">Provision on demand</span>
-    <span class="k">Provisioning logs</span>
-  </div>
-  <div class="callout warn">
-    Default posture: do not scope this broadly on day 1. Provisioning is deterministic, but bad matching keys create duplicates fast.
-  </div>
-</section>
 
-<section class="card">
-  <h2>Architecture (mental model)</h2>
-  <pre><code>Workday (HR)  --(WWS / SOAP)-->  Entra Provisioning Service  -->  Entra ID Users</code></pre>
-  <ul>
-    <li><strong>Source</strong>: Workday workers (what fields you can read depends on Workday security domains).</li>
-    <li><strong>Transform</strong>: attribute mappings (formatting, expressions, fallbacks).</li>
-    <li><strong>Match</strong>: a stable anchor (EmployeeID / WorkerID) to prevent duplicates and handle rehires.</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>Pre-reqs / design decisions (decide first, then click)</h2>
-  <div class="grid2">
-    <div>
-      <h3>Identity anchors</h3>
-      <ul>
-        <li>Pick one stable identifier as the <strong>match key</strong> (ex: EmployeeID).</li>
-        <li>Decide how to handle <strong>rehire</strong> and <strong>name changes</strong>.</li>
-        <li>Decide whether UPN is email-based or separate.</li>
-      </ul>
+<main class="container">
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">ARCHITECTURE</p><h2>Keep source, transformation, matching, and target behavior distinct.</h2></div>
+    <div class="project">
+      <pre><code>Workday (HR)  -- WWS / SOAP -->  Entra Provisioning Service  -->  Entra ID Users</code></pre>
+      <div class="capability-grid">
+        <article class="capability"><h3>Source</h3><p>Workday worker data. Which fields are available depends on the security domains granted to the integration user.</p></article>
+        <article class="capability"><h3>Transform</h3><p>Attribute mappings, expressions, formatting rules and fallbacks applied by the provisioning configuration.</p></article>
+        <article class="capability"><h3>Match</h3><p>A stable anchor such as EmployeeID / WorkerID used to associate the source worker with the correct Entra identity.</p></article>
+        <article class="capability"><h3>Target</h3><p>Entra user creation and updates, with provisioning logs showing the action, result and correlation information.</p></article>
+      </div>
     </div>
-    <div>
-      <h3>Scoping</h3>
-      <ul>
-        <li>Start with a pilot population (one org / one worker type).</li>
-        <li>Prefer “sync assigned users/groups” during validation.</li>
-        <li>Plan your cutover from pilot → broad scope as an explicit change.</li>
-      </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">DESIGN FIRST</p><h2>Make the identity decisions before configuring the connector.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Identity anchor</h3><ul><li>Choose one durable match key, typically EmployeeID or WorkerID.</li><li>Decide how rehires and name changes should behave.</li><li>Define whether UPN is email-based or independently generated.</li></ul><div class="callout warn"><strong>Failure mode:</strong> a bad match key can “succeed” by creating duplicate identities rather than producing an obvious connector error.</div></article>
+      <article class="project"><h3>Scope</h3><ul><li>Start with a pilot population rather than broad tenant scope.</li><li>Use assigned users/groups or a narrow filter during validation where appropriate.</li><li>Treat expansion from pilot to production scope as an explicit change.</li></ul></article>
     </div>
-  </div>
-  <div class="callout note">
-    Field reality: most “it doesn’t provision” cases are Workday permissions (the ISU can’t read a field you mapped), not Entra.
-  </div>
-</section>
+  </section>
 
-<section class="card">
-  <h2>Workday configuration (task-driven, explicit)</h2>
-  <p class="muted">Workday UI varies by tenant. Use the Workday search bar to run tasks by name.</p>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">WORKDAY</p><h2>Configure a non-interactive integration identity with least-required access.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>1. Integration System User (ISU)</h3><ol><li>Workday search → <strong>Create Integration System User</strong>.</li><li>Set the integration username and credential.</li><li>Set session timeout appropriately for integration use; existing implementations commonly use <code>0</code>.</li><li>Disable interactive/UI sessions where supported by policy.</li></ol></article>
+      <article class="project"><h3>2. Integration security group</h3><ol><li>Workday search → <strong>Create Security Group</strong>.</li><li>Select <strong>Integration System Security Group</strong>.</li><li>Add the integration user to the group according to the tenant's security model.</li></ol></article>
+      <article class="project"><h3>3. Domain permissions</h3><ol><li>Use <strong>Maintain Permissions for Security Group</strong>.</li><li>Grant only domains required by the attributes you intend to map.</li><li>Activate pending security-policy changes.</li></ol></article>
+      <article class="project"><h3>Field check</h3><p>If a mapped value such as work email, manager, department, location or phone arrives blank, verify the Workday integration account can actually read the corresponding source node before changing Entra mapping logic.</p></article>
+    </div>
+  </section>
 
-  <h3>1) Create an Integration System User (ISU)</h3>
-  <ol>
-    <li>Workday search → <strong>Create Integration System User</strong></li>
-    <li>Set username + password</li>
-    <li>Set <strong>Session Timeout Minutes</strong> = <code>0</code></li>
-    <li>Disable interactive login (commonly “Do Not Allow UI Sessions”)</li>
-    <li>Save</li>
-  </ol>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">ENTRA CONFIGURATION</p><h2>Build the gallery application, test source connectivity, then work on mappings.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Create the enterprise application</h3><ol><li>Microsoft Entra admin center → <strong>Enterprise applications</strong>.</li><li>Select <strong>New application</strong>.</li><li>Choose the Workday-to-Microsoft-Entra user-provisioning gallery application.</li></ol></article>
+      <article class="project"><h3>Configure provisioning</h3><ol><li>Open the application → <strong>Provisioning</strong>.</li><li>Set provisioning mode to <strong>Automatic</strong>.</li><li>Enter the Workday WWS endpoint and integration-user credentials.</li><li>Run <strong>Test Connection</strong>.</li></ol><div class="callout note">If source authentication/connectivity fails, fix that before touching mappings; otherwise mapping changes only add noise.</div></article>
+    </div>
+  </section>
 
-  <h3>2) Create an Integration System Security Group</h3>
-  <ol>
-    <li>Workday search → <strong>Create Security Group</strong></li>
-    <li>Select <strong>Integration System Security Group</strong></li>
-    <li>Name it (example: <code>SG-ISU-EntraProvisioning</code>)</li>
-    <li>Add the ISU to the group (membership/association depends on your Workday policy)</li>
-    <li>Save</li>
-  </ol>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">MAPPINGS & MATCHING</p><h2>Design the identity relationship so the same person remains the same object.</h2></div>
+    <div class="project"><ol><li>Provisioning → <strong>Mappings</strong> → open the primary Workday-worker-to-Entra-user mapping.</li><li>Confirm the source attribute used as the matching key.</li><li>Confirm the target attribute used for matching.</li><li>Review UPN/email-generation rules and collision behavior.</li><li>Review required vs optional source attributes and any expression/fallback logic.</li></ol></div>
+  </section>
 
-  <h3>3) Grant domain permissions</h3>
-  <ol>
-    <li>Workday search → <strong>Maintain Permissions for Security Group</strong></li>
-    <li>Grant only the domains needed for the attributes you map (worker identity, org, manager, contact fields, etc.)</li>
-    <li>Save</li>
-    <li>Workday search → <strong>Activate Pending Security Policy Changes</strong></li>
-  </ol>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">PILOT & VALIDATION</p><h2>Use one worker to prove the path before enabling continuous scope.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Provision on demand</h3><ol><li>Keep the application scoped to the pilot population.</li><li>Provisioning → <strong>Provision on demand</strong>.</li><li>Select a representative pilot worker.</li><li>Run the provision and inspect the evaluated mapping/actions.</li></ol></article>
+      <article class="project"><h3>Validate the target</h3><ul><li>UPN / email / display name</li><li>employee identifier / matching attribute</li><li>manager relationship if mapped</li><li>department / location / organization data</li><li>expected create-vs-update behavior</li></ul><p>Only after the on-demand path is correct should continuous provisioning be enabled for the intended scope.</p></article>
+    </div>
+  </section>
 
-  <div class="callout warn">
-    If you mapped “Mobile Phone” or “Work Email” and provisioning returns blanks, it’s frequently the Workday domain permission not allowing the ISU to read that node.
-  </div>
-</section>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">LOGS</p><h2>Use the provisioning record as the first source of truth.</h2></div>
+    <div class="project"><p>Entra admin center → Enterprise applications → Workday provisioning application → <strong>Provisioning logs</strong>.</p><p>Fields I look at first:</p><ul><li><strong>Action</strong> — create, update, skip or other evaluated operation.</li><li><strong>Status</strong> — success or failure.</li><li><strong>Failure reason</strong> — what the provisioning service reports rather than what the user observed.</li><li><strong>Correlation ID</strong> — useful for tracing one attempt end-to-end.</li></ul><pre><code>Example sanitized log fields
+Status: Success
+Action: Create
+Source system: Workday
+Target system: Microsoft Entra ID
+Target object: user &lt;REDACTED_GUID&gt;
+Start time / End time
+Correlation ID: &lt;REDACTED_CORRELATION_ID&gt;</code></pre></div>
+  </section>
 
-<section class="card">
-  <h2>Entra configuration (click path)</h2>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">COMMON FAILURE MODES</p><h2>Check the structural causes before treating the connector as random.</h2></div>
+    <div class="capability-grid">
+      <article class="capability"><h3>Workday permissions</h3><p>The ISU cannot read a field that the mapping expects, so the source value is absent or incomplete.</p></article>
+      <article class="capability"><h3>Source endpoint / auth</h3><p>Wrong Workday URL, credential or source connectivity produces broad failures before mapping logic matters.</p></article>
+      <article class="capability"><h3>Match-key drift</h3><p>A worker that should update an existing identity is interpreted as a new person because the matching anchor changed or was not stable.</p></article>
+      <article class="capability"><h3>Scope too broad</h3><p>A configuration issue affects many identities before the pilot path has been proven.</p></article>
+    </div>
+  </section>
 
-  <h3>1) Create the Enterprise Application</h3>
-  <ol>
-    <li>Open <strong>Microsoft Entra admin center</strong></li>
-    <li>Navigate: <strong>Enterprise applications</strong> → <strong>New application</strong></li>
-    <li>Search the gallery for: <strong>Workday to Microsoft Entra ID user provisioning</strong></li>
-    <li>Click <strong>Create</strong>/<strong>Add</strong></li>
-  </ol>
+  <section class="section evidence-callout">
+    <div><p class="eyebrow">RELATED</p><h2>Hybrid Active Directory and case-study context.</h2><div class="links"><a href="automation_workday_to_active_directory_provisioning.html">Workday → Active Directory runbook</a><a href="automation_ad_replication_preflight.html">AD replication preflight</a><a href="../case-studies/identity-provisioning.html">Identity provisioning case study</a></div></div>
+    <a class="button primary" href="../notes.html#identity">Identity runbooks</a>
+  </section>
 
-  <h3>2) Configure Provisioning</h3>
-  <ol>
-    <li>Enterprise application → <strong>Provisioning</strong></li>
-    <li><strong>Provisioning Mode</strong> = <strong>Automatic</strong></li>
-    <li>Under <strong>Admin Credentials</strong> enter:
-      <ul>
-        <li>Workday tenant / WWS endpoint (Workday Web Services API URL)</li>
-        <li>ISU username</li>
-        <li>ISU password</li>
-      </ul>
-    </li>
-    <li>Click <strong>Test Connection</strong> → ensure it succeeds</li>
-  </ol>
-
-  <div class="callout note">
-    If “Test Connection” fails: stop and fix URL/auth before you touch mappings. Otherwise you’ll chase ghosts in logs later.
-  </div>
-</section>
-
-<section class="card">
-  <h2>Attribute mappings + matching (how you avoid duplicates)</h2>
-  <ol>
-    <li>Enterprise app → <strong>Provisioning</strong> → <strong>Mappings</strong></li>
-    <li>Open the main mapping (commonly “Workday Workers → Entra Users”)</li>
-    <li>Validate the <strong>matching key</strong>:
-      <ul>
-        <li>source: EmployeeID/WorkerID</li>
-        <li>target: the corresponding Entra attribute you use to match</li>
-      </ul>
-    </li>
-    <li>Make UPN/email rules explicit (collision-safe)</li>
-  </ol>
-
-  <div class="callout warn">
-    Bad match keys don’t fail loudly — they succeed by creating duplicates. Anchor design is the single most important part of this integration.
-  </div>
-</section>
-
-<section class="card">
-  <h2>Pilot + testing (minimum safe rollout loop)</h2>
-  <ol>
-    <li>Set scope to <strong>pilot only</strong> (assigned users/groups or a narrow filter)</li>
-    <li>Use <strong>Provision on demand</strong> for a single worker:
-      <ul>
-        <li>Enterprise app → <strong>Provisioning</strong> → <strong>Provision on demand</strong></li>
-        <li>Search/select your pilot worker</li>
-        <li>Run the on-demand provision</li>
-      </ul>
-    </li>
-    <li>Validate the created/updated Entra user:
-      <ul>
-        <li>UPN, email, display name</li>
-        <li>manager attribute (if mapped)</li>
-        <li>department/location (if mapped)</li>
-      </ul>
-    </li>
-    <li>Only then: click <strong>Start provisioning</strong></li>
-  </ol>
-</section>
-
-<section class="card">
-  <h2>Where logs live (and what a “real” log looks like)</h2>
-  <ol>
-    <li>Entra admin center → <strong>Enterprise applications</strong> → your Workday app</li>
-    <li>Go to <strong>Provisioning logs</strong></li>
-  </ol>
-
-  <div class="callout note">
-    What I look at first: <strong>Action</strong> (Create/Update), <strong>Status</strong>, <strong>Failure reason</strong>, and the
-    <strong>Correlation ID</strong> to trace a full attempt end-to-end.
-  </div>
-
-  <pre><code>Example (sanitized) provisioning log fields:
-- Status: Success
-- Action: Create
-- Source system: Workday
-- Target system: Microsoft Entra ID
-- Target object: user (GUID)
-- Start time / End time
-- Correlation ID: 11111111-1111-1111-1111-111111111111</code></pre>
-</section>
-
-<section class="card">
-  <h2>Common failure modes (what I fix first)</h2>
-  <ul>
-    <li><strong>Workday security domains</strong>: ISU can’t read a mapped attribute → mapping returns blank.</li>
-    <li><strong>Wrong Workday URL</strong>: Test Connection fails or provisioning errors look like generic auth/network.</li>
-    <li><strong>Match key drift</strong>: “rehire” becomes a second identity.</li>
-    <li><strong>Scope too broad</strong>: you accidentally provision thousands before validation.</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>References</h2>
-  <ul class="small">
-    <li><a href="https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-inbound-tutorial">Microsoft Learn: Workday to Microsoft Entra ID user provisioning (tutorial)</a></li>
-    <li><a href="https://learn.microsoft.com/en-us/entra/identity/app-provisioning/provisioning-logs">Microsoft Learn: Provisioning logs</a></li>
-  </ul>
-</section>
-<footer class="muted">
-  <div>Back to <a href="../notes.html">Field Notes / KB</a>.</div>
-</footer>
+  <section class="section"><div class="section-heading"><p class="eyebrow">REFERENCES</p><h2>Vendor documentation</h2></div><div class="links"><a href="https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-inbound-tutorial">Microsoft Learn — Workday inbound provisioning</a><a href="https://learn.microsoft.com/en-us/entra/identity/app-provisioning/provisioning-logs">Microsoft Learn — provisioning logs</a></div></section>
 </main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="../notes.html" style="color:#eaf3fb">Runbooks</a></span></div></footer>
 </body>
 </html>
