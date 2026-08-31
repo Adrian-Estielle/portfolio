@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="Identity provisioning case study: Workday, Microsoft Entra ID, Active Directory, PowerShell, scoping, matching, validation and operational safeguards."/>
+  <title>Identity Provisioning | Adrian Charbonneau</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header"><div class="container">
+  <nav class="topnav"><a class="brand" href="../index.html">Adrian Charbonneau</a><div class="navlinks"><a href="../case-studies.html">Case Studies</a><a href="../notes.html">Runbooks / KB</a><a href="../evidence.html">Evidence</a></div></nav>
+  <div class="hero"><p class="eyebrow">IDENTITY · ENTRA · POWERSHELL</p><h1>Moving identity lifecycle work from manual administration toward HR-driven provisioning.</h1><p class="lede">A sanitized summary of the progression from scripted onboarding/offboarding into Workday-driven provisioning for Microsoft Entra ID and Active Directory, with explicit matching, scoping, role/group assignment and validation.</p></div>
+</div></header>
+
+<main class="container">
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">STARTING POINT</p><h2>Account lifecycle work was repeatable enough to automate, but risky enough to require guardrails.</h2><p class="muted wide">The process included account creation and updates, licensing, group membership, regional/role-based configuration and downstream access. Early automation used PowerShell and service-desk workflows; later work moved the authoritative trigger toward HR data.</p></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">DESIGN PRINCIPLES</p><h2>Identity automation should fail safely.</h2></div>
+    <div class="capability-grid">
+      <article class="capability"><h3>Stable identity anchor</h3><p>Use a durable worker/employee identifier for matching so name changes, rehires and UPN changes do not silently create duplicate identities.</p></article>
+      <article class="capability"><h3>Narrow scope first</h3><p>Pilot with a constrained population and on-demand provisioning before broadening scope to large user sets.</p></article>
+      <article class="capability"><h3>Explicit mapping</h3><p>Define source-to-target mappings, transforms and fallbacks intentionally; missing source permissions can otherwise look like mapping failures.</p></article>
+      <article class="capability"><h3>Observable results</h3><p>Validate created/updated attributes, inspect provisioning logs and retain correlation information so a failed lifecycle event can be traced.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">IMPLEMENTATION PATTERN</p><h2>Separate the HR source, identity transform, and access-assignment logic.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Workday source configuration</h3><p>Configured the integration-user/security model and the permissions needed to expose mapped worker attributes, including custom attribute/XPath considerations.</p></article>
+      <article class="project"><h3>Entra / AD provisioning</h3><p>Configured inbound provisioning patterns and used PowerShell where additional role/group logic or operational steps needed to happen outside the base connector.</p></article>
+      <article class="project"><h3>Role and region assignment</h3><p>Mapped job/region information to expected security-group and configuration outcomes instead of relying on ad hoc manual decisions for each new user.</p></article>
+      <article class="project"><h3>Directory safety checks</h3><p>Used scoped exports, test users, dry-run behavior and replication/preflight checks to reduce the risk of bulk changes and to make before/after validation possible.</p></article>
+    </div>
+  </section>
+
+  <section class="section evidence-callout">
+    <div><p class="eyebrow">RUNBOOKS & EVIDENCE</p><h2>Technical detail is published separately from the case-study narrative.</h2><div class="links"><a href="../kb/automation_workday_to_entra_id_provisioning.html">Workday → Entra provisioning</a><a href="../kb/automation_workday_to_active_directory_provisioning.html">Workday → AD provisioning</a><a href="../kb/automation_ad_replication_preflight.html">AD replication preflight</a><a href="../evidence/automation.html">Automation evidence</a></div></div>
+    <a class="button primary" href="../kb/automation.html">Automation runbooks</a>
+  </section>
+
+  <section class="section"><div class="section-heading"><p class="eyebrow">WHAT THIS DEMONSTRATES</p><h2>Automation is more useful when the operational model is explicit.</h2><p class="muted wide">The objective was not simply to make onboarding faster. It was to make the identity lifecycle deterministic enough that another administrator could understand why an account received a particular configuration, trace failures, and safely test changes before broad rollout.</p></div></section>
+</main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="../case-studies.html" style="color:#eaf3fb">All case studies</a></span></div></footer>
+</body>
+</html>
