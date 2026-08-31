@@ -3,168 +3,100 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Workday → Active Directory inbound provisioning (runbook)</title>
-  <meta name="description" content="Hybrid runbook: Workday ISU/domains → Entra provisioning app → install on-prem agent → OU scoping → on-demand tests → portal + agent logs."/>
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.55;margin:0;color:#111;background:#fff;}
-    header,main{max-width:1050px;margin:0 auto;padding:0 1.1rem;}
-    header{padding:2rem 0 1rem;}
-    a{color:#2563eb;text-decoration:none} a:hover{text-decoration:underline}
-    .muted{color:#555}
-    .nav{margin-top:.7rem}
-    .nav a{margin-right:.75rem}
-    h1{margin:.15rem 0 .25rem;font-size:2rem}
-    h2{margin:1.35rem 0 .55rem;font-size:1.35rem}
-    h3{margin:1.05rem 0 .45rem;font-size:1.1rem}
-    .card{border:1px solid #e8e8e8;border-radius:14px;padding:1rem 1.1rem;margin:.9rem 0;background:#fff}
-    .callout{border-left:4px solid #2563eb;background:#eff6ff;border-radius:10px;padding:.85rem .95rem;color:#1f2937;margin:.9rem 0}
-    .callout.warn{border-left-color:#b91c1c;background:#fef2f2}
-    .callout.note{border-left-color:#0f766e;background:#ecfdf5}
-    pre{background:#0b1020;color:#e5e7eb;padding:.9rem 1rem;border-radius:12px;overflow:auto}
-    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.95em}
-    ul,ol{padding-left:1.25rem}
-    .k{display:inline-block;padding:.15rem .5rem;border:1px solid #e8e8e8;border-radius:999px;color:#444;margin-right:.35rem;font-size:.9rem}
-    footer{padding:2rem 0 3rem}
-    .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}
-    .small{font-size:.95em}
-  </style>
+  <meta name="description" content="Workday to Active Directory inbound provisioning runbook: Entra provisioning service, on-premises agent, OU scoping, replication preflight, mappings, testing and logs."/>
+  <title>Workday → Active Directory Provisioning | Adrian Charbonneau</title>
+  <link rel="stylesheet" href="../site.css"/>
 </head>
 <body>
-<header>
-  <a href="../index.html">← portfolio home</a>
-  <div class="nav">
-    <a href="../notes.html">Field Notes / KB hub</a>
+<header class="site-header">
+  <div class="container">
+    <nav class="topnav" aria-label="Primary navigation">
+      <a class="brand" href="../index.html">Adrian Charbonneau</a>
+      <div class="navlinks"><a href="../case-studies.html">Case Studies</a><a href="../notes.html">Runbooks / KB</a><a href="../evidence.html">Evidence</a></div>
+    </nav>
+    <div class="hero">
+      <p class="eyebrow">WORKDAY · ACTIVE DIRECTORY · HYBRID IDENTITY</p>
+      <h1>Workday → Active Directory inbound provisioning.</h1>
+      <p class="lede">Hybrid provisioning pattern using the Entra provisioning service and an on-premises provisioning agent, with directory-health preflight, OU scoping, identity matching, pilot testing, portal logs, and agent-side troubleshooting.</p>
+    </div>
   </div>
-  <h1>Workday → Active Directory inbound provisioning (runbook)</h1>
-  <div class="muted">Hybrid runbook: Workday ISU/domains → Entra provisioning app → install on-prem agent → OU scoping → on-demand tests → portal + agent logs.</div>
-  <div class="callout"><strong>* Under active development:</strong> this runbook is being expanded with sanitized artifacts, log excerpts, and script snippets.</div>
 </header>
-<main>
-<section class="card">
-  <h2>What this runbook is</h2>
-  <p>
-    Hybrid pattern: Workday drives <strong>on-prem Active Directory user creation</strong> via the Entra provisioning service
-    plus an on-prem provisioning agent. Entra Connect (or equivalent) typically syncs the resulting AD identities up to Entra.
-  </p>
 
-  <pre><code>Workday (HR) → Entra provisioning service → Provisioning agent (on-prem) → Active Directory
-                                               ↘ (typical) Entra Connect sync → Entra ID</code></pre>
+<main class="container">
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">ARCHITECTURE</p><h2>Provision into on-premises AD without losing sight of the dependencies below the connector.</h2></div>
+    <div class="project">
+      <pre><code>Workday (HR)
+    |
+    v
+Entra Provisioning Service
+    |
+    v
+On-premises Provisioning Agent
+    |
+    v
+Active Directory
+    |
+    +--> typical downstream sync --> Microsoft Entra ID</code></pre>
+      <div class="callout warn"><strong>Important:</strong> unhealthy AD replication, DNS, time or OU permissions can make provisioning appear inconsistent even when the connector is behaving correctly.</div>
+    </div>
+  </section>
 
-  <div class="callout warn">
-    If AD replication/DNS are unhealthy, provisioning will look “flaky”. Do AD health preflight before rollout.
-  </div>
-</section>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">PRE-FLIGHT</p><h2>Prove the directory is healthy before introducing an automated writer.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Replication</h3><pre><code>repadmin /replsummary
+repadmin /showrepl *</code></pre><p class="muted">Confirm that object changes can converge across the DCs that will answer users, applications and administrators.</p></article>
+      <article class="project"><h3>Domain-controller health</h3><pre><code>dcdiag /e /c /v</code></pre><p class="muted">Use broader diagnostics where replication failures may be tied to DNS, services or DC health.</p></article>
+      <article class="project"><h3>Target OU</h3><ul><li>Create a dedicated pilot OU.</li><li>Delegate only the rights needed to create/update target user objects.</li><li>Do not begin with a production-wide OU target.</li></ul></article>
+      <article class="project"><h3>Naming & matching</h3><ul><li>Define sAMAccountName collision behavior.</li><li>Define UPN-generation rules.</li><li>Choose a durable worker identifier for source-to-target matching.</li></ul></article>
+    </div>
+    <div class="links"><a href="automation_ad_replication_preflight.html">Detailed AD replication preflight</a></div>
+  </section>
 
-<section class="card">
-  <h2>Preflight checklist (do this before you click “Start provisioning”)</h2>
-  <ul>
-    <li><strong>AD replication</strong> is boring/green (run <code>repadmin /replsummary</code>).</li>
-    <li>You have a dedicated <strong>pilot OU</strong> (don’t write into production OU first).</li>
-    <li>You have delegated rights for the provisioning target OU (create user, set attributes, etc.).</li>
-    <li>You have a plan for naming rules (sAMAccountName collisions, UPN rules).</li>
-  </ul>
-  <div class="callout note">
-    Most real-world failures here are: OU rights, replication, or mismatch key design — not “the agent”.
-  </div>
-</section>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">WORKDAY SOURCE</p><h2>Use the same source-security discipline as cloud-only provisioning.</h2></div>
+    <div class="project"><ol><li>Create an Integration System User (ISU) for provisioning.</li><li>Create or assign the appropriate Integration System Security Group.</li><li>Grant the domains required by the mapped worker attributes.</li><li>Activate pending Workday security-policy changes.</li></ol><p class="muted">If the integration identity cannot read a source attribute, downstream mapping changes will not create the missing data.</p></div>
+  </section>
 
-<section class="card">
-  <h2>Workday configuration (same concept as cloud-only)</h2>
-  <ol>
-    <li>Create ISU (no UI sessions, session timeout 0)</li>
-    <li>Create Integration System Security Group</li>
-    <li>Grant domains needed for mapped attributes</li>
-    <li>Activate pending security policy changes</li>
-  </ol>
-</section>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">ENTRA PROVISIONING APPLICATION</p><h2>Create the Workday-to-AD application and register the on-premises agent.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Enterprise application</h3><ol><li>Microsoft Entra admin center → <strong>Enterprise applications</strong> → <strong>New application</strong>.</li><li>Select the Workday-to-Active-Directory user-provisioning gallery application.</li><li>Open <strong>Provisioning</strong> and set the mode to <strong>Automatic</strong>.</li></ol></article>
+      <article class="project"><h3>Provisioning agent</h3><ol><li>Use a stable, domain-joined Windows Server intended for infrastructure workloads.</li><li>Install the Microsoft provisioning agent from the application's setup flow.</li><li>Register the agent to the tenant through the supported wizard.</li><li>Verify that the agent reports healthy before continuing.</li></ol><div class="callout note">Treat the agent host like production infrastructure: patching, DNS, time, service health and network reachability matter.</div></article>
+    </div>
+  </section>
 
-<section class="card">
-  <h2>Entra: create the Workday → AD Enterprise App</h2>
-  <ol>
-    <li>Entra admin center → <strong>Enterprise applications</strong> → <strong>New application</strong></li>
-    <li>Search for: <strong>Workday to Active Directory User Provisioning</strong></li>
-    <li>Create/Add it</li>
-  </ol>
-</section>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">CONNECTION & TARGET</p><h2>Make the source, forest and target container explicit.</h2></div>
+    <div class="project"><p>Provisioning configuration typically needs:</p><ul><li>Workday WWS endpoint and ISU credentials.</li><li>Active Directory forest/domain details.</li><li>Target container / OU distinguished name.</li><li>Agent assignment / connectivity.</li></ul><pre><code>Example sanitized target
+OU=PilotUsers,OU=Provisioned,DC=corp,DC=example,DC=com</code></pre><p>Run the supported connection test before mapping or pilot execution.</p></div>
+  </section>
 
-<section class="card">
-  <h2>Install the provisioning agent (on-prem)</h2>
-  <ol>
-    <li>Choose a domain-joined Windows Server (treat it like production infra)</li>
-    <li>From the Enterprise App’s provisioning setup, download the provisioning agent installer</li>
-    <li>Install the agent and register it to your tenant using an Entra admin account (per the wizard)</li>
-    <li>Verify the agent reports healthy in the portal before you continue</li>
-  </ol>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">MAPPINGS & PILOT</p><h2>Prove one worker through the entire path before broadening scope.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Review mappings</h3><ol><li>Open the worker-to-AD user mapping.</li><li>Confirm the stable matching attribute.</li><li>Confirm sAMAccountName / UPN generation and collisions.</li><li>Confirm the target OU and required AD attributes.</li></ol></article>
+      <article class="project"><h3>Provision on demand</h3><ol><li>Choose one representative pilot worker.</li><li>Run <strong>Provision on demand</strong>.</li><li>Verify the user exists in the intended pilot OU.</li><li>Verify mapped attributes and access-assignment prerequisites.</li><li>Confirm the object is visible consistently where multiple DCs are involved.</li></ol><p>Only after the pilot path is correct should continuous provisioning be enabled for the intended population.</p></article>
+    </div>
+  </section>
 
-  <div class="callout warn">
-    Do not install the agent on random endpoints. Use a dedicated, patched, stable server with clean DNS/time.
-  </div>
-</section>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">TROUBLESHOOTING</p><h2>Use portal logs and agent state together.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Portal</h3><p>Enterprise application → <strong>Provisioning logs</strong>. Start with the evaluated action, status, failure reason and correlation details for the worker/object.</p></article>
+      <article class="project"><h3>Agent-side traces</h3><p>A common trace location for the provisioning agent is:</p><pre><code>%ProgramData%\Microsoft\Azure AD Connect Provisioning Agent\Trace</code></pre><p class="muted">Exact paths/product naming can change with agent versions, so verify against the installed version when troubleshooting.</p></article>
+      <article class="project"><h3>“Success” but object is inconsistent</h3><p>Check agent permissions/connectivity, then AD replication. A user present on one DC and absent on another is a directory-health problem, not proof of random provisioning behavior.</p></article>
+      <article class="project"><h3>Common causes</h3><ul><li>OU delegation insufficient for the requested operation.</li><li>AD replication unhealthy.</li><li>DNS/time problems on the agent or DCs.</li><li>Match-key or naming collisions.</li><li>Source Workday permissions omit mapped attributes.</li></ul></article>
+    </div>
+  </section>
 
-<section class="card">
-  <h2>Admin Credentials (this is where hybrid misconfig hides)</h2>
-  <ol>
-    <li>Enterprise app → <strong>Provisioning</strong></li>
-    <li><strong>Provisioning Mode</strong> = <strong>Automatic</strong></li>
-    <li>Admin Credentials section includes:
-      <ul>
-        <li>Workday WWS endpoint + ISU credentials</li>
-        <li>Active Directory forest/domain</li>
-        <li>Target container/OU DN (example: <code>OU=PilotUsers,OU=Provisioned,DC=corp,DC=contoso,DC=com</code>)</li>
-      </ul>
-    </li>
-    <li>Click <strong>Test Connection</strong></li>
-  </ol>
-</section>
+  <section class="section evidence-callout">
+    <div><p class="eyebrow">RELATED</p><h2>Cloud-only provisioning and directory-health checks.</h2><div class="links"><a href="automation_workday_to_entra_id_provisioning.html">Workday → Entra ID</a><a href="automation_ad_replication_preflight.html">AD replication preflight</a><a href="../case-studies/identity-provisioning.html">Identity provisioning case study</a></div></div><a class="button primary" href="../notes.html#identity">Identity runbooks</a>
+  </section>
 
-<section class="card">
-  <h2>Mappings + on-demand test (minimum safe loop)</h2>
-  <ol>
-    <li>Provisioning → <strong>Mappings</strong> → open the worker → AD user mapping</li>
-    <li>Confirm match keys + naming rules</li>
-    <li>Run <strong>Provision on demand</strong> for one pilot worker</li>
-    <li>Validate in AD:
-      <ul>
-        <li>user object exists in the pilot OU</li>
-        <li>expected attributes are populated</li>
-        <li>replication is consistent (check across DCs if multi-site)</li>
-      </ul>
-    </li>
-    <li>Only then: <strong>Start provisioning</strong></li>
-  </ol>
-</section>
-
-<section class="card">
-  <h2>Logs (portal + agent)</h2>
-  <h3>Portal</h3>
-  <ul>
-    <li>Enterprise app → <strong>Provisioning logs</strong> (source-of-truth for “what was attempted and why it failed”)</li>
-  </ul>
-
-  <h3>Agent trace logs (on-prem)</h3>
-  <pre><code>Trace folder (common):
-	%ProgramData%\Microsoft\Azure AD Connect Provisioning Agent\Trace</code></pre>
-
-  <div class="callout note">
-    If portal logs show “success” but AD doesn’t reflect it, check agent connectivity/rights and then AD replication.
-  </div>
-
-  <div class="callout warn">
-    Hybrid gotcha: if replication is unhealthy, one DC “has the user” and another does not. That looks like provisioning randomness until you validate replication.
-  </div>
-</section>
-
-<section class="card">
-  <h2>References</h2>
-  <ul class="small">
-    <li><a href="https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-inbound-tutorial">Microsoft Learn: Workday inbound provisioning concepts</a></li>
-    <li><a href="https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-inbound-tutorial#configure-workday-to-active-directory-user-provisioning">Microsoft Learn: Configure Workday to Active Directory user provisioning</a></li>
-    <li><a href="https://learn.microsoft.com/en-us/entra/identity/app-provisioning/on-premises-ecma-troubleshoot">Microsoft Learn: Provisioning agent logs (Trace folder)</a></li>
-  </ul>
-</section>
-<footer class="muted">
-  <div>Back to <a href="../notes.html">Field Notes / KB</a>.</div>
-</footer>
+  <section class="section"><div class="section-heading"><p class="eyebrow">REFERENCES</p><h2>Vendor documentation</h2></div><div class="links"><a href="https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-inbound-tutorial">Microsoft Learn — Workday inbound provisioning</a><a href="https://learn.microsoft.com/en-us/entra/identity/app-provisioning/on-premises-ecma-troubleshoot">Microsoft Learn — on-premises provisioning troubleshooting</a></div></section>
 </main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="../notes.html" style="color:#eaf3fb">Runbooks</a></span></div></footer>
 </body>
 </html>
