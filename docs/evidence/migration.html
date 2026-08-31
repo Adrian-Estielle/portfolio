@@ -3,55 +3,58 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Evidence • Migration</title>
+  <meta name="description" content="Migration engineering evidence and runbooks covering Azure storage, Microsoft 365 cutovers, permissions, pre-seeding, validation and rollback."/>
+  <title>Migration Engineering | Adrian Charbonneau</title>
   <link rel="stylesheet" href="../site.css"/>
 </head>
 <body>
 <header class="site-header">
   <div class="container">
-    <div class="crumbs"><a href="../index.html">← portfolio home</a> · <a href="../evidence.html">Evidence hub</a> · <a href="index.html">Viewer</a></div>
-    <h1>Migration evidence</h1>
-    <p class="muted">Cutover and release helpers: idempotent migrations, rollout checklists, and safety rails.</p>
-
-    <div class="nav small">
-      <a href="endpoint.html">Endpoint</a>
-      <a href="automation.html">Automation</a>
-      <a href="migration.html">Migration</a>
-      <a href="cicd.html">CI/CD</a>
-      <span class="muted">·</span>
-      <a href="scripts.html">Scripts index</a>
-      <a href="documentation.html">Docs index</a>
-      <a href="../notes.html#evidence-migration">KB notes</a>
+    <nav class="topnav" aria-label="Primary navigation">
+      <a class="brand" href="../index.html">Adrian Charbonneau</a>
+      <div class="navlinks"><a href="../case-studies.html">Case Studies</a><a href="../notes.html">Runbooks / KB</a><a href="../evidence.html">Evidence</a><a href="../index.html">Home</a></div>
+    </nav>
+    <div class="hero">
+      <p class="eyebrow">MIGRATION · CUTOVER · VALIDATION</p>
+      <h1>Migration engineering built around what must still work after the copy completes.</h1>
+      <p class="lede">Planning and operational notes for infrastructure and Microsoft 365 migrations: source assessment, pilot strategy, permissions, pre-seeding, cutover windows, link/data integrity, validation, and rollback.</p>
     </div>
   </div>
 </header>
 
 <main class="container">
-  <section class="card" id="scripts">
-    <h2>Scripts</h2>
-    <ul>
-      <li><strong><a href="view/migration/009__79B4317E98__create-location-migration-v2.ps1.html">create-location-migration-v2.ps1</a></strong> — Idempotent migration creator/applier (Prisma) gated by <code>DATABASE_URL</code>. <span class="muted">(<a href="scripts/migration/009__79B4317E98__create-location-migration-v2.ps1">raw</a>)</span></li>
-      <li><strong><a href="view/migration/010__961A0003A8__apply-migration.ps1.html">apply-migration.ps1</a></strong> — Runs <code>prisma migrate deploy</code> safely (fails fast when env/schema is wrong). <span class="muted">(<a href="scripts/migration/010__961A0003A8__apply-migration.ps1">raw</a>)</span></li>
-      <li><strong><a href="view/migration/011__48D54E6D45__setup-location_v2.ps1.html">setup-location_v2.ps1</a></strong> — Adds a location ingestion + analysis pipeline (routes, worker, Redis queue) in an idempotent way. <span class="muted">(<a href="scripts/migration/011__48D54E6D45__setup-location_v2.ps1">raw</a>)</span></li>
-    </ul>
-  </section>
-
-  <section class="card" id="documentation">
-    <h2>Documentation</h2>
-    <ul>
-      <li><strong><a href="view/migration/016__89FBA6C19D__dev-testing-release-checklist.md.html">dev-testing-release-checklist.md</a></strong> — Release checklist focused on observable signals (health, logs, smoke tests) instead of vibes. <span class="muted">(<a href="documentation/migration/016__89FBA6C19D__dev-testing-release-checklist.md">raw</a>)</span></li>
-      <li><strong><a href="view/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md.html">BACKEND_ROOT_MIGRATION_CHECKLIST.md</a></strong> — “Backend root” migration checklist and gotchas (what breaks, what to verify). <span class="muted">(<a href="documentation/migration/018__053280E448__BACKEND_ROOT_MIGRATION_CHECKLIST.md">raw</a>)</span></li>
-      <li><strong><a href="view/migration/019__2BA04B36DE__security.yml.html">security.yml</a></strong> — CI security workflow reference (static analysis / dependency checks). <span class="muted">(<a href="documentation/migration/019__2BA04B36DE__security.yml">raw</a>)</span></li>
-      <li><strong><a href="view/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md.html">PORTFOLIO_CHECKLIST.md</a></strong> — My packaging checklist when publishing a repo: what I include/exclude and why. <span class="muted">(<a href="documentation/migration/017__E06E97EDE2__PORTFOLIO_CHECKLIST.md">raw</a>)</span></li>
-    </ul>
-  </section>
-
-  <footer class="muted">
-    <div style="margin:1.2rem 0 2.2rem;">
-      Back to <a href="../evidence.html">Evidence hub</a> or <a href="../index.html">portfolio home</a>.
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">FEATURED CASE STUDY</p><h2>3+ TB accounting storage modernization</h2><p class="muted wide">A migration where testing showed the initial Azure Files-centered design was not the best fit for active collaborative data. The architecture was revised around actual workload behavior instead of forcing every data class into the same storage model.</p></div>
+    <div class="project-grid">
+      <article class="project featured"><h3>Design & validation</h3><p>Azure Files, AD/Kerberos-backed access, DFS/Azure File Sync, LinkFixer and PowerShell were tested against linked accounting/ERP data before production cutover.</p><div class="links"><a href="../case-studies/accounting-storage-modernization.html">Read case study</a></div></article>
+      <article class="project"><h3>Revised architecture</h3><p>SharePoint for collaborative working data, Azure Files for SMB-oriented/mid-tier access and Blob Storage for archival data, with the production transition executed inside the planned weekend cutover window.</p></article>
     </div>
-  </footer>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">MICROSOFT 365 MIGRATION RUNBOOKS</p><h2>Reusable patterns for enterprise cutovers.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Google Workspace → Microsoft 365</h3><p>Assessment, identity/mail/file mapping, pilot groups, phased execution, user preparation, post-cutover validation and support.</p><div class="links"><a href="../kb/migration_google_to_m365.html">Open runbook</a></div></article>
+      <article class="project"><h3>Permissions mapping</h3><p>Understand and export source permissions first, then recreate intended target-state access rather than blindly carrying forward accumulated permission sprawl.</p><div class="links"><a href="../kb/migration_permissions_mapping.html">Open runbook</a></div></article>
+      <article class="project"><h3>Pre-seed + delta synchronization</h3><p>Robocopy-oriented patterns for reducing final-cutover volume while retaining logs that can be reviewed before and after the delta pass.</p><div class="links"><a href="../kb/migration_robocopy.html">Open runbook</a></div></article>
+      <article class="project"><h3>Wave strategy & performance validation</h3><p>Use representative pilots and measured throughput to validate assumptions before assigning a production cutover window.</p><div class="links"><a href="../kb/migration_wave_strategy.html">Open runbook</a></div></article>
+      <article class="project"><h3>SPMT / Migration Manager</h3><p>Agent, task, template and log-location notes for Microsoft migration tooling.</p><div class="links"><a href="../kb/migration_spmt_migration_manager.html">Open runbook</a></div></article>
+      <article class="project"><h3>Excel link remediation</h3><p>Preparation and validation patterns for migrations where spreadsheets contain path-dependent references that cannot be treated as independent files.</p><div class="links"><a href="../kb/migration_excel_hyperlink_prep.html">Open runbook</a></div></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">MIGRATION PRINCIPLES</p><h2>The checks that keep recurring across platforms.</h2></div>
+    <div class="capability-grid">
+      <article class="capability"><h3>Inventory</h3><p>Know source volume, object counts, ownership, permissions, path constraints and integrations before choosing tooling.</p></article>
+      <article class="capability"><h3>Pilot</h3><p>Choose representative users/data, not only easy cases, and measure both throughput and functional behavior.</p></article>
+      <article class="capability"><h3>Cutover</h3><p>Separate the longer discovery/testing effort from the production transition window and define freeze/delta behavior explicitly.</p></article>
+      <article class="capability"><h3>Validation</h3><p>Verify permissions, metadata, linked workflows, mail/data counts and business-critical use cases—not merely job completion status.</p></article>
+    </div>
+  </section>
+
+  <section class="section evidence-callout"><div><p class="eyebrow">FULL RUNBOOK INDEX</p><h2>Additional source-platform and tenant-to-tenant notes.</h2><p class="muted">The migration KB also includes Dropbox/Box/Citrix-style sources and Microsoft 365 tenant-to-tenant considerations.</p></div><a class="button primary" href="../kb/migration.html">Migration runbooks</a></section>
 </main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="../evidence.html" style="color:#eaf3fb">Evidence hub</a></span></div></footer>
 </body>
 </html>
-
