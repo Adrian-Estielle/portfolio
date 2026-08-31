@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta name="description" content="Selected systems and infrastructure engineering case studies by Adrian Charbonneau."/>
+  <meta name="description" content="Selected systems and infrastructure engineering case studies by Adrian Charbonneau: infrastructure ownership, Windows/identity, Azure, Microsoft 365, migrations, endpoint engineering and automation."/>
   <title>Case Studies | Adrian Charbonneau</title>
   <link rel="stylesheet" href="site.css"/>
 </head>
@@ -12,61 +12,43 @@
   <div class="container">
     <nav class="topnav" aria-label="Primary navigation">
       <a class="brand" href="index.html">Adrian Charbonneau</a>
-      <div class="navlinks">
-        <a href="index.html">Home</a>
-        <a href="notes.html">Runbooks / KB</a>
-        <a href="evidence.html">Evidence</a>
-        <a href="https://github.com/Adrian-Estielle/portfolio">GitHub</a>
-      </div>
+      <div class="navlinks"><a href="index.html">Home</a><a href="notes.html">Runbooks / KB</a><a href="evidence.html">Evidence</a><a href="https://github.com/Adrian-Estielle/portfolio">GitHub</a></div>
     </nav>
     <div class="hero">
       <p class="eyebrow">CASE STUDIES</p>
       <h1>How I approach infrastructure when the problem crosses systems.</h1>
-      <p class="lede">These summaries focus on the decisions behind the work: what was inherited, what failed or created risk, how the design changed, how changes were validated, and what was left behind for operations.</p>
+      <p class="lede">These summaries focus on the decisions behind the work: what was inherited, what created risk, how the design changed, how changes were validated, and what was left behind for operations.</p>
     </div>
   </div>
 </header>
 
 <main class="container">
   <section class="section">
+    <div class="section-heading"><p class="eyebrow">INFRASTRUCTURE OWNERSHIP</p><h2>Operating environments, not isolated products.</h2></div>
     <div class="project-grid">
-      <article class="project featured">
-        <div class="project-meta">INFRASTRUCTURE OWNERSHIP</div>
-        <h3>From support escalation to business infrastructure ownership</h3>
-        <p>How I approached an organically grown Microsoft environment supporting roughly 1,200 users and 2,000+ managed endpoints: map the dependencies, reduce manual identity and endpoint work, modernize cloud and server services, and improve operational visibility.</p>
-        <div class="links"><a href="case-studies/infrastructure-ownership.html">Read case study</a></div>
-      </article>
+      <article class="project featured"><div class="project-meta">WINDOWS · IDENTITY · CLOUD · ENDPOINT</div><h3>From support escalation to business infrastructure ownership</h3><p>How I approached an organically grown Microsoft environment supporting roughly 1,200 users and 2,000+ managed endpoints: map dependencies, reduce manual identity and endpoint work, modernize cloud/server services, and improve operational visibility.</p><div class="links"><a href="case-studies/infrastructure-ownership.html">Read case study</a></div></article>
+      <article class="project featured"><div class="project-meta">AZURE · DATA · MIGRATION</div><h3>3+ TB accounting storage migration and architecture revision</h3><p>A migration where testing showed the first architecture would not adequately support the working data. The solution evolved into SharePoint for collaborative data, Azure Files for SMB/mid-tier access, and Blob Storage for archival tiers.</p><div class="links"><a href="case-studies/accounting-storage-modernization.html">Read case study</a></div></article>
+    </div>
+  </section>
 
-      <article class="project featured">
-        <div class="project-meta">AZURE · DATA · MIGRATION</div>
-        <h3>3+ TB accounting storage migration and architecture revision</h3>
-        <p>A migration where testing showed the first architecture would not adequately support the working data. The solution evolved into SharePoint for collaborative working data, Azure Files for SMB/mid-tier access, and Blob Storage for archival tiers.</p>
-        <div class="links"><a href="case-studies/accounting-storage-modernization.html">Read case study</a></div>
-      </article>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">MIGRATION & MODERNIZATION</p><h2>Large changes made supportable through pilots, automation and validation.</h2></div>
+    <div class="project-grid">
+      <article class="project featured"><div class="project-meta">MICROSOFT 365 · 7,200 USERS</div><h3>Google Workspace → Microsoft 365</h3><p>Multi-wave migration of approximately 7,200 users across mail, files, permissions and profiles, with test environments, custom PowerShell/C#/Python automation, SharePoint/Power Automate status reporting, cutover coordination and post-migration stabilization.</p><div class="links"><a href="case-studies/google-workspace-to-m365.html">Read case study</a></div></article>
+      <article class="project"><div class="project-meta">WINDOWS · VALIDATION · AUTOMATION</div><h3>Windows upgrade engineering and release validation</h3><p>Production-mirroring validation across virtual and physical Windows-based endpoints, with repeatable preflight, upgrade, workflow/peripheral checks, restore validation, and release gating.</p><div class="links"><a href="case-studies/windows-upgrade-validation.html">Read case study</a></div></article>
+    </div>
+  </section>
 
-      <article class="project">
-        <div class="project-meta">WINDOWS · VALIDATION · AUTOMATION</div>
-        <h3>Windows upgrade engineering and release validation</h3>
-        <p>Production-mirroring validation across virtual and physical Windows-based endpoints, with repeatable preflight, upgrade, workflow/peripheral checks, restore validation, and release gating.</p>
-        <div class="links"><a href="case-studies/windows-upgrade-validation.html">Read case study</a></div>
-      </article>
-
-      <article class="project">
-        <div class="project-meta">IDENTITY · ENTRA · POWERSHELL</div>
-        <h3>HR-driven identity provisioning</h3>
-        <p>A progression from scripted account lifecycle work toward Workday-driven provisioning into Entra ID / Active Directory, with explicit matching, scoping, role/group assignment, validation, logging, and operational safeguards.</p>
-        <div class="links"><a href="case-studies/identity-provisioning.html">Read case study</a></div>
-      </article>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">IDENTITY & AUTOMATION</p><h2>Make administrative processes deterministic enough to trust.</h2></div>
+    <div class="project-grid">
+      <article class="project featured"><div class="project-meta">IDENTITY · ENTRA · ACTIVE DIRECTORY</div><h3>HR-driven identity provisioning</h3><p>A progression from scripted account lifecycle work toward Workday-driven provisioning into Entra ID / Active Directory, with explicit matching, scoping, role/group assignment, validation, logging, and operational safeguards.</p><div class="links"><a href="case-studies/identity-provisioning.html">Read case study</a></div></article>
+      <article class="project"><div class="project-meta">POWERSHELL · DIRECTORY SERVICES</div><h3>Scoped Active Directory automation</h3><p>A public evidence set showing OU-scoped inventory and maintenance, dry-run behavior, test-user validation, and before/after state capture.</p><div class="links"><a href="evidence/automation.html">Browse AD automation evidence</a><a href="kb/automation_ad_replication_preflight.html">Replication preflight</a></div></article>
     </div>
   </section>
 
   <section class="section evidence-callout">
-    <div>
-      <p class="eyebrow">SUPPORTING MATERIAL</p>
-      <h2>Technical detail lives behind the summaries.</h2>
-      <p class="muted">Where it is safe to publish, each case study points to sanitized scripts, runbooks, validation documents, or configuration notes. The case-study layer is intentionally readable without requiring a hiring manager to navigate raw artifact filenames.</p>
-    </div>
-    <a class="button primary" href="evidence.html">Browse evidence</a>
+    <div><p class="eyebrow">SUPPORTING MATERIAL</p><h2>Technical detail lives behind the summaries.</h2><p class="muted">Where it is safe to publish, case studies point to sanitized scripts, runbooks, validation documents, or configuration notes. The case-study layer is intentionally readable without requiring a hiring manager to navigate raw artifact filenames.</p></div><a class="button primary" href="evidence.html">Browse evidence</a>
   </section>
 </main>
 
