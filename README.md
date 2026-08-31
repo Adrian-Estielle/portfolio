@@ -2,34 +2,30 @@
 
 Senior systems / infrastructure engineer focused on Windows, Active Directory / Entra ID, Microsoft 365, Azure, endpoint management, automation, and enterprise migrations.
 
-This repository is a curated collection of sanitized work samples, technical runbooks, scripts, validation artifacts, and small reproducible projects. The goal is to show how I approach infrastructure work in practice: understand the environment, reduce manual effort, validate changes, document the result, and leave the system easier to operate.
+This repository is a curated collection of sanitized case studies, technical runbooks, scripts, validation artifacts, and small reproducible projects. The goal is to show how I approach infrastructure work in practice: understand the environment, reduce manual effort, validate changes, document the result, and leave the system easier to operate.
 
 ## Portfolio site
 
 **https://adrian-estielle.github.io/portfolio/**
 
-## Selected areas
+For a quick review, start with the [case studies](docs/case-studies.html). For implementation detail, use the [runbooks / field notes](docs/notes.html) and [technical evidence](docs/evidence.html).
 
-- **Windows & Identity** — Active Directory, Group Policy, DNS/DHCP, Entra ID, identity lifecycle, authentication and access troubleshooting
-- **Cloud & Microsoft 365** — Azure infrastructure, Exchange Online, Teams, SharePoint, OneDrive, hybrid identity and migration work
+## Core areas
+
+- **Windows & Identity** — Active Directory, Group Policy, DNS/DHCP, Windows Server, Entra ID, identity lifecycle, authentication and access troubleshooting
+- **Cloud & Microsoft 365** — Azure infrastructure, Exchange Online, Teams, SharePoint, OneDrive, hybrid identity, backup/DR, monitoring and migration work
 - **Endpoint Engineering** — Intune, Autopilot, Jamf, BitLocker, compliance baselines, deployment and remediation
 - **Automation** — PowerShell, Batch, C#, Python, Microsoft Graph and repeatable administrative tooling
 - **Validation & Operations** — production-mirroring labs, pre/post checks, rollback planning, runbooks and evidence-driven troubleshooting
 
-## Featured work
+## Selected case studies
 
-### Identity lifecycle automation
-Sanitized runbooks and PowerShell patterns for HR-driven provisioning, Active Directory maintenance, scoping, validation and rollback.
+- [Infrastructure ownership](docs/case-studies/infrastructure-ownership.html) — identity, M365, endpoint, Azure, legacy Windows workloads, backup/monitoring and automation as one operating environment
+- [3+ TB accounting storage modernization](docs/case-studies/accounting-storage-modernization.html) — Azure Files, SharePoint, Blob, DFS/Azure File Sync, Kerberos, LinkFixer, PowerShell and architecture revision after testing
+- [Windows upgrade engineering & validation](docs/case-studies/windows-upgrade-validation.html) — production-mirroring labs, automation, peripheral/workflow checks, restore testing and release gating
+- [HR-driven identity provisioning](docs/case-studies/identity-provisioning.html) — Workday, Entra ID / Active Directory, matching, scope, role/group assignment, logging and directory safety checks
 
-- [Workday → Entra ID provisioning runbook](docs/kb/automation_workday_to_entra_id_provisioning.html)
-- [Workday → Active Directory provisioning runbook](docs/kb/automation_workday_to_active_directory_provisioning.html)
-- [AD replication preflight](docs/kb/automation_ad_replication_preflight.html)
-
-### Windows upgrade validation
-A sanitized end-to-end validation pattern for Windows upgrade packages: coverage matrix, preflight, upgrade, workflow/peripheral validation, rollback and release gating.
-
-- [Endpoint / upgrade documentation](docs/evidence/endpoint.html)
-- [Field notes](docs/notes.html#kb-upgrade-validation-sqe-signoff)
+## Reproducible projects
 
 ### Windows baseline audit
 A read-only PowerShell project that captures security- and operations-relevant configuration and produces a shareable report artifact.
@@ -43,14 +39,14 @@ A small .NET build/test/package pipeline implemented with GitHub Actions and Jen
 - [HelloBuild project](projects/HelloBuild/)
 - [CI runbook](docs/kb/ci.html)
 
-## Technical notes and evidence
+## Technical documentation and evidence
 
-- [Field Notes / KB](docs/notes.html)
-- [Evidence archive](docs/evidence.html)
-- [Project documentation](docs/evidence/documentation.html)
+- [Runbooks / Field Notes](docs/notes.html)
+- [Technical evidence hub](docs/evidence.html)
+- [Technical documentation](docs/evidence/documentation.html) — original-format sanitized PDFs are the primary document links; browser-readable transcripts are secondary
 - [Project scripts](docs/evidence/scripts.html)
 
-All portfolio artifacts are intended to be sanitized. Customer data, credentials, tenant identifiers, internal hostnames, and proprietary screenshots should not be present.
+Published artifacts are sanitized. Customer data, credentials, tenant identifiers, internal hostnames, private URLs, and proprietary screenshots should not be present.
 
 ## Contact
 
