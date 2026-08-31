@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="Infrastructure ownership case study: Windows, identity, endpoint, Azure, Microsoft 365, backup, monitoring and automation."/>
+  <title>Infrastructure Ownership | Adrian Charbonneau</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header"><div class="container">
+  <nav class="topnav"><a class="brand" href="../index.html">Adrian Charbonneau</a><div class="navlinks"><a href="../case-studies.html">Case Studies</a><a href="../notes.html">Runbooks / KB</a><a href="../evidence.html">Evidence</a></div></nav>
+  <div class="hero"><p class="eyebrow">INFRASTRUCTURE OWNERSHIP</p><h1>Learning the whole environment, then improving the parts that create friction and risk.</h1><p class="lede">A sanitized summary of the approach I used while growing from support/escalation work into broader systems and cloud ownership in a Microsoft-centered enterprise environment.</p></div>
+</div></header>
+
+<main class="container">
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">CONTEXT</p><h2>An environment that had grown across multiple layers.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Scale</h3><p>Roughly 1,200 users and more than 2,000 managed endpoints across Windows, macOS, Microsoft 365, on-premises Active Directory, Entra ID, SaaS applications, Azure resources and legacy server workloads.</p></article>
+      <article class="project"><h3>Operating reality</h3><p>Support issues rarely stopped at one product boundary. Endpoint state, identity, Conditional Access, VPN/network paths, licensing, file services and backend server dependencies frequently intersected.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">APPROACH</p><h2>Map dependencies first; automate after the process is understood.</h2></div>
+    <div class="capability-grid">
+      <article class="capability"><h3>Identity</h3><p>Administered AD / Entra lifecycle work, SSO/MFA, group and license assignment, and progressed manual onboarding/offboarding toward HR-driven provisioning with PowerShell and Workday integration.</p></article>
+      <article class="capability"><h3>Endpoint</h3><p>Managed Intune and Jamf across 2,000+ endpoints, including Autopilot, compliance baselines, BitLocker, Conditional Access, application deployment, configuration profiles and remediation scripts.</p></article>
+      <article class="capability"><h3>Cloud & servers</h3><p>Migrated legacy Windows workloads into Azure, built validation environments, modernized storage and remote access patterns, and administered backup and monitoring for critical resources.</p></article>
+      <article class="capability"><h3>Operations</h3><p>Used PowerShell and lightweight tooling to reduce repetitive administration, while documenting procedures so service desk and systems work could be executed consistently.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">REPRESENTATIVE CHANGES</p><h2>Examples of the infrastructure work that followed.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Identity lifecycle</h3><p>Built and refined account lifecycle automation, culminating in Workday-to-Entra / Active Directory provisioning patterns with attribute mappings and role/group assignment logic.</p><div class="links"><a href="../kb/automation_workday_to_entra_id_provisioning.html">Provisioning runbook</a></div></article>
+      <article class="project"><h3>Endpoint standardization</h3><p>Used Intune/Autopilot and Jamf to move endpoint configuration toward policy-driven enrollment, encryption, compliance, application deployment and remediation rather than one-off fixes.</p><div class="links"><a href="../kb/endpoint.html">Endpoint runbooks</a></div></article>
+      <article class="project"><h3>Azure operations</h3><p>Migrated selected Windows application workloads from on-premises infrastructure to Azure with test environments and staged validation; deployed Azure Backup for 150+ resources and Azure Monitor alerting for key VMs/applications.</p></article>
+      <article class="project"><h3>Storage & collaboration</h3><p>Reworked an accounting-data migration after testing exposed limitations in the initial design, separating collaborative working data, SMB-oriented storage and archival tiers instead of forcing every workload into one platform.</p><div class="links"><a href="accounting-storage-modernization.html">Read storage migration case study</a></div></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">WHAT THIS DEMONSTRATES</p><h2>The value was the cross-system ownership.</h2><p class="muted wide">The useful part of this experience was not simply having access to a long list of consoles. It was learning how identity, endpoint state, cloud services, legacy servers, network paths, backup, monitoring and support processes affected one another—and then changing the environment in ways that reduced recurring operational work.</p></div>
+  </section>
+</main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="../case-studies.html" style="color:#eaf3fb">All case studies</a></span></div></footer>
+</body>
+</html>
