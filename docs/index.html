@@ -3,171 +3,172 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Adrian Estielle - Engineering Portfolio</title>
+  <meta name="description" content="Adrian Charbonneau — senior systems and infrastructure engineer focused on Windows, Active Directory and Entra ID, Microsoft 365, Azure, Intune, automation, migrations, and infrastructure operations."/>
+  <title>Adrian Charbonneau | Systems & Infrastructure Engineering</title>
   <link rel="stylesheet" href="site.css"/>
 </head>
 <body>
 <header class="site-header">
   <div class="container">
-    <h1>Adrian Estielle - Engineering Portfolio</h1>
-    <p class="muted">Practical work samples: build/release automation, CI/CD, and systems/security tooling.</p>
+    <nav class="topnav" aria-label="Primary navigation">
+      <a class="brand" href="index.html">Adrian Charbonneau</a>
+      <div class="navlinks">
+        <a href="#work">Selected Work</a>
+        <a href="notes.html">Runbooks / KB</a>
+        <a href="evidence.html">Evidence</a>
+        <a href="https://github.com/Adrian-Estielle/portfolio">GitHub</a>
+        <a href="https://www.linkedin.com/in/adrian-charbonneau-56a72114a">LinkedIn</a>
+      </div>
+    </nav>
 
-    <div class="toplinks">
-      <a href="https://github.com/Adrian-Estielle/portfolio">GitHub Repo</a>
-      <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">CI Runs</a>
-      <a href="notes.html">Field Notes / KB</a> <a href="evidence.html">Evidence Archive</a>
-      <span class="muted">GitHub Pages: https://adrian-estielle.github.io/portfolio/</span>
+    <div class="hero">
+      <p class="eyebrow">SYSTEMS · INFRASTRUCTURE · AUTOMATION</p>
+      <h1>Senior infrastructure engineering across Windows, identity, cloud, and endpoints.</h1>
+      <p class="lede">I take ownership of business infrastructure: understand how an environment is assembled, find the weak or manual parts, improve them, and leave behind automation and documentation that make operations repeatable.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#work">View selected work</a>
+        <a class="button" href="notes.html">Browse technical runbooks</a>
+        <a class="button" href="evidence.html">Browse sanitized evidence</a>
+      </div>
+      <div class="chips" aria-label="Core technologies">
+        <span>Windows Server</span><span>Active Directory</span><span>Entra ID</span><span>Microsoft 365</span><span>Azure</span><span>Intune</span><span>PowerShell</span><span>VMware</span>
+      </div>
     </div>
-
-    <div class="badges"><img src="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml/badge.svg" alt="HelloBuild CI status" /></div>
   </div>
 </header>
 
 <main class="container">
-  <section class="card" id="evidence-archive" style="margin-top:1.1rem;">
-    <div style="display:flex;flex-wrap:wrap;gap:.85rem;align-items:center;justify-content:space-between;">
-      <div>
-        <h2 style="margin:.1rem 0 .15rem;">Evidence Archive</h2>
-        <div class="muted">Sanitized scripts, checklists, and CI configs that show how I build, validate, and troubleshoot. (No customer data or secrets.)</div>
-      </div>
-      <a href="evidence.html" style="display:inline-block;padding:.62rem .95rem;border-radius:12px;background:var(--link);color:#fff;font-weight:750;">Open Evidence Archive</a>
+  <section class="section" id="focus">
+    <div class="section-heading">
+      <p class="eyebrow">HOW I WORK</p>
+      <h2>Infrastructure ownership, not isolated administration.</h2>
+      <p class="muted wide">My background spans frontline troubleshooting through systems administration, cloud and endpoint engineering, enterprise migrations, and engineering automation. I approach infrastructure changes from both directions: how the architecture should work and what actually happens when the change reaches a server, endpoint, administrator, or user.</p>
     </div>
 
-      <div class="kbgrid" style="margin-top:.95rem;">
-      <div class="kbcard">
-        <strong><a href="evidence/endpoint.html">Endpoint</a> <span class="muted">· 9 artifacts</span></strong>
-        <div class="muted" style="margin-top:.35rem;">Deployment preflights + health checks, plus upgrade validation signoffs.</div>
-        <div class="links" style="margin-top:.45rem;">
-          <a href="evidence/endpoint.html">Browse category</a> · <a href="notes.html#evidence-endpoint">KB notes</a>
-        </div>
-        <ul class="small" style="margin:.55rem 0 0;padding-left:1.2rem;">
-          <li><a href="evidence/view/endpoint/004__987AE18051__check-step5.ps1.html">check-step5.ps1</a></li>
-          <li><a href="evidence/view/endpoint/001__5427C6C7CC__services_check1.ps1.html">services_check1.ps1</a></li>
-          <li><a href="evidence/view/endpoint/003__433FCD1DE3__setup-api-docs.ps1.html">setup-api-docs.ps1</a></li>
-        </ul>
-      </div>
-
-      <div class="kbcard">
-        <strong><a href="evidence/automation.html">Automation</a> <span class="muted">· 17 artifacts</span></strong>
-        <div class="muted" style="margin-top:.35rem;">Operational scripts + runbooks that turn fragile deploys into repeatable runs.</div>
-        <div class="links" style="margin-top:.45rem;">
-          <a href="evidence/automation.html">Browse category</a> · <a href="notes.html#evidence-automation">KB notes</a>
-        </div>
-        <ul class="small" style="margin:.55rem 0 0;padding-left:1.2rem;">
-          <li><a href="evidence/view/automation/021__A5A5D52F07__ad_new-user_from-title-mapping.ps1.html">AD onboarding: new user + title mapping</a></li>
-          <li><a href="evidence/view/automation/027__9FDB37817C__ad_update-descriptions_v2-only-ou.ps1.html">AD maintenance: OU-scoped description normalization</a></li>
-          <li><a href="evidence/view/automation/006__CA0069C70E__railway-deployment-checklist.md.html">deployment checklist</a></li>
-        </ul>
-      </div>
-
-      <div class="kbcard">
-        <strong><a href="evidence/migration.html">Migration</a> <span class="muted">· 7 artifacts</span></strong>
-        <div class="muted" style="margin-top:.35rem;">Migration/cutover helpers: idempotent DB migrations, validation, and release gating.</div>
-        <div class="links" style="margin-top:.45rem;">
-          <a href="evidence/migration.html">Browse category</a> · <a href="notes.html#evidence-migration">KB notes</a>
-        </div>
-        <ul class="small" style="margin:.55rem 0 0;padding-left:1.2rem;">
-          <li><a href="evidence/view/migration/009__79B4317E98__create-location-migration-v2.ps1.html">create-location-migration-v2.ps1</a></li>
-          <li><a href="evidence/view/migration/010__961A0003A8__apply-migration.ps1.html">apply-migration.ps1</a></li>
-          <li><a href="evidence/view/migration/016__89FBA6C19D__dev-testing-release-checklist.md.html">dev/testing release checklist</a></li>
-        </ul>
-      </div>
-
-      <div class="kbcard">
-        <strong><a href="evidence/cicd.html">CI/CD</a> <span class="muted">· 5 artifacts</span></strong>
-        <div class="muted" style="margin-top:.35rem;">Build/test/package automation with reproducible outputs (GitHub Actions + Jenkins).</div>
-        <div class="links" style="margin-top:.45rem;">
-          <a href="evidence/cicd.html">Browse category</a> · <a href="notes.html#evidence-cicd">KB notes</a>
-        </div>
-        <ul class="small" style="margin:.55rem 0 0;padding-left:1.2rem;">
-          <li><a href="evidence/view/cicd/020__27378A0EE7__ci.yml.html">GitHub Actions workflow</a></li>
-          <li><a href="evidence/view/cicd/013__C0ABE3EBF8__jenkins_bootstrap.ps1.html">jenkins_bootstrap.ps1</a></li>
-          <li><a href="evidence/view/cicd/012__8DAB39C4D2__build.ps1.html">build.ps1</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="muted small" style="margin-top:.75rem;">
-      Quick links: <a href="evidence/endpoint.html">Endpoint</a> · <a href="evidence/automation.html">Automation</a> · <a href="evidence/migration.html">Migration</a> · <a href="evidence/cicd.html">CI/CD</a> · <a href="evidence/scripts.html">Scripts</a> · <a href="evidence/documentation.html">Docs</a>. Notes live in <a href="notes.html#evidence-index">notes.html</a>.
+    <div class="capability-grid">
+      <article class="capability">
+        <h3>Identity & Windows</h3>
+        <p>Active Directory, Group Policy, DNS/DHCP, Windows Server, Entra ID, authentication/access troubleshooting, identity lifecycle, and hybrid identity.</p>
+      </article>
+      <article class="capability">
+        <h3>Cloud & Microsoft 365</h3>
+        <p>Azure infrastructure and migrations, Exchange Online, Teams, SharePoint, OneDrive, backup/DR, monitoring, and collaboration platform operations.</p>
+      </article>
+      <article class="capability">
+        <h3>Endpoint Engineering</h3>
+        <p>Intune, Autopilot, Jamf, BitLocker, configuration and compliance policy, application deployment, remediation, and large-scale Windows deployment.</p>
+      </article>
+      <article class="capability">
+        <h3>Automation & Validation</h3>
+        <p>PowerShell-first operational automation, configuration checks, repeatable deployment workflows, pre/post validation, rollback planning, and evidence-driven troubleshooting.</p>
+      </article>
     </div>
   </section>
 
-  <div class="grid">
-    <article class="card">
-      <h2>HelloBuild - CI/CD (GitHub Actions + Jenkins)</h2>
-      <p class="muted">A reproducible pipeline that builds/tests/packages a .NET app and publishes artifacts.</p>
-      <ul>
-        <li>Pipeline as code (workflow + Jenkinsfile)</li>
-        <li>Build → test → package → artifact upload</li>
-        <li>Proof-first: observable CI runs + repeatable outputs</li>
-      </ul>
-      <div class="links">
-        <a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/HelloBuild">View code</a> ·
-        <a href="hellobuild_ci.html">View CI proof</a> ·
-        <a href="kb/ci.html">CI runbook</a> ·
-        <a href="https://github.com/Adrian-Estielle/portfolio/actions/workflows/hellobuild-ci.yml">View CI runs</a>
-      </div>
-<img src="assets/HelloBuild_CI.png" alt="HelloBuild CI proof screenshot" />
+  <section class="section" id="work">
+    <div class="section-heading">
+      <p class="eyebrow">SELECTED WORK</p>
+      <h2>Representative engineering work and sanitized artifacts.</h2>
+      <p class="muted wide">The portfolio favors reproducible work samples and sanitized technical documentation over screenshots of proprietary environments.</p>
+    </div>
 
-      
-    </article>
+    <div class="project-grid">
+      <article class="project featured">
+        <div class="project-meta">IDENTITY · AUTOMATION</div>
+        <h3>HR-driven identity provisioning</h3>
+        <p>Runbooks and automation patterns for provisioning from Workday into Microsoft Entra ID and Active Directory, including identity anchors, scoping, pilot validation, replication preflight, exception handling, and operational logging.</p>
+        <ul>
+          <li>Stable matching keys and collision-aware identity design</li>
+          <li>Pilot-first rollout and validation before broad provisioning</li>
+          <li>Supporting AD replication and maintenance checks</li>
+        </ul>
+        <div class="links">
+          <a href="kb/automation_workday_to_entra_id_provisioning.html">Entra provisioning runbook</a>
+          <a href="kb/automation_workday_to_active_directory_provisioning.html">AD provisioning runbook</a>
+          <a href="kb/automation_ad_replication_preflight.html">Replication preflight</a>
+        </div>
+      </article>
 
-    <article class="card">
-      <h2>Windows Baseline Audit - PowerShell evidence + report</h2>
-      <p class="muted">A read-only baseline snapshot script that outputs a shareable report artifact.</p>
-      <ul>
-        <li>Collects baseline and security-relevant configuration</li>
-        <li>Produces a report artifact (HTML/text/JSON depending on implementation)</li>
-        <li>Designed to be extendable</li>
-      </ul>
-      <div class="links">
-        <a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/WindowsBaselineAudit">View code</a> ·
-        <a href="reports/baseline_report.html">View sample report</a>
-      </div>
-      <img src="assets/Baseline_Report.png" alt="Windows Baseline Audit report screenshot" />
-    </article>
-  </div>
+      <article class="project featured">
+        <div class="project-meta">WINDOWS · VALIDATION</div>
+        <h3>Windows upgrade validation & release gating</h3>
+        <p>A sanitized end-to-end validation pattern for Windows upgrade packages spanning virtual and physical targets, multiple delivery modes, service/workflow checks, peripheral validation, restore testing, and release criteria.</p>
+        <ul>
+          <li>Coverage matrix across representative configurations</li>
+          <li>Observable acceptance criteria beyond “installation succeeded”</li>
+          <li>Rollback and restore verification before return to service</li>
+        </ul>
+        <div class="links">
+          <a href="notes.html#kb-upgrade-validation-sqe-signoff">Validation notes</a>
+          <a href="evidence/endpoint.html">Endpoint evidence</a>
+          <a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">Sanitized PDF example</a>
+        </div>
+      </article>
 
-  <section class="kbhub" id="field-notes">
-    <h2 style="margin:.2rem 0 .35rem;">Field Notes / KB*</h2>
-    <p class="muted">Practical runbooks and scenario notes (sanitized) — focused on repeatable steps, troubleshooting, and operational edge cases.</p>
+      <article class="project">
+        <div class="project-meta">POWERSHELL · SECURITY</div>
+        <h3>Windows baseline audit</h3>
+        <p>A read-only PowerShell baseline snapshot that captures operations- and security-relevant configuration and emits a report suitable for review or comparison.</p>
+        <div class="links">
+          <a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/WindowsBaselineAudit">View code</a>
+          <a href="reports/baseline_report.html">Sample report</a>
+        </div>
+      </article>
 
+      <article class="project">
+        <div class="project-meta">CI/CD · AUTOMATION</div>
+        <h3>HelloBuild pipeline</h3>
+        <p>A deliberately small .NET project used to demonstrate pipeline-as-code with build, test, package, artifact publication, GitHub Actions, and Jenkins.</p>
+        <div class="links">
+          <a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/HelloBuild">View code</a>
+          <a href="hellobuild_ci.html">CI proof</a>
+          <a href="kb/ci.html">Runbook</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="knowledge">
+    <div class="section-heading">
+      <p class="eyebrow">OPERATIONS KNOWLEDGE</p>
+      <h2>Runbooks built around the parts that usually fail.</h2>
+      <p class="muted wide">The field notes are organized around design decisions, execution, validation, failure modes, and recovery—not generic product summaries.</p>
+    </div>
     <div class="kbgrid">
-      <div class="kbcard">
-        <strong><a href="kb/endpoint.html">Endpoint runbooks*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Autopilot, Intune compliance triage, OneDrive/SharePoint sync patterns.</div>
-      </div>
-      <div class="kbcard">
-        <strong><a href="kb/automation.html">Automation runbooks*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Onboarding/offboarding, operational tooling, service desk automation.</div>
-      </div>
-      <div class="kbcard">
-        <strong><a href="kb/migration.html">Migration runbooks*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Pre-seeding + delta sync, hyperlink purge patterns, performance validation.</div>
-      </div>
-      <div class="kbcard">
-        <strong><a href="kb/cheatsheets.html">Cheat sheets*</a></strong>
-        <div class="muted" style="margin-top:.35rem;">Permissions mental models, precedence, common traps.</div>
-      </div>
+      <a class="kbcard" href="kb/automation.html"><strong>Automation</strong><span>Provisioning, offboarding, AD operations, deployment, and service-desk workflows.</span></a>
+      <a class="kbcard" href="kb/endpoint.html"><strong>Endpoint</strong><span>Windows deployment, Intune/Autopilot patterns, compliance, and upgrade troubleshooting.</span></a>
+      <a class="kbcard" href="kb/migration.html"><strong>Migrations</strong><span>Planning, cutover, validation, data integrity, permissions, and rollback patterns.</span></a>
+      <a class="kbcard" href="kb/cheatsheets.html"><strong>Reference notes</strong><span>Permissions, precedence, identity mappings, time/security, and common edge cases.</span></a>
     </div>
-
-    <div class="callout">
-      <strong>* Under active development:</strong> I’m actively expanding these notes and publishing additional sanitized artifacts, scripts, and scenario write-ups.
-    </div>
-
-    <p class="muted" style="margin-top:.75rem;">
-      Evidence archive: <a href="evidence.html">Evidence</a> · <a href="evidence/scripts.html">Project scripts</a> · <a href="evidence/documentation.html">Project documentation</a>
-    </p>
   </section>
 
-  <section id="about" style="margin-top:1.8rem;">
-    <h2>About</h2>
-    <p>I build automation that makes systems easier to operate and easier to trust. This portfolio is proof-first: working CI/CD, repeatable scripts, and evidence-style outputs.</p>
+  <section class="section evidence-callout">
+    <div>
+      <p class="eyebrow">PROOF-FIRST</p>
+      <h2>Evidence archive</h2>
+      <p class="muted">Sanitized scripts, checklists, validation documents, configuration examples, and CI artifacts. Employer/customer identifiers, credentials, tenant IDs, internal hostnames, and proprietary screenshots are intentionally excluded or redacted.</p>
+    </div>
+    <a class="button primary" href="evidence.html">Open evidence archive</a>
   </section>
 
-  <footer>
-    <div class="muted">Tip: the runbooks in <a href="notes.html">Field Notes / KB</a> and <a href="evidence.html">Evidence Archive</a> are where the real edge cases and operational patterns live.</div>
-  </footer>
+  <section class="section" id="about">
+    <div class="section-heading">
+      <p class="eyebrow">ABOUT</p>
+      <h2>Build the system. Understand the failure modes. Automate the repetition.</h2>
+      <p class="muted wide">I’m most useful in environments where infrastructure has grown organically and someone needs to understand the whole picture: Windows and identity, cloud services, endpoint management, networking dependencies, security controls, operational tooling, and the people who have to support it afterward.</p>
+      <div class="links contact-links">
+        <a href="https://www.linkedin.com/in/adrian-charbonneau-56a72114a">LinkedIn</a>
+        <a href="https://github.com/Adrian-Estielle">GitHub</a>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>Adrian Charbonneau · Systems & Infrastructure Engineering</span>
+    <span>Sanitized public portfolio</span>
+  </div>
+</footer>
 </body>
 </html>
