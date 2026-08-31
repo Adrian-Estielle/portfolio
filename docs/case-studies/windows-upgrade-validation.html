@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="Windows upgrade engineering and SQE validation case study: production-mirroring labs, automation, rollback, peripheral testing and release gating."/>
+  <title>Windows Upgrade Validation | Adrian Charbonneau</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header"><div class="container">
+  <nav class="topnav"><a class="brand" href="../index.html">Adrian Charbonneau</a><div class="navlinks"><a href="../case-studies.html">Case Studies</a><a href="../notes.html">Runbooks / KB</a><a href="../evidence.html">Evidence</a></div></nav>
+  <div class="hero"><p class="eyebrow">WINDOWS · VALIDATION · AUTOMATION</p><h1>Engineering a Windows upgrade process that could be tested, repeated, and rolled back.</h1><p class="lede">A sanitized summary of work around Windows-based device upgrades: production-mirroring labs, automation, preflight checks, multiple delivery paths, peripheral/workflow validation, restore testing, and release sign-off.</p></div>
+</div></header>
+
+<main class="container">
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">CONTEXT</p><h2>“The upgrade installed” was not a sufficient success criterion.</h2><p class="muted wide">The target systems combined Windows, application/database components, device-specific peripherals, security settings and multiple deployment paths. An apparently successful OS upgrade could still leave the endpoint operationally unusable.</p></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">VALIDATION MODEL</p><h2>Define coverage and failure criteria before running the upgrade.</h2></div>
+    <div class="capability-grid">
+      <article class="capability"><h3>Representative targets</h3><p>Used lab VMs and physical endpoints to cover multiple supported configurations rather than validating only one idealized machine.</p></article>
+      <article class="capability"><h3>Multiple delivery paths</h3><p>Validated both cloud-connected HTTPS delivery and on-premises queue-based deployment patterns.</p></article>
+      <article class="capability"><h3>Observable checks</h3><p>Verified services, core workflows and hardware/peripheral behavior after the upgrade rather than relying only on installer exit status.</p></article>
+      <article class="capability"><h3>Rollback</h3><p>Tested restore/downgrade paths and required a post-restore smoke test before considering an endpoint returned to a usable baseline.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">ENGINEERING WORK</p><h2>Make validation repeatable enough that results can be compared.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Production-mirroring labs</h3><p>Built environments using VMware plus physical devices and peripherals to reproduce supported customer configurations and test upgrade behavior before release.</p></article>
+      <article class="project"><h3>Automation</h3><p>Built and refined PowerShell, Batch and C# utilities for environment setup, configuration checks, upgrade execution support, log capture and repeatable diagnostics.</p></article>
+      <article class="project"><h3>Release evidence</h3><p>Produced test plans, sign-off material, deployment guides and troubleshooting documentation so acceptance criteria and results were auditable rather than dependent on memory.</p></article>
+      <article class="project"><h3>Failure analysis</h3><p>When a run failed, separated OS, application, database, peripheral, network and configuration layers so the resulting handoff described a cause or reproducible condition instead of only a symptom.</p></article>
+    </div>
+  </section>
+
+  <section class="section evidence-callout">
+    <div><p class="eyebrow">SANITIZED EVIDENCE</p><h2>Example validation artifacts</h2><p class="muted">The published versions remove internal names, hostnames, IPs, ticket/test-case IDs, signatures and internal paths while retaining the validation structure and technical intent.</p><div class="links"><a href="../evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.html">Readable E2E test plan</a><a href="../evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">Original-format sanitized PDF</a><a href="../notes.html#kb-upgrade-validation-sqe-signoff">Field notes</a></div></div>
+    <a class="button primary" href="../evidence/endpoint.html">Endpoint evidence</a>
+  </section>
+
+  <section class="section"><div class="section-heading"><p class="eyebrow">WHAT THIS DEMONSTRATES</p><h2>Validation is an engineering function, not a final checkbox.</h2><p class="muted wide">The process was designed to make risk visible before deployment: define representative configurations, automate what can be repeated, validate the things users actually depend on, and prove that rollback works before release.</p></div></section>
+</main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="../case-studies.html" style="color:#eaf3fb">All case studies</a></span></div></footer>
+</body>
+</html>
