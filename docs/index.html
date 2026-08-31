@@ -13,7 +13,7 @@
     <nav class="topnav" aria-label="Primary navigation">
       <a class="brand" href="index.html">Adrian Charbonneau</a>
       <div class="navlinks">
-        <a href="#work">Selected Work</a>
+        <a href="case-studies.html">Case Studies</a>
         <a href="notes.html">Runbooks / KB</a>
         <a href="evidence.html">Evidence</a>
         <a href="https://github.com/Adrian-Estielle/portfolio">GitHub</a>
@@ -26,7 +26,7 @@
       <h1>Senior infrastructure engineering across Windows, identity, cloud, and endpoints.</h1>
       <p class="lede">I take ownership of business infrastructure: understand how an environment is assembled, find the weak or manual parts, improve them, and leave behind automation and documentation that make operations repeatable.</p>
       <div class="hero-actions">
-        <a class="button primary" href="#work">View selected work</a>
+        <a class="button primary" href="case-studies.html">Read case studies</a>
         <a class="button" href="notes.html">Browse technical runbooks</a>
         <a class="button" href="evidence.html">Browse sanitized evidence</a>
       </div>
@@ -67,63 +67,64 @@
 
   <section class="section" id="work">
     <div class="section-heading">
-      <p class="eyebrow">SELECTED WORK</p>
-      <h2>Representative engineering work and sanitized artifacts.</h2>
-      <p class="muted wide">The portfolio favors reproducible work samples and sanitized technical documentation over screenshots of proprietary environments.</p>
+      <p class="eyebrow">SELECTED CASE STUDIES</p>
+      <h2>Work that required understanding more than one system at a time.</h2>
+      <p class="muted wide">These summaries explain the problem, design decisions, validation approach, and operational result. Supporting runbooks and artifacts are linked separately so a hiring manager does not have to begin with raw evidence files.</p>
     </div>
 
     <div class="project-grid">
       <article class="project featured">
-        <div class="project-meta">IDENTITY · AUTOMATION</div>
-        <h3>HR-driven identity provisioning</h3>
-        <p>Runbooks and automation patterns for provisioning from Workday into Microsoft Entra ID and Active Directory, including identity anchors, scoping, pilot validation, replication preflight, exception handling, and operational logging.</p>
-        <ul>
-          <li>Stable matching keys and collision-aware identity design</li>
-          <li>Pilot-first rollout and validation before broad provisioning</li>
-          <li>Supporting AD replication and maintenance checks</li>
-        </ul>
-        <div class="links">
-          <a href="kb/automation_workday_to_entra_id_provisioning.html">Entra provisioning runbook</a>
-          <a href="kb/automation_workday_to_active_directory_provisioning.html">AD provisioning runbook</a>
-          <a href="kb/automation_ad_replication_preflight.html">Replication preflight</a>
-        </div>
+        <div class="project-meta">INFRASTRUCTURE OWNERSHIP</div>
+        <h3>From escalation work to business infrastructure ownership</h3>
+        <p>Mapped and improved an organically grown Microsoft environment spanning identity, Microsoft 365, endpoints, Azure resources, legacy Windows workloads, backup, monitoring, and operational automation.</p>
+        <div class="links"><a href="case-studies/infrastructure-ownership.html">Read case study</a></div>
       </article>
 
       <article class="project featured">
-        <div class="project-meta">WINDOWS · VALIDATION</div>
-        <h3>Windows upgrade validation & release gating</h3>
-        <p>A sanitized end-to-end validation pattern for Windows upgrade packages spanning virtual and physical targets, multiple delivery modes, service/workflow checks, peripheral validation, restore testing, and release criteria.</p>
-        <ul>
-          <li>Coverage matrix across representative configurations</li>
-          <li>Observable acceptance criteria beyond “installation succeeded”</li>
-          <li>Rollback and restore verification before return to service</li>
-        </ul>
-        <div class="links">
-          <a href="notes.html#kb-upgrade-validation-sqe-signoff">Validation notes</a>
-          <a href="evidence/endpoint.html">Endpoint evidence</a>
-          <a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">Sanitized PDF example</a>
-        </div>
+        <div class="project-meta">AZURE · DATA · MIGRATION</div>
+        <h3>3+ TB accounting storage modernization</h3>
+        <p>Testing exposed limits in the first Azure Files design, so the architecture was revised around actual workload behavior: SharePoint for collaborative working data, Azure Files for SMB-oriented access, and Blob Storage for archive.</p>
+        <div class="links"><a href="case-studies/accounting-storage-modernization.html">Read case study</a></div>
       </article>
 
+      <article class="project">
+        <div class="project-meta">WINDOWS · VALIDATION</div>
+        <h3>Windows upgrade engineering & release gating</h3>
+        <p>Production-mirroring validation across virtual and physical Windows-based endpoints, with repeatable preflight, upgrade, workflow/peripheral checks, restore validation, and auditable sign-off criteria.</p>
+        <div class="links"><a href="case-studies/windows-upgrade-validation.html">Read case study</a><a href="evidence/documentation/endpoint/032__F12C9ACF25__win10-os-upgrade-sqe-signoff-e2e-test-plan.pdf">Sanitized PDF</a></div>
+      </article>
+
+      <article class="project">
+        <div class="project-meta">IDENTITY · AUTOMATION</div>
+        <h3>HR-driven identity provisioning</h3>
+        <p>Progressed account lifecycle work from PowerShell-driven administration toward Workday-to-Entra / Active Directory provisioning with explicit matching, scope, role/group assignment, logging, and directory safety checks.</p>
+        <div class="links"><a href="case-studies/identity-provisioning.html">Read case study</a><a href="kb/automation_workday_to_entra_id_provisioning.html">Technical runbook</a></div>
+      </article>
+    </div>
+
+    <div class="hero-actions" style="margin-top:1.2rem">
+      <a class="button primary" href="case-studies.html">View all case studies</a>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="section-heading">
+      <p class="eyebrow">REPRODUCIBLE PROJECTS</p>
+      <h2>Small projects that make the implementation visible.</h2>
+    </div>
+    <div class="project-grid">
       <article class="project">
         <div class="project-meta">POWERSHELL · SECURITY</div>
         <h3>Windows baseline audit</h3>
         <p>A read-only PowerShell baseline snapshot that captures operations- and security-relevant configuration and emits a report suitable for review or comparison.</p>
-        <div class="links">
-          <a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/WindowsBaselineAudit">View code</a>
-          <a href="reports/baseline_report.html">Sample report</a>
-        </div>
+        <div class="links"><a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/WindowsBaselineAudit">View code</a><a href="reports/baseline_report.html">Sample report</a></div>
       </article>
 
       <article class="project">
         <div class="project-meta">CI/CD · AUTOMATION</div>
         <h3>HelloBuild pipeline</h3>
         <p>A deliberately small .NET project used to demonstrate pipeline-as-code with build, test, package, artifact publication, GitHub Actions, and Jenkins.</p>
-        <div class="links">
-          <a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/HelloBuild">View code</a>
-          <a href="hellobuild_ci.html">CI proof</a>
-          <a href="kb/ci.html">Runbook</a>
-        </div>
+        <div class="links"><a href="https://github.com/Adrian-Estielle/portfolio/tree/main/projects/HelloBuild">View code</a><a href="hellobuild_ci.html">CI proof</a><a href="kb/ci.html">Runbook</a></div>
       </article>
     </div>
   </section>
@@ -144,9 +145,9 @@
 
   <section class="section evidence-callout">
     <div>
-      <p class="eyebrow">PROOF-FIRST</p>
-      <h2>Evidence archive</h2>
-      <p class="muted">Sanitized scripts, checklists, validation documents, configuration examples, and CI artifacts. Employer/customer identifiers, credentials, tenant IDs, internal hostnames, and proprietary screenshots are intentionally excluded or redacted.</p>
+      <p class="eyebrow">SANITIZED SUPPORTING EVIDENCE</p>
+      <h2>Artifacts for readers who want to go deeper.</h2>
+      <p class="muted">Scripts, checklists, validation documents, configuration examples, and CI artifacts are published where they can be shared safely. Identifiers, credentials, internal hostnames, tenant information, and proprietary screenshots are removed or redacted.</p>
     </div>
     <a class="button primary" href="evidence.html">Open evidence archive</a>
   </section>
@@ -156,19 +157,11 @@
       <p class="eyebrow">ABOUT</p>
       <h2>Build the system. Understand the failure modes. Automate the repetition.</h2>
       <p class="muted wide">I’m most useful in environments where infrastructure has grown organically and someone needs to understand the whole picture: Windows and identity, cloud services, endpoint management, networking dependencies, security controls, operational tooling, and the people who have to support it afterward.</p>
-      <div class="links contact-links">
-        <a href="https://www.linkedin.com/in/adrian-charbonneau-56a72114a">LinkedIn</a>
-        <a href="https://github.com/Adrian-Estielle">GitHub</a>
-      </div>
+      <div class="links contact-links"><a href="https://www.linkedin.com/in/adrian-charbonneau-56a72114a">LinkedIn</a><a href="https://github.com/Adrian-Estielle">GitHub</a></div>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="container">
-    <span>Adrian Charbonneau · Systems & Infrastructure Engineering</span>
-    <span>Sanitized public portfolio</span>
-  </div>
-</footer>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span>Sanitized public portfolio</span></div></footer>
 </body>
 </html>
