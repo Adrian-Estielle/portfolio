@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="Azure accounting storage migration case study: SharePoint, Azure Files, Azure File Sync, Blob Storage, DFS, Kerberos, LinkFixer and PowerShell."/>
+  <title>Accounting Storage Modernization | Adrian Charbonneau</title>
+  <link rel="stylesheet" href="../site.css"/>
+</head>
+<body>
+<header class="site-header"><div class="container">
+  <nav class="topnav"><a class="brand" href="../index.html">Adrian Charbonneau</a><div class="navlinks"><a href="../case-studies.html">Case Studies</a><a href="../notes.html">Runbooks / KB</a><a href="../evidence.html">Evidence</a></div></nav>
+  <div class="hero"><p class="eyebrow">AZURE · DATA · MIGRATION</p><h1>3+ TB accounting migration where testing changed the architecture.</h1><p class="lede">The important part of this project was not moving files. It was preserving linked spreadsheet and ERP workflows, validating performance before cutover, and changing the design when the first implementation exposed collaboration and latency limitations.</p></div>
+</div></header>
+
+<main class="container">
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">PROBLEM</p><h2>Large, interdependent accounting data could not be treated like a normal file-copy project.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Data characteristics</h3><p>More than 3 TB of accounting data included heavily linked Excel workbooks and ERP-related file dependencies. Preserving file paths, embedded references, permissions and modified metadata mattered as much as the raw copy.</p></article>
+      <article class="project"><h3>Operational constraint</h3><p>The production migration needed to fit within a weekend cutover window. Discovery, lab testing, path analysis, migration design and performance validation took place before that cutover; the 48-hour figure applies to the production transition window, not the entire project.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">FIRST DESIGN</p><h2>Azure Files with identity-aware SMB access and regional caching.</h2></div>
+    <div class="capability-grid">
+      <article class="capability"><h3>Storage</h3><p>Provisioned Azure Storage / large Azure file shares for SMB-oriented access.</p></article>
+      <article class="capability"><h3>Identity</h3><p>Worked through AD-backed authentication / Kerberos integration and group-based access rather than direct user assignment.</p></article>
+      <article class="capability"><h3>Regional access</h3><p>Used DFS namespaces and Azure File Sync patterns to reduce the impact of geographic distance for offices.</p></article>
+      <article class="capability"><h3>Automation</h3><p>Used PowerShell and LinkFixer rules to handle mappings, preserve or repair references, and make validation repeatable.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">WHAT TESTING EXPOSED</p><h2>A technically valid design was not the best operational design.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Latency and collaboration</h3><p>Testing exposed latency and file-conflict behavior for actively edited working data, particularly where synchronization and file locking patterns did not align cleanly with how accounting staff collaborated.</p></article>
+      <article class="project"><h3>Link and path behavior</h3><p>Long paths, embedded workbook references and LinkFixer limitations required additional rules, scripts and validation. The project needed to prove that the business relationships between files survived—not simply that every file had copied.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">REVISED ARCHITECTURE</p><h2>Separate platforms by workload instead of forcing one storage model.</h2></div>
+    <div class="capability-grid">
+      <article class="capability"><h3>SharePoint Online</h3><p>Actively collaborated working data moved toward SharePoint where the collaboration model better matched user behavior.</p></article>
+      <article class="capability"><h3>Azure Files</h3><p>SMB-oriented and mid-tier data remained on Azure Files where file-share semantics were still appropriate.</p></article>
+      <article class="capability"><h3>Azure Blob</h3><p>Cold/archive data moved to Blob Storage rather than consuming higher-cost or collaboration-focused tiers.</p></article>
+      <article class="capability"><h3>Remote access</h3><p>The surrounding work also included modernizing remote access with an Azure-hosted VPN solution and reviewing routing/connectivity requirements.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">CUTOVER & VALIDATION</p><h2>The production weekend was the execution phase of a longer engineering process.</h2></div>
+    <div class="project-grid">
+      <article class="project"><h3>Before</h3><p>Inventory paths and permissions, test copy performance, validate link-handling rules, identify path-length issues, prepare remediation scripts and confirm the cutover could fit the available window.</p></article>
+      <article class="project"><h3>During</h3><p>Execute the production migration, apply mapping/link remediation, monitor permissions and service-account access, and resolve unexpected failures without changing the success criteria.</p></article>
+      <article class="project"><h3>After</h3><p>Validate permissions, file structure, workbook/formula integrity and representative accounting workflows with stakeholders before considering the migration complete.</p></article>
+      <article class="project"><h3>Result</h3><p>The revised tiered design completed without business disruption and left the environment with a clearer separation between collaborative working data, SMB storage and long-term archival storage.</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">WHAT THIS DEMONSTRATES</p><h2>Architecture should be allowed to change when evidence says it should.</h2><p class="muted wide">The strongest outcome from this project was not defending the original design. It was building enough test coverage to recognize its limitations before forcing the business to live with them, then revising the implementation around the actual workload.</p></div>
+  </section>
+</main>
+<footer class="site-footer"><div class="container"><span>Adrian Charbonneau · Systems & Infrastructure Engineering</span><span><a href="../case-studies.html" style="color:#eaf3fb">All case studies</a></span></div></footer>
+</body>
+</html>
